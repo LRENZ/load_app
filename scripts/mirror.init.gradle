@@ -1,0 +1,33 @@
+// Gradle init script: route remote Maven repositories through scripts/maven-mirror.mjs.
+// Applied only with: gradlew --init-script scripts/mirror.init.gradle (android-build.ps1 -UseMirror)
+def mirror = 'http://127.0.0.1:8899'
+def map = [
+  'https://repo.maven.apache.org/maven2': 'central',
+  'https://repo1.maven.org/maven2': 'central',
+  'https://dl.google.com/dl/android/maven2': 'google',
+  'https://maven.google.com': 'google',
+  'https://plugins.gradle.org/m2': 'plugins',
+  'https://www.jitpack.io': 'jitpack',
+  'https://jitpack.io': 'jitpack',
+]
+def rewrite = { repos ->
+  repos.configureEach { r ->
+    if (r instanceof MavenArtifactRepository) {
+      def u = r.url.toString().replaceAll('/+$', '')
+      def key = map[u]
+      if (key) {
+        r.url = "${mirror}/${key}"
+        r.allowInsecureProtocol = true
+      }
+    }
+  }
+}
+beforeSettings { settings ->
+  rewrite(settings.pluginManagement.repositories)
+  rewrite(settings.dependencyResolutionManagement.repositories)
+  settings.buildscript.repositories.with { rewrite(it) }
+}
+allprojects { p ->
+  rewrite(p.buildscript.repositories)
+  rewrite(p.repositories)
+}
