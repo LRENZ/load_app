@@ -34,7 +34,7 @@ if ($env:HTTPS_PROXY) {
   $gradleOpts += "-Dhttp.proxyHost=$($u.Host)", "-Dhttp.proxyPort=$($u.Port)", "-Dhttps.proxyHost=$($u.Host)", "-Dhttps.proxyPort=$($u.Port)"
 }
 # TLS 1.2 + retries: the local proxy drops TLS 1.3 handshakes to Maven Central under load.
-$gradleOpts += '-Dhttps.protocols=TLSv1.2', '-Djdk.tls.client.protocols=TLSv1.2', '-Dorg.gradle.internal.repository.max.retries=10', '-Dorg.gradle.internal.repository.initial.backoff=1500', '-Dorg.gradle.internal.http.connectionTimeout=60000', '-Dorg.gradle.internal.http.socketTimeout=120000'
+$gradleOpts += '-Dhttps.protocols=TLSv1.2', '-Djdk.tls.client.protocols=TLSv1.2', '-Dorg.gradle.internal.repository.max.retries=10', '-Dorg.gradle.internal.repository.initial.backoff=1500', '-Dorg.gradle.internal.http.connectionTimeout=60000', '-Dorg.gradle.internal.http.socketTimeout=900000'
 # GRADLE_OPTS only reaches the launcher JVM; downloads happen in the daemon, so pass them as daemon JVM args too.
 $env:GRADLE_OPTS = ($gradleOpts -join ' ')
 $daemonJvm = "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m $($gradleOpts -join ' ')"
@@ -45,6 +45,11 @@ $env:NODE_ENV = if ($Variant -eq 'release') { 'production' } else { 'development
 
 Push-Location "$root\android"
 try {
+  # EXPO_PUBLIC_APP_MODE is not a Gradle task input, so a cached JS bundle would be reused
+  # across modes: always re-bundle.
+  foreach ($p in 'app\build\generated\assets\react', 'app\build\generated\sourcemaps\react', 'app\build\intermediates\sourcemaps\react', 'app\build\intermediates\assets') {
+    if (Test-Path $p) { Remove-Item -Recurse -Force $p }
+  }
   $task = if ($Variant -eq 'release') { 'assembleRelease' } else { 'assembleDebug' }
   # Windows PowerShell 5.1 turns native stderr into errors; Gradle warns on stderr, so don't stop on it.
   $ErrorActionPreference = 'Continue'

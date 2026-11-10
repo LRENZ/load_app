@@ -1,3 +1,4 @@
+import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { RISK_SIGNALS, type RiskSignals } from '../core/ads/risk.ts';
@@ -32,15 +33,98 @@ import { C } from '../ui/theme.ts';
  * test fixture: no real attribution, no real ads, synthetic revenue only.
  */
 let offline = false;
+let lastOutcome = '-';
+const fmtTotals = (o: Record<string, string>) => Object.entries(o).map(([k, v]) => k + ' ' + v).join(', ') || 'none';
+const describe = (o: { status: string; reasons?: string[]; reason?: string }) => o.status + (o.reasons ? ' ' + o.reasons.join(',') : '') + (o.reason ? ' ' + o.reason : '');
+
+type ScriptParams = {
+  run?: string;
+  adMode?: string;
+  cohort?: string;
+  fill?: string;
+  showFails?: string;
+  dup?: string;
+  risk?: string;
+  offline?: string;
+  reset?: string;
+  preload?: string;
+  trigger?: string;
+};
+
+/**
+ * Deterministic fixture script for emulator tests, e.g.
+ * loadapp://debug?run=r1&adMode=mock&fill=no_fill&reset=1&preload=1&trigger=one
+ * The outcome is written to the "last:" line at the top of this screen.
+ */
+async function runScript(p: ScriptParams): Promise<string> {
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  if (p.adMode === 'mock' || p.adMode === 'noop') setAdMode(p.adMode);
+  if (p.cohort) {
+    kv.set(KEYS.debugCohort, p.cohort === 'none' ? null : p.cohort);
+    mockAdapter.clear();
+  }
+  if (p.fill || p.showFails || p.dup) {
+    const sc = {
+      ...DEFAULT_MOCK_SCENARIO,
+      fill: (p.fill ?? 'success') as typeof DEFAULT_MOCK_SCENARIO.fill,
+      showFails: p.showFails === '1',
+      duplicateCallbacks: p.dup === '1',
+    };
+    for (const prov of ['admob', 'gam', 'pangle', 'topon', 'max'] as const) setMockScenario(prov, sc);
+  } else if (p.fill === undefined && p.run) {
+    for (const prov of ['admob', 'gam', 'pangle', 'topon', 'max'] as const) setMockScenario(prov, null);
+  }
+  if (p.risk !== undefined) {
+    const on = new Set(p.risk.split(',').filter(Boolean));
+    setRiskFixture(Object.fromEntries(RISK_SIGNALS.map((k) => [k, on.has(k)])) as RiskSignals);
+  }
+  if (p.offline !== undefined) {
+    offline = p.offline === '1';
+    setSimulatedOffline(offline);
+  }
+  if (p.reset === '1') resetAdCounters();
+  if (p.preload === '1') {
+    ads.preload('IV_CALCULATION_COMPLETE');
+    await wait(1500);
+  }
+  if (p.trigger === 'one') {
+    const o = await ads.showFullScreen('IV_CALCULATION_COMPLETE', 'debug-script');
+    return 'outcome: ' + describe(o as never);
+  }
+  if (p.trigger === 'two') {
+    const first = ads.showFullScreen('IV_CALCULATION_COMPLETE', 'debug-a');
+    const second = await ads.showFullScreen('IV_LANGUAGE_CONFIRM', 'debug-b');
+    lastOutcome = `${p.run} second: ${describe(second as never)}`;
+    const f = await first;
+    return `second: ${describe(second as never)}; first: ${describe(f as never)}`;
+  }
+  return 'applied';
+}
 
 export default function Debug() {
   const { t } = useApp();
+  const params = useLocalSearchParams<ScriptParams>();
   const [, setN] = useState(0);
   const refresh = () => setN((n) => n + 1);
   useEffect(() => {
     const id = setInterval(refresh, 1500);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+    if (!params.run || !DEBUG_TOOLS) return;
+    lastOutcome = `${params.run} running`;
+    runScript(params).then(
+      (r) => {
+        lastOutcome = `${params.run} ${r}`;
+        refresh();
+      },
+      (e) => {
+        lastOutcome = `${params.run} error ${String(e)}`;
+        refresh();
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.run]);
   if (!DEBUG_TOOLS) return <Screen header={<Header title="Developer" />}><Text>Not available in this build.</Text></Screen>;
 
   const cfg = currentAdConfig();
@@ -54,6 +138,7 @@ export default function Debug() {
     <Screen header={<Header title="Developer" />}>
       <Card>
         <CardTitle>Runtime</CardTitle>
+        <Text testID="dbg-last" style={s.mono}>last: {lastOutcome}</Text>
         <Text style={s.mono}>APP_MODE={APP_MODE} adapter={ads.mode} config={cfg.version} ({cfg.provenance})</Text>
         <Text style={s.mono}>cohort={attribution().cohort}{attribution().fixture ? ' (LOCAL FIXTURE — not real paid traffic)' : ''}</Text>
         {iv && (
@@ -95,14 +180,15 @@ export default function Debug() {
 
       <Card>
         <CardTitle>Actions</CardTitle>
+        <Text testID="dbg-last-outcome" style={s.mono}>last: {lastOutcome}</Text>
         <Btn title="Preload interstitial + native" onPress={() => { ads.preload('IV_CALCULATION_COMPLETE'); ads.preload('NA_HOME'); snackbar.show('Preload requested'); }} />
         <Btn
           title="Trigger IV_CALCULATION_COMPLETE"
-          onPress={() => ads.showFullScreen('IV_CALCULATION_COMPLETE', 'debug').then((o) => snackbar.show(`outcome: ${o.status}${'reasons' in o ? ' ' + o.reasons.join(',') : ''}${'reason' in o ? ' ' + o.reason : ''}`))}
+          onPress={() => ads.showFullScreen('IV_CALCULATION_COMPLETE', 'debug').then((o) => { lastOutcome = 'outcome: ' + describe(o as never); snackbar.show(lastOutcome); refresh(); })}
         />
         <Btn title="Two triggers at once" onPress={() => {
           void ads.showFullScreen('IV_CALCULATION_COMPLETE', 'debug-a').then((o) => analytics.track('debug_outcome_a', { status: o.status }));
-          void ads.showFullScreen('IV_LANGUAGE_CONFIRM', 'debug-b').then((o) => snackbar.show(`second: ${o.status} ${'reasons' in o ? o.reasons.join(',') : ''}`));
+          void ads.showFullScreen('IV_LANGUAGE_CONFIRM', 'debug-b').then((o) => { lastOutcome = 'second: ' + describe(o as never); snackbar.show(lastOutcome); refresh(); });
         }} />
         <Btn title="Reset frequency counters" onPress={() => { resetAdCounters(); snackbar.show('Counters reset'); }} />
         <Btn title="Show intro again" onPress={() => { appStore.resetIntro(); snackbar.show('Intro will show on next launch'); }} />
@@ -114,7 +200,7 @@ export default function Debug() {
       <Card>
         <CardTitle>Synthetic revenue ledger (isTest, local only)</CardTitle>
         <Text style={s.mono}>entries={ledger.list().length} duplicatesIgnored={ledger.duplicateCount()}</Text>
-        <Text style={s.mono}>totals(test)={JSON.stringify(ledger.totals(true))} totals(real)={JSON.stringify(ledger.totals(false))}</Text>
+        <Text testID="dbg-totals" style={s.mono}>totals(test): {fmtTotals(ledger.totals(true))} | totals(real): {fmtTotals(ledger.totals(false))}</Text>
       </Card>
 
       <Card>

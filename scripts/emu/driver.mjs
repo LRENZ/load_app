@@ -28,14 +28,25 @@ export function parseNodes(xml) {
   return nodes;
 }
 
+function killUiautomator() {
+  try {
+    shell('pkill uiautomator', { timeout: 10_000 });
+  } catch {
+    /* none running */
+  }
+}
 export function dump() {
   for (let i = 0; i < 4; i++) {
     try {
-      shell('uiautomator dump /sdcard/ui.xml', { timeout: 30_000 });
-      return parseNodes(shell('cat /sdcard/ui.xml'));
+      shell('rm -f /sdcard/ui.xml; uiautomator dump /sdcard/ui.xml', { timeout: 25_000 });
+      const xml = shell('cat /sdcard/ui.xml');
+      if (xml.includes('<hierarchy')) return parseNodes(xml);
     } catch {
-      /* retry: uiautomator fails while animations run */
+      /* fall through */
     }
+    // A dump that timed out leaves uiautomator registered ("already registered!"),
+    // which makes every later dump fail: clear it before retrying.
+    killUiautomator();
   }
   throw new Error('uiautomator dump failed');
 }
@@ -80,6 +91,15 @@ export function typeText(s) {
   shell(`input text ${esc}`);
 }
 export async function setField(id, value) {
+  // Never tap through the keyboard: hide it, and bring low fields into the upper part of the screen.
+  hideKeyboard();
+  let node = await waitFor({ id });
+  const h = Number(/(\d+)x(\d+)/.exec(shell('wm size'))[2]);
+  for (let i = 0; i < 3 && node.box.cy > h * 0.55; i++) {
+    shell(`input swipe ${node.box.cx} ${Math.round(h * 0.7)} ${node.box.cx} ${Math.round(h * 0.4)} 300`);
+    await sleep(500);
+    node = await waitFor({ id });
+  }
   const n = await tap({ id });
   // clear: move to end and delete
   shell('input keyevent KEYCODE_MOVE_END');
@@ -91,20 +111,25 @@ export async function setField(id, value) {
 export function back() {
   shell('input keyevent KEYCODE_BACK');
 }
-export function hideKeyboard() {
+export function keyboardShown() {
   try {
-    const s = shell('dumpsys input_method');
-    if (/mInputShown=true/.test(s)) back();
+    return /mIsImeShowing=true/.test(shell('dumpsys window | grep mIsImeShowing'));
   } catch {
-    /* ignore */
+    return false;
+  }
+}
+export function hideKeyboard() {
+  if (keyboardShown()) {
+    back();
+    execFileSync('powershell', ['-NoProfile', '-Command', 'Start-Sleep -Milliseconds 500']);
   }
 }
 export async function scrollDown(times = 1) {
   const size = /(\d+)x(\d+)/.exec(shell('wm size'));
   const w = +size[1], h = +size[2];
   for (let i = 0; i < times; i++) {
-    shell(`input swipe ${w / 2} ${h * 0.75} ${w / 2} ${h * 0.3} 300`);
-    await sleep(400);
+    shell(`input swipe ${w / 2} ${h * 0.7} ${w / 2} ${h * 0.35} 700`);
+    await sleep(1000); // let any fling settle so the next tap presses instead of stopping a scroll
   }
 }
 export async function scrollUntil(sel, max = 6) {
@@ -137,9 +162,18 @@ export function forceStop() {
 
 // ---------- result log ----------
 const results = [];
+let beforeEachHook = null;
+export function setBeforeEach(fn) {
+  beforeEachHook = fn;
+}
+let reached = !process.env.FROM;
 export async function scenario(id, title, fn) {
+  // FROM=<id> resumes a run at that scenario (e.g. after an emulator crash).
+  if (!reached && id === process.env.FROM) reached = true;
+  if (!reached) return;
   const t0 = Date.now();
   try {
+    if (beforeEachHook) await beforeEachHook(id);
     await fn();
     results.push({ id, title, status: 'pass', ms: Date.now() - t0 });
     console.log(`PASS ${id} ${title}`);

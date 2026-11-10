@@ -13,8 +13,9 @@ const TABS: { name: string; key: 'tab_home' | 'tab_tools' | 'tab_settings'; icon
   { name: 'settings', key: 'tab_settings', icon: 'cog-outline', iconOn: 'cog' },
 ];
 
+// expo-router 58 js-tabs passes { state, descriptors, emitter, navigateToTab, insets } to tabBar.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function TabBar({ state, navigation }: any) {
+function TabBar({ state, navigateToTab }: any) {
   const { t } = useApp();
   const insets = useSafeAreaInsets();
   return (
@@ -35,7 +36,7 @@ function TabBar({ state, navigation }: any) {
                 if (route.name === 'index') withFullScreenAd('IV_HOME_TAB', 'home', () => undefined);
                 return;
               }
-              navigation.navigate(route.name);
+              navigateToTab(route.key);
             }}
             style={s.item}
           >

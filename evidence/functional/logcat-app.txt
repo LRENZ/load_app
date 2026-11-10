@@ -1,0 +1,13 @@
+--------- beginning of main
+11-10 11:57:56.730 14564 14607 I ReactNativeJS: Running "main"
+11-10 12:03:36.818 17920 17951 I ReactNativeJS: Running "main"
+11-10 12:04:21.771 18274 18310 I ReactNativeJS: Running "main"
+11-10 12:05:03.977 18651 18687 I ReactNativeJS: Running "main"
+11-10 12:05:40.010 19000 19037 I ReactNativeJS: Running "main"
+11-10 12:06:17.134 19338 19375 I ReactNativeJS: Running "main"
+11-10 12:06:53.078 19670 19707 I ReactNativeJS: Running "main"
+11-10 12:07:29.612 20004 20042 I ReactNativeJS: Running "main"
+11-10 12:08:04.281 20004 20042 I ReactNativeJS: Running "main"
+11-10 12:08:10.154 20415 20471 I ReactNativeJS: Running "main"
+11-10 12:09:13.727 20415 20471 I ReactNativeJS: Running "main"
+11-10 12:09:18.588 21305 21333 I ReactNativeJS: Running "main"

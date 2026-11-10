@@ -1,0 +1,228 @@
+{
+  "startedAt": "2026-11-10T19:43:43.356Z",
+  "ms": 1541144,
+  "results": [
+    {
+      "id": "INST01",
+      "title": "fresh install: intro pages, Next/Start, persistent completion",
+      "status": "pass",
+      "ms": 24475
+    },
+    {
+      "id": "NOT01",
+      "title": "first-run notification prompt → Not now",
+      "status": "pass",
+      "ms": 8678
+    },
+    {
+      "id": "ONB02",
+      "title": "intro does not return after restart",
+      "status": "pass",
+      "ms": 10660
+    },
+    {
+      "id": "UI03",
+      "title": "home with sample history",
+      "status": "pass",
+      "ms": 5469
+    },
+    {
+      "id": "C01",
+      "title": "personal 10000 @ 6% 12 months → 860.66 / 10327.92 / 327.92",
+      "status": "pass",
+      "ms": 53464
+    },
+    {
+      "id": "NAV01",
+      "title": "Back from result keeps form input; Back again → home with saved entry",
+      "status": "pass",
+      "ms": 13706
+    },
+    {
+      "id": "VAL01",
+      "title": "validation messages (empty, zero, term range)",
+      "status": "pass",
+      "ms": 119399
+    },
+    {
+      "id": "C02",
+      "title": "zero rate + month-end via text date 01/31/2026",
+      "status": "pass",
+      "ms": 63437
+    },
+    {
+      "id": "C05",
+      "title": "1000 @ 12% 1 month from 2026-01-31 → 1010.00, 2026-02-28",
+      "status": "pass",
+      "ms": 57847
+    },
+    {
+      "id": "C03",
+      "title": "monthly payment too small (1 @ 0% 360 months)",
+      "status": "pass",
+      "ms": 35589
+    },
+    {
+      "id": "C04",
+      "title": "rounded total below principal (0.17 @ 0.0001% 12 months)",
+      "status": "pass",
+      "ms": 32644
+    },
+    {
+      "id": "DATE01",
+      "title": "date picker: calendar, month arrows, year list, invalid text, Cancel keeps date",
+      "status": "pass",
+      "ms": 61667
+    },
+    {
+      "id": "CUR01",
+      "title": "currency picker: Cancel does not commit, Confirm commits",
+      "status": "pass",
+      "ms": 76289
+    },
+    {
+      "id": "C07",
+      "title": "business 12347.89 @ 7.125% 17 months → 765.77",
+      "status": "pass",
+      "ms": 57790
+    },
+    {
+      "id": "EDIT01",
+      "title": "Start new calculation clears the form",
+      "status": "pass",
+      "ms": 10312
+    },
+    {
+      "id": "C06",
+      "title": "auto 25000 @ 5% 5 years → 471.78",
+      "status": "pass",
+      "ms": 65090
+    },
+    {
+      "id": "C08",
+      "title": "mortgage 500000 / 100000 (20%) 6% 30y + costs → 3298.20",
+      "status": "pass",
+      "ms": 154061
+    },
+    {
+      "id": "HIST01",
+      "title": "history after process restart: all records, newest first, opening a record",
+      "status": "pass",
+      "ms": 28490
+    },
+    {
+      "id": "TOOL-temperature",
+      "title": "temperature: 25 → 77.00, swap, invalid input",
+      "status": "pass",
+      "ms": 56425
+    },
+    {
+      "id": "TOOL-mass",
+      "title": "mass: 10 → 22.0462, swap, invalid input",
+      "status": "pass",
+      "ms": 56643
+    },
+    {
+      "id": "TOOL-speed",
+      "title": "speed: 100 → 62.1371, swap, invalid input",
+      "status": "pass",
+      "ms": 56441
+    },
+    {
+      "id": "TOOL-length",
+      "title": "length: 1 → 3.2808, swap, invalid input",
+      "status": "pass",
+      "ms": 55034
+    },
+    {
+      "id": "FX01",
+      "title": "exchange rate: live USD→EUR, amount, swap, cache",
+      "status": "pass",
+      "ms": 28598
+    },
+    {
+      "id": "CLOCK01",
+      "title": "world clock shows four zones",
+      "status": "pass",
+      "ms": 15980
+    },
+    {
+      "id": "RATE01",
+      "title": "rating dialog: star selection, Submit, Close",
+      "status": "pass",
+      "ms": 27525
+    },
+    {
+      "id": "LEGAL01",
+      "title": "privacy and terms: placeholder content, scroll, Back",
+      "status": "pass",
+      "ms": 15310
+    },
+    {
+      "id": "NOT02",
+      "title": "notification permission: deny keeps switch off",
+      "status": "pass",
+      "ms": 22980
+    },
+    {
+      "id": "NOT03",
+      "title": "notification permission: grant shows a local preview",
+      "status": "pass",
+      "ms": 34046
+    },
+    {
+      "id": "LANG00",
+      "title": "language: Back without Confirm does not change language",
+      "status": "pass",
+      "ms": 14787
+    },
+    {
+      "id": "LANG-es",
+      "title": "language es applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 35885
+    },
+    {
+      "id": "LANG-zh-Hans",
+      "title": "language zh-Hans applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 36682
+    },
+    {
+      "id": "LANG-ja",
+      "title": "language ja applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 36452
+    },
+    {
+      "id": "LANG-ko",
+      "title": "language ko applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 36125
+    },
+    {
+      "id": "LANG-pt-BR",
+      "title": "language pt-BR applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 37342
+    },
+    {
+      "id": "LANG-en",
+      "title": "back to English",
+      "status": "pass",
+      "ms": 15526
+    },
+    {
+      "id": "LAYOUT360",
+      "title": "360 dp width: home, form and result remain usable",
+      "status": "pass",
+      "ms": 71818
+    },
+    {
+      "id": "BACK01",
+      "title": "Android Back on Home leaves the app (no exit ad in NoOp)",
+      "status": "pass",
+      "ms": 8461
+    }
+  ]
+}

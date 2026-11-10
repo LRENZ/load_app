@@ -4,11 +4,20 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   back, dump, expect, find, forceStop, hideKeyboard, launch, longPress, PKG, scenario, screenshot,
-  scrollUntil, setField, setOutDir, shell, sleep, summary, tap, texts, waitFor,
+  scrollUntil, setBeforeEach, setField, setOutDir, shell, sleep, summary, tap, texts, waitFor,
 } from './driver.mjs';
 
 const out = process.argv[2] || 'evidence/functional';
 setOutDir(out);
+// Keep one failure from cascading: every scenario starts with the app in the foreground.
+setBeforeEach(async (id) => {
+  if (id === 'INST01') return;
+  hideKeyboard();
+  if (!shell('dumpsys activity activities | grep topResumedActivity').includes(PKG)) {
+    launch();
+    await waitFor({ id: 'tab-index' }, 30_000);
+  }
+});
 const today = new Date();
 const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const plusMonths = (d, n) => {
@@ -21,6 +30,11 @@ async function expectText(s, timeout = 8000) {
   await waitFor({ contains: s }, timeout);
 }
 async function goHome() {
+  hideKeyboard();
+  if (!shell('dumpsys activity activities | grep topResumedActivity').includes(PKG)) {
+    launch();
+    await waitFor({ id: 'tab-index' }, 30_000);
+  }
   for (let i = 0; i < 6 && !find({ id: 'tab-index' }); i++) {
     back();
     await sleep(700);
@@ -45,6 +59,7 @@ async function fillLoan({ amount, rate, term, unit, date }) {
   hideKeyboard();
 }
 async function calculate() {
+  hideKeyboard();
   await scrollUntil({ id: 'calculate' });
   await tap({ id: 'calculate' });
 }
@@ -71,7 +86,8 @@ await scenario('INST01', 'fresh install: intro pages, Next/Start, persistent com
   await waitFor({ id: 'intro-start' });
   screenshot('intro-3');
   await tap({ id: 'intro-start' });
-  await waitFor({ id: 'tile-personal' });
+  // Home is reached; on a fresh install the first-run notification prompt covers it.
+  await waitFor({ id: 'notif-prompt' });
 });
 
 await scenario('NOT01', 'first-run notification prompt → Not now', async () => {
@@ -226,14 +242,14 @@ await scenario('CUR01', 'currency picker: Cancel does not commit, Confirm commit
   await sleep(400);
   expect(find({ id: 'currency-button' })['content-desc']?.includes('GBP') || has('GBP'), 'cancel committed');
   await tap({ id: 'currency-button' });
-  await tap({ id: 'currency-INR' });
+  await tap({ id: 'currency-AUD' });
   await tap({ id: 'currency-confirm' });
   await sleep(500);
-  expect(has('INR'), 'confirm not committed');
+  expect((find({ id: 'currency-button' })['content-desc'] || '').includes('AUD'), 'confirm not committed');
   await fillLoan({ amount: '100000', rate: '10', term: '24', unit: 'months' });
   await calculate();
-  expect((await resultValue('r-monthly')).startsWith('₹'), 'currency symbol not ₹');
-  screenshot('INR-result');
+  expect((await resultValue('r-monthly')).startsWith('A$'), 'currency symbol not A$');
+  screenshot('AUD-result');
   back();
   await tap({ id: 'currency-button' });
   await tap({ id: 'currency-GBP' });
@@ -403,10 +419,15 @@ await scenario('LEGAL01', 'privacy and terms: placeholder content, scroll, Back'
 });
 
 await scenario('NOT02', 'notification permission: deny keeps switch off', async () => {
+  // Revoking a runtime permission restarts the app process, so relaunch and open Settings.
   shell(`pm revoke ${PKG} android.permission.POST_NOTIFICATIONS`);
   shell(`pm clear-permission-flags ${PKG} android.permission.POST_NOTIFICATIONS user-set user-fixed`);
+  launch();
+  await waitFor({ id: 'tab-settings' }, 30_000);
+  await tap({ id: 'tab-settings' });
+  expect(find({ id: 'settings-notif-switch' }).checked === 'false', 'switch on without permission');
   await tap({ id: 'settings-notif-switch' });
-  await tap({ contains: "Don't allow" }, 10_000);
+  await tap({ contains: 't allow' }, 10_000);
   await sleep(800);
   expect(find({ id: 'settings-notif-switch' }).checked === 'false', 'switch on after deny');
   screenshot('notif-denied');
@@ -414,6 +435,7 @@ await scenario('NOT02', 'notification permission: deny keeps switch off', async 
 
 await scenario('NOT03', 'notification permission: grant shows a local preview', async () => {
   await sleep(3500);
+  await tap({ id: 'tab-settings' });
   await tap({ id: 'settings-notif-switch' });
   const allow = await waitFor({ text: 'Allow' }, 10_000).catch(() => null);
   if (allow) await tap({ text: 'Allow' });
@@ -440,6 +462,7 @@ const LANGS = [
   ['pt-BR', 'Calculadora de empréstimo EMI', 'Configurações'],
 ];
 await scenario('LANG00', 'language: Back without Confirm does not change language', async () => {
+  await tap({ id: 'tab-settings' });
   await tap({ id: 'settings-language' });
   await tap({ id: 'lang-ja' });
   back();

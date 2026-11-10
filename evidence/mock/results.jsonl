@@ -1,0 +1,10 @@
+{"id":"MOCK00","title":"fresh mock build: intro Skip saves completion; onboarding opportunity continues","status":"pass","ms":17024}
+{"id":"MOCK01","title":"native slot fills with a labelled Local mock ad after preload","status":"pass","ms":11424}
+{"id":"MOCK02","title":"calculation interstitial: shown after valid calculate, result after close, synthetic revenue","status":"pass","ms":129185}
+{"id":"MOCK03","title":"invalid calculate never triggers an ad","status":"pass","ms":13214}
+{"id":"MOCK04","title":"natural cap: 120 s AdMob interval → second calculation shows result without ad","status":"pass","ms":35126}
+{"id":"MOCK05","title":"no fill, show failure and duplicate callbacks continue exactly once","status":"pass","ms":24191}
+{"id":"MOCK06","title":"two triggers at once: second reports presentation_busy, first still completes","status":"pass","ms":9322}
+{"id":"MOCK07","title":"risk fixture (simulator) excludes AdMob → no platform for natural","status":"pass","ms":12274}
+{"id":"MOCK08","title":"offline: opportunity skipped with reason offline","status":"pass","ms":11825}
+{"id":"MOCK09","title":"NoOp adapter: deferred / not_configured, no native slot rendered","status":"pass","ms":19852}

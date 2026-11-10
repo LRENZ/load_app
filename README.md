@@ -43,12 +43,16 @@ npx expo prebuild --platform android --clean   # generates android/ (git-ignored
 
 ```powershell
 # Standalone APK, JS bundle embedded, runs without Metro (release variant signed with the debug key)
-.\scripts\android-build.ps1
-# Debug-only mock-ads APK
-.\scripts\android-build.ps1 -Mode mock
+.\scripts\android-build.ps1 -UseMirror
+# Debug-only mock-ads APK (x86_64 for the emulator)
+.\scripts\android-build.ps1 -Mode mock -UseMirror -Abis x86_64
 # Development APK that loads JS from Metro
-.\scripts\android-build.ps1 -Variant debug
+.\scripts\android-build.ps1 -Variant debug -UseMirror
 ```
+
+`-UseMirror` routes Maven downloads through `scripts/maven-mirror.mjs`, a local curl-backed cache. It is needed on this machine because the local proxy drops Java TLS handshakes; drop the flag on a normal network. Output: `android\app\build\outputs\apk\<variant>\app-<variant>.apk`. Delivered copies are in `dist\`. See [docs/BUILD_MATRIX.md](docs/BUILD_MATRIX.md) for versions and the build issues that were fixed.
+
+Mock-ads fixture scripts can also be driven by deep link, for example `adb shell am start -a android.intent.action.VIEW -d 'loadapp://debug?run=r1&adMode=mock&fill=no_fill&reset=1&preload=1&trigger=one' com.lrenz.loadapp`. The outcome appears on the `last:` line of the Developer screen.
 
 ## Run on the emulator
 

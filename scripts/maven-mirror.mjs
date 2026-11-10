@@ -107,6 +107,85 @@ async function ensure(key, path) {
   return { status: status === 403 || status === 410 ? 404 : status };
 }
 
+// ---------- speculative prefetch (parallel) ----------
+const queue = [];
+const queued = new Set();
+let active = 0;
+const MAX_PREFETCH = 12;
+function prefetch(key, path) {
+  const id = `${key}/${path}`;
+  if (queued.has(id) || existsSync(join(CACHE, key, path)) || existsSync(join(CACHE, key, path) + '.404')) return;
+  queued.add(id);
+  queue.push([key, path]);
+  pump();
+}
+function pump() {
+  while (active < MAX_PREFETCH && queue.length) {
+    const [key, path] = queue.shift();
+    active++;
+    ensure(key, path)
+      .then((r) => { if (r.file) expand(key, path, r.file); })
+      .catch(() => undefined)
+      .finally(() => { active--; pump(); });
+  }
+}
+const repoFor = (group, fallback) => (/^(androidx|com\.android|com\.google\.android|com\.google\.firebase)/.test(group) ? 'google' : fallback === 'plugins' ? 'central' : fallback);
+function coordPath(g, a, v) {
+  return `${g.replace(/\./g, '/')}/${a}/${v}/${a}-${v}`;
+}
+/** After a metadata file lands: fetch its siblings and its declared dependencies' metadata. */
+async function expand(key, path, file) {
+  const m = /^(.+)\/([^/]+)\/([^/]+)\/\2-\3(?:-[\w.]+)?\.(pom|module)$/.exec(path);
+  if (!m) return;
+  const base = `${m[1]}/${m[2]}/${m[3]}/${m[2]}-${m[3]}`;
+  for (const ext of ['.module', '.pom', '.module.sha1', '.pom.sha1']) prefetch(key, base + ext);
+  let text = '';
+  try {
+    const { readFileSync } = await import('node:fs');
+    text = readFileSync(file, 'utf8');
+  } catch {
+    return;
+  }
+  const deps = [];
+  if (m[4] === 'module') {
+    try {
+      const j = JSON.parse(text);
+      for (const v of j.variants || []) {
+        for (const d of v.dependencies || []) {
+          const ver = d.version?.requires || d.version?.strictly || d.version?.prefers;
+          if (d.group && d.module && ver && /^[\w.+-]+$/.test(ver)) deps.push([d.group, d.module, ver]);
+        }
+        for (const f of v.files || []) if (f.url && /\.(jar|aar)$/.test(f.url)) prefetch(key, `${m[1]}/${m[2]}/${m[3]}/${f.url}`);
+        if (v['available-at']?.url) {
+          const target = v['available-at'];
+          if (target.group && target.module && target.version) deps.push([target.group, target.module, target.version]);
+        }
+      }
+    } catch {
+      /* ignore */
+    }
+  } else {
+    for (const d of text.matchAll(/<dependency>([\s\S]*?)<\/dependency>/g)) {
+      const g = /<groupId>([^<$]+)<\/groupId>/.exec(d[1])?.[1];
+      const a = /<artifactId>([^<$]+)<\/artifactId>/.exec(d[1])?.[1];
+      const v = /<version>([^<$\[\]()]+)<\/version>/.exec(d[1])?.[1];
+      const scope = /<scope>([^<]+)<\/scope>/.exec(d[1])?.[1];
+      if (g && a && v && scope !== 'test' && scope !== 'provided') deps.push([g.trim(), a.trim(), v.trim()]);
+    }
+    const parent = /<parent>([\s\S]*?)<\/parent>/.exec(text)?.[1];
+    if (parent) {
+      const g = /<groupId>([^<]+)</.exec(parent)?.[1], a = /<artifactId>([^<]+)</.exec(parent)?.[1], v = /<version>([^<]+)</.exec(parent)?.[1];
+      if (g && a && v) deps.push([g, a, v]);
+    }
+  }
+  for (const [g, a, v] of deps) {
+    const k = repoFor(g, key);
+    const p = coordPath(g, a, v);
+    prefetch(k, `${p}.module`);
+    prefetch(k, `${p}.pom`);
+  }
+}
+
 createServer(async (req, res) => {
   const m = /^\/(\w+)\/(.+)$/.exec(decodeURIComponent((req.url || '').split('?')[0]));
   if (!m || !UPSTREAMS[m[1]] || m[2].includes('..')) {
@@ -115,6 +194,7 @@ createServer(async (req, res) => {
   }
   try {
     const r = await ensure(m[1], m[2]);
+    if (r.file) void expand(m[1], m[2], r.file);
     if (!r.file) {
       res.writeHead(r.status).end();
       return;
@@ -129,4 +209,4 @@ createServer(async (req, res) => {
   }
 }).listen(PORT, '127.0.0.1', () => console.log(`maven mirror on http://127.0.0.1:${PORT} cache ${CACHE}`));
 
-setInterval(() => console.log(`served=${served} fetched=${fetched} missing=${missing} inflight=${inflight.size}`), 60_000);
+setInterval(() => console.log(`served=${served} fetched=${fetched} missing=${missing} inflight=${inflight.size} prefetchQueue=${queue.length}`), 60_000);

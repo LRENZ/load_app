@@ -3,7 +3,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { kv, KEYS } from '../storage/kv.ts';
 import { appStore, useApp } from '../state/app.ts';
@@ -49,7 +48,8 @@ export default function RootLayout() {
     let cancelled = false;
     void permissionState().then((s) => {
       if (cancelled) return;
-      if (s === 'undetermined') setPrompt(true);
+      // Android 13+ reports a never-asked permission as denied-but-askable.
+      if (s === 'undetermined' || s === 'denied') setPrompt(true);
       else kv.set(KEYS.notifPrompted, true);
     });
     return () => {
@@ -63,7 +63,7 @@ export default function RootLayout() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <SafeAreaProvider>
         <StatusBar style="dark" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg }, animation: 'slide_from_right' }}>
@@ -88,6 +88,6 @@ export default function RootLayout() {
         <SnackbarHost />
         <MockInterstitialHost />
       </SafeAreaProvider>
-    </GestureHandlerRootView>
+    </View>
   );
 }
