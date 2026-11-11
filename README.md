@@ -1,14 +1,15 @@
-# Loan Calc (load_app)
+# Repayly (load_app)
 
-React Native (Expo SDK 58, RN 0.88, TypeScript) Android app.
+**Repayly: EMI & Loan Calculator.** React Native (Expo SDK 58, RN 0.88, TypeScript) Android app, package `com.tools.loadapp`. Brand, logo and store assets: [docs/BRANDING.md](docs/BRANDING.md).
 
 - **Calculators**: Personal, Business and Auto loan (EMI), and Mortgage with annual ownership costs.
 - **History**: saved in SQLite and survives restarts.
 - **Six tools**: live exchange rate with offline cache, temperature, mass, speed, length, world clock.
-- **Six currencies and six languages.**
+- **Six currencies and six languages.** The app follows the device language by default, switches live when it changes, and supports Android 13+ per-app language (Settings → Apps → Repayly → Language). A fixed language can still be picked in the app.
+- **Results**: summary card with a principal / interest split bar and a Share button. Form errors stay under the field, and the keyboard's Next / Done moves through the fields and calculates.
 - **Settings**: rating, privacy and terms pages, and a live-rate notification.
 - **Intro**: three pages on first launch.
-- **Ads**: a local advertising-policy engine. Normal builds use a NoOp adapter (no ads shown). A debug mock mode exercises the policy with clearly labelled local mock ads.
+- **Ads**: a local advertising-policy engine with natural / paid traffic rules; the traffic cohort comes from the Google Play install referrer (see [docs/ADS_READINESS.md](docs/ADS_READINESS.md)). Normal builds use a NoOp adapter (no ads shown). A debug mock mode exercises the policy with clearly labelled local mock ads.
 
 - **Firebase**: Analytics, Crashlytics, Remote Config (ad-policy JSON) and Cloud Messaging. See [docs/FIREBASE.md](docs/FIREBASE.md). Put your `google-services.json` at the repo root (git-ignored) before `expo prebuild`. Long-press the version line in Settings for the Firebase status screen.
 

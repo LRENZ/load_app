@@ -1,7 +1,7 @@
 # Parity report
 
 **Reference:** `com.easyloan.calculator.payment` 1.0.7 (spec bundle `easyloan-spec/Claude_Functionality_First`).
-**Replica:** `com.tools.loadapp` 1.0.0.
+**Replica:** `com.tools.loadapp` 1.1.0, published as **Repayly** (see BRANDING.md).
 
 ## Scope decision (read first)
 
@@ -24,6 +24,7 @@ Status legend: **verified**: implemented, with a unit test and/or an emulator sc
 | Ranges | principal 0.01–999,999,999.99 (2 dp); rate 0–100 (4 dp); date 1900-01-01 – 2100-12-31 | same | verified | unit + emulator VAL01 |
 | Form term limit | strings say 1–360 months / 1–30 years; the domain allows up to 1200 months | form enforces 360 / 30; domain keeps 1200 | provisional | The form-validator source was not in the bundle; the limits come from the reference error strings |
 | Error copy | `calculator_error_*`, `mortgage_error_*`, `*_failure_*` | same meanings, own wording in 6 locales | verified (en) | emulator VAL01, C03, C04 |
+| Error display | snackbar | **1.1.0 improvement:** field errors stay under the field (focused) and calculation failures stay above Calculate until the next edit; the start date keeps the snackbar (no text field) | verified | emulator VAL01, VAL02, C03, C04 |
 | Mortgage | principal = home − down; percent = round2(down×100/home) must match; P&I like loans over years×12; each annual cost ÷ 12 rounded separately | `src/core/mortgage.ts` | verified | C08 (unit + emulator), per-cost rounding unit test, coupling both directions on the emulator |
 | Mortgage history totals | totalPayment = monthlyTotal × months (includes costs); totalInterest = that − principal (not pure interest) | same, documented in code | verified | C08 unit: 1,187,352.00 / 787,352.00 |
 | History | durable; created DESC, id DESC; no duplicate insert per operation | SQLite, `operation_id UNIQUE` + `INSERT OR IGNORE`, transaction | verified | emulator HIST01 (restart, order, reopen) |
@@ -33,7 +34,7 @@ Status legend: **verified**: implemented, with a unit test and/or an emulator sc
 | FX | Frankfurter `/v1/latest?from=&to=`; cache per pair < 24 h; stale fallback; future-dated cache ignored; same pair = error | `src/core/fx.ts` + KV cache; latest-request guard | verified | unit (fixture 123.45 → 110.57, offline / timeout / invalid / stale / future) + emulator FX01 live |
 | World clock | Taipei, London, New York, Tokyo, HH:mm | Intl with IANA zones | verified | unit (DST cases) + emulator CLOCK01 |
 | Currencies | GBP, USD, AUD, CNY, INR, EUR; staged selection | same order and symbols; Cancel discards | verified | emulator CUR01 |
-| Languages | en, es, zh-Hans, ja, ko, pt-BR; app-wide; persisted | 6 catalogs, 204 keys each, key/placeholder parity tested | verified | unit i18n + emulator LANG-* |
+| Languages | en, es, zh-Hans, ja, ko, pt-BR; app-wide; persisted | 6 catalogs, 211 keys each, key/placeholder parity tested. **1.1.0:** follows the device language by default (live), Android 13+ per-app language, explicit choice still possible | verified | unit i18n + v110 + emulator LANG-*, LANG-SYS |
 | Notification switch | reflects real permission + preference; local preview with the latest pair | expo-notifications; preview uses the cached pair | verified | emulator NOT02 / NOT03 |
 | Rating | 5 stars, Submit, Close; submit branch unknown | stars / Submit / Close; local record + honest "not available in development" | provisional | emulator RATE01 |
 | Privacy / Terms | in-app screens, loading / loaded / error, Back | same; labelled development placeholder until URLs are supplied | verified | emulator LEGAL01 |

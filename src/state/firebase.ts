@@ -18,10 +18,10 @@
 import { AppState } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { getApp } from '@react-native-firebase/app';
-import { getAnalytics, getAppInstanceId, logEvent, logScreenView, setAnalyticsCollectionEnabled } from '@react-native-firebase/analytics';
+import { getAnalytics, getAppInstanceId, logEvent, logScreenView, setAnalyticsCollectionEnabled, setUserProperty } from '@react-native-firebase/analytics';
 import { getCrashlytics, log as crashLog, recordError, setCrashlyticsCollectionEnabled } from '@react-native-firebase/crashlytics';
 import { activate, fetchConfig, getRemoteConfig, getString } from '@react-native-firebase/remote-config';
-import type { AnalyticsSink, CrashReporter, EventParams, MessagingProvider, TokenResult } from '../core/services/contracts.ts';
+import type { AnalyticsSink, AttributionInfo, CrashReporter, EventParams, MessagingProvider, TokenResult } from '../core/services/contracts.ts';
 import type { RevenueLedger } from '../core/ads/revenue.ts';
 import {
   adImpressionFor,
@@ -43,6 +43,7 @@ export interface FirebaseStatus {
   remoteConfig: { activated: boolean | null; lastFetchStatus: string; fetchedAt: number | null; error: string | null; keys: Record<string, number> };
   fcm: { status: 'pending' | 'ok' | 'error'; token: string | null; error: string | null };
   revenue: { sent: number; skipped: number; failed: number };
+  attribution: { cohort: string; network: string | null; source: string; fresh: boolean } | null;
   errors: string[];
 }
 
@@ -54,6 +55,7 @@ const status: FirebaseStatus = {
   remoteConfig: { activated: null, lastFetchStatus: 'not_started', fetchedAt: null, error: null, keys: {} },
   fcm: { status: 'pending', token: null, error: null },
   revenue: { sent: 0, skipped: 0, failed: 0 },
+  attribution: null,
   errors: [],
 };
 const subs = new Set<() => void>();
@@ -73,6 +75,21 @@ function note(err: unknown, where: string) {
   if (status.errors.length > 20) status.errors.shift();
   console.warn('[firebase] ' + msg);
   changed();
+}
+
+/**
+ * Resolves about 1.5 s after it is called, when the JS thread is idle: network / native work that
+ * the first screen does not need (Remote Config fetch, FCM token, install referrer) waits for it
+ * so it does not compete with the first render.
+ */
+export function afterFirstScreen(delayMs = 1500): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const ric = (globalThis as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void }).requestIdleCallback;
+      if (ric) ric(() => resolve(), { timeout: 2000 });
+      else resolve();
+    }, delayMs);
+  });
 }
 
 /** Whether ad-policy analytics may be sent. Stays false until a real ad SDK adapter replaces NoOp. */
@@ -155,6 +172,7 @@ async function initRemoteConfig(debugTools: boolean) {
     for (const k of Object.values(RC_KEYS)) status.remoteConfig.keys[k] = (remoteAdConfigJsonByKey(k) ?? '').length;
   };
   readKeys();
+  await afterFirstScreen();
   try {
     // 2) fetch for the NEXT launch; values are not applied mid-session
     await fetchConfig(rc);
@@ -196,15 +214,17 @@ export function initFirebase(opts: { collect: boolean; debugTools: boolean; ledg
   }
   void setAnalyticsCollectionEnabled(getAnalytics(), opts.collect).catch((e: unknown) => note(e, 'analytics collection'));
   void setCrashlyticsCollectionEnabled(getCrashlytics(), opts.collect).catch((e: unknown) => note(e, 'crashlytics collection'));
-  void getAppInstanceId(getAnalytics())
-    .then((id) => {
-      status.analyticsInstanceId = id ?? null;
-      changed();
-    })
-    .catch((e: unknown) => note(e, 'app instance id'));
   console.log(`[firebase] app=${status.appId} project=${status.projectId} collection=${opts.collect}`);
   void initRemoteConfig(opts.debugTools);
-  void opts.messaging.remoteToken();
+  void afterFirstScreen().then(() => {
+    void opts.messaging.remoteToken();
+    void getAppInstanceId(getAnalytics())
+      .then((id) => {
+        status.analyticsInstanceId = id ?? null;
+        changed();
+      })
+      .catch((e: unknown) => note(e, 'app instance id'));
+  });
 
   // Ad revenue → Firebase ad_impression (real SDK revenue only; nothing while ads are NoOp placeholders).
   const flush = () =>
@@ -230,10 +250,21 @@ export function initFirebase(opts: { collect: boolean; debugTools: boolean; ledg
   });
 }
 
+/**
+ * Traffic cohort as a Firebase user property (natural / paid), so Analytics reports and Remote
+ * Config conditions can split by it. Also shown on the diagnostics screen.
+ */
+export function setTrafficCohort(a: AttributionInfo, fresh: boolean) {
+  status.attribution = { cohort: a.cohort, network: a.network, source: a.source ?? 'default', fresh };
+  changed();
+  if (!collectionEnabled) return;
+  setUserProperty(getAnalytics(), 'traffic_cohort', a.cohort).catch((e: unknown) => note(e, 'user property'));
+}
+
 /** Debug-only: send one labelled non-fatal so Crashlytics delivery can be checked in the console. */
 export function sendTestNonFatal(): boolean {
   if (!collectionEnabled) return false;
-  new FirebaseCrashReporter().record(new Error('Loan Calc Crashlytics test (non-fatal, safe to ignore)'), 'debug.test');
+  new FirebaseCrashReporter().record(new Error('Repayly Crashlytics test (non-fatal, safe to ignore)'), 'debug.test');
   return true;
 }
 

@@ -1,6 +1,6 @@
 # Build matrix
 
-Verified on the owner's Windows machine, 2026-11-10.
+Verified on the owner's Windows machine, 2026-11-10; updated for **Repayly 1.1.0** on 2026-11-11.
 
 ## Toolchain
 
@@ -19,15 +19,20 @@ Verified on the owner's Windows machine, 2026-11-10.
 | decimal.js | 10.6.0 | 34-digit HALF_UP loan arithmetic |
 | React Native Firebase (app, analytics, crashlytics, remote-config) | 27.1.0 (pinned; 27.1.1 was same-day) | Google services Gradle plugin 4.4.4, Crashlytics Gradle plugin 3.0.8, Crashlytics SDK 21.0.0 (from logcat); see FIREBASE.md |
 | TypeScript | 6.0.3 | `npm run typecheck` |
+| expo-application | 58.1.2 | Play install referrer → traffic cohort (1.1.0) |
+| expo-localization | 58.0.5 | device language + Android 13+ per-app language (`supportedLocales`) |
+| @resvg/resvg-js (dev) | 2.6.2 | renders the brand SVGs (`scripts/make-icons.mjs`) |
+| Metro | Expo defaults + `inlineRequires: true` (`metro.config.js`) | lazy module evaluation |
 
-compileSdk 37, targetSdk 36, minSdk 24. Application ID `com.tools.loadapp` (renamed from `com.lrenz.loadapp` on 2026-11-10 to match the Firebase app registration), versionName 1.0.0 (versionCode 1). Release builds run R8; the Crashlytics plugin uploads the mapping file during the build (`uploadCrashlyticsMappingFileRelease`), so release stack traces stay readable.
+compileSdk 37, targetSdk 36, minSdk 24. Application ID `com.tools.loadapp` (renamed from `com.lrenz.loadapp` on 2026-11-10 to match the Firebase app registration), versionName **1.1.0 (versionCode 2)**, app name **Repayly**. 1.0.0 was versionCode 1. Release builds run R8; the Crashlytics plugin uploads the mapping file during the build (`uploadCrashlyticsMappingFileRelease`), so release stack traces stay readable.
 
 ## Artifacts
 
 | Artifact | Path | ABIs | Size | SHA-256 |
 |---|---|---|---|---|
-| Standalone APK (functional, Firebase on, NoOp ads) | `dist/loan-calc-1.0.0-standalone.apk` | x86_64, arm64-v8a | 61.3 MB | `0989c11c44f538c4796782aa5d75a4736f95ffe6a2aec0579b9bdbdc82a4034a` |
-| Mock-ads test APK (debug fixtures, Firebase collection off) | `dist/loan-calc-mock-x86_64.apk` | x86_64 | 36.4 MB | `b4c723e33662d3ee84dc950f85faff1861e46dc540c100c03fd659a246fde7cf` |
+| Standalone APK 1.1.0 (functional, Firebase on, NoOp ads) | `dist/repayly-1.1.0.apk` (also attached to the GitHub release) | x86_64, arm64-v8a | 61.2 MB | `8d283db1acf4fe6f055a54173e978084f254fc6add0cec3dfdbc74e29caede2d` |
+| Mock-ads test APK 1.1.0 (debug fixtures, Firebase collection off) | `dist/repayly-1.1.0-mock-x86_64.apk` | x86_64 | 36.2 MB | `4cef05b09059953354af6951095abaf533765b003a8bcf3d08be8f13dcb8ca6c` |
+| Previous standalone 1.0.0 | `dist/loan-calc-1.0.0-standalone.apk` | x86_64, arm64-v8a | 61.3 MB | `d5894779ceae7f45d3d1f18494b1ece6a67e636c8e919a9e6bd4c18efdc9d30d` |
 
 APKs are build outputs and are git-ignored. Rebuild them with the commands below.
 
@@ -66,4 +71,5 @@ APKs are build outputs and are git-ignored. Rebuild them with the commands below
   ```
 
   It booted in 25 s and stayed stable through every later run. A normal windowed start (Android Studio Device Manager) is fine for manual use.
+- **Start the emulator through Task Scheduler**, not WMI: started via `Win32_Process.Create` it exited three times with "received exit request from parent process" (2026-11-10/11). `schtasks /Create /TN RepaylyEmulator /TR "<sdk>\emulator\emulator.exe -avd Pixel_7_API_37 -port 5554 …" /SC ONCE /ST 23:59 /F`, `schtasks /Run /TN RepaylyEmulator`, then `schtasks /Delete /TN RepaylyEmulator /F` (the emulator keeps running). After a cold boot wait until `adb shell uptime` shows a load below ~8 before testing.
 - 2026-11-10 ~20:34 the headless emulator process exited without a crash dump during a functional run (while a Gradle build was also running). It was restarted the same way and the whole suite re-run; see EMULATOR_TEST_REPORT.md.

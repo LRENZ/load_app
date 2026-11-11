@@ -1,5 +1,15 @@
-{"id":"C03","title":"monthly payment too small (1 @ 0% 360 months)","status":"pass","ms":87177}
-{"id":"C04","title":"rounded total below principal (0.17 @ 0.0001% 12 months)","status":"pass","ms":62916}
-{"id":"RATE01","title":"rating dialog: star selection, Submit, Close","status":"fail","ms":17057,"error":"timeout waiting for {\"id\":\"tab-settings\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-RATE01.png"}
-{"id":"FB05","title":"Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports","status":"pass","ms":85910}
-{"id":"RATE01","title":"rating dialog: star selection, Submit, Close","status":"pass","ms":46407}
+{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"fail","ms":85807,"error":"timeout waiting for {\"text\":\"Retry\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-FX01.png"}
+{"id":"CLOCK01","title":"world clock shows four zones","status":"pass","ms":37850}
+{"id":"NOT02","title":"notification permission: deny keeps switch off","status":"pass","ms":42289}
+{"id":"LANG-es","title":"language es applies app-wide and survives restart","status":"pass","ms":54588}
+{"id":"LANG-zh-Hans","title":"language zh-Hans applies app-wide and survives restart","status":"pass","ms":62620}
+{"id":"LANG-ja","title":"language ja applies app-wide and survives restart","status":"pass","ms":62578}
+{"id":"LANG-ko","title":"language ko applies app-wide and survives restart","status":"pass","ms":58958}
+{"id":"LANG-pt-BR","title":"language pt-BR applies app-wide and survives restart","status":"pass","ms":108100}
+{"id":"LANG-en","title":"back to English","status":"pass","ms":20517}
+{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":40892}
+{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"fail","ms":37985,"error":"timeout waiting for {\"id\":\"r-hero\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-RES01.png"}
+{"id":"ATTR01","title":"traffic source read from the Play install referrer after start-up and stored (sideload = natural)","status":"pass","ms":71788}
+{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"pass","ms":82003}
+{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":56418}
+{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"pass","ms":72726}

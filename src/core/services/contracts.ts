@@ -105,6 +105,8 @@ export interface AttributionInfo {
   creative: string | null;
   /** true when the value came from a local debug fixture (never real paid traffic) */
   fixture: boolean;
+  /** Where the classification came from (absent on records stored before 1.1.0). */
+  source?: 'install_referrer' | 'mmp' | 'fixture' | 'default';
 }
 
 export interface AttributionProvider {

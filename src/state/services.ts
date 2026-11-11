@@ -1,4 +1,5 @@
-import { AppState as RNAppState } from 'react-native';
+import { getInstallReferrerAsync } from 'expo-application';
+import { AppState as RNAppState, Platform } from 'react-native';
 import { NoOpAdAdapter, type AdAdapter } from '../core/ads/adapters.ts';
 import { emptyUnits, mockUnits, normalizeAdConfig, resolveAdConfig, type EffectiveAdConfig } from '../core/ads/config.ts';
 import { FrequencyTracker, MemoryCounterStore, type Counter } from '../core/ads/frequency.ts';
@@ -8,7 +9,7 @@ import { CACHED_NATURAL, CACHED_PAID, EMBEDDED_NATURAL, EMBEDDED_PAID, RISK_CONF
 import { RevenueLedger } from '../core/ads/revenue.ts';
 import { FixtureRiskSignals, NoRiskSignals, noSignals, type RiskSignalProvider, type RiskSignals } from '../core/ads/risk.ts';
 import type { Cohort, Provider } from '../core/ads/types.ts';
-import { DEFAULT_ATTRIBUTION } from '../core/cohort.ts';
+import { applyAttribution, attributionFromReferrer, DEFAULT_ATTRIBUTION } from '../core/cohort.ts';
 import type { CurrencyCode } from '../core/currency.ts';
 import type { FxCacheStore, FxQuote } from '../core/fx.ts';
 import {
@@ -20,7 +21,7 @@ import {
   type EventParams,
 } from '../core/services/contracts.ts';
 import { kv, KEYS } from '../storage/kv.ts';
-import { FcmMessagingProvider, FirebaseAnalyticsSink, FirebaseCrashReporter, initFirebase, remoteAdConfigJson } from './firebase.ts';
+import { FcmMessagingProvider, FirebaseAnalyticsSink, FirebaseCrashReporter, initFirebase, remoteAdConfigJson, setTrafficCohort } from './firebase.ts';
 
 /**
  * Runtime modes: "functional" (default; NoOp ads, no external services) and
@@ -61,6 +62,37 @@ export function attribution(): AttributionInfo {
     if (fixture) return { ...DEFAULT_ATTRIBUTION, cohort: fixture, network: fixture === 'paid' ? 'local-fixture' : null, fixture: true };
   }
   return kv.get<AttributionInfo>(KEYS.attribution, DEFAULT_ATTRIBUTION);
+}
+
+/**
+ * Traffic source → ad cohort, from the Google Play install referrer (Android). Runs once after
+ * start-up; the first classification sticks (applyAttribution). Until it is stored the cohort is
+ * "natural". A failed read (Play service busy / unavailable) is retried on the next 2 launches,
+ * then the install stays natural. A real MMP (Adjust …) can later replace this source.
+ */
+export async function ensureAttribution(): Promise<AttributionInfo> {
+  const stored = kv.get<AttributionInfo | null>(KEYS.attribution, null);
+  if (stored) {
+    setTrafficCohort(stored, false);
+    return stored;
+  }
+  const tries = kv.get<number>(KEYS.attributionTries, 0);
+  if (Platform.OS !== 'android' || tries >= 3) return DEFAULT_ATTRIBUTION;
+  kv.set(KEYS.attributionTries, tries + 1);
+  let referrer: string;
+  try {
+    referrer = await getInstallReferrerAsync();
+  } catch (e) {
+    crash.record(e, 'install_referrer');
+    return DEFAULT_ATTRIBUTION;
+  }
+  const info = applyAttribution(
+    { get: () => kv.get<AttributionInfo | null>(KEYS.attribution, null), set: (a) => kv.set(KEYS.attribution, a) },
+    attributionFromReferrer(referrer),
+  );
+  setTrafficCohort(info, true);
+  analytics.track('install_attribution', { cohort: info.cohort, network: info.network, source: info.source ?? 'install_referrer' });
+  return info;
 }
 
 // ---- frequency counters persisted across restarts ----

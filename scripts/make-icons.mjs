@@ -1,92 +1,95 @@
-// Generates the app's original icon set as PNGs (no external deps).
-// Glyph: a white calculator with a blue screen line and keypad on a blue field.
-import { writeFileSync } from 'node:fs';
-import { deflateSync } from 'node:zlib';
+// Repayly brand assets, rendered from SVG with resvg (devDependency @resvg/resvg-js).
+//
+// Mark: a "payoff staircase" — three descending bars (a loan balance going down) and a mint check
+// rising out of the last one (paid off). Brand blue matches the app's primary colour.
+//
+//   node scripts/make-icons.mjs
+//
+// Writes assets/images/* (app icon, Android adaptive layers, splash, favicon) and assets/brand/*
+// (master SVGs, Play Store icon 512, feature graphic 1024×500).
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { Resvg } from '@resvg/resvg-js';
 
-function crc32(buf) {
-  let c, crc = 0xffffffff;
-  for (let n = 0; n < buf.length; n++) {
-    c = (crc ^ buf[n]) & 0xff;
-    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-    crc = (crc >>> 8) ^ c;
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
-function chunk(type, data) {
-  const len = Buffer.alloc(4);
-  len.writeUInt32BE(data.length);
-  const td = Buffer.concat([Buffer.from(type), data]);
-  const crc = Buffer.alloc(4);
-  crc.writeUInt32BE(crc32(td));
-  return Buffer.concat([len, td, crc]);
-}
-function png(w, h, px) {
-  const raw = Buffer.alloc((w * 4 + 1) * h);
-  for (let y = 0; y < h; y++) {
-    raw[y * (w * 4 + 1)] = 0;
-    px.copy(raw, y * (w * 4 + 1) + 1, y * w * 4, (y + 1) * w * 4);
-  }
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(w, 0);
-  ihdr.writeUInt32BE(h, 4);
-  ihdr[8] = 8;
-  ihdr[9] = 6;
-  return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', ihdr), chunk('IDAT', deflateSync(raw)), chunk('IEND', Buffer.alloc(0))]);
+const BLUE_LIGHT = '#4C8BFF';
+const BLUE_DARK = '#1B3FBF';
+const MINT = '#2EE6B0';
+
+/** The mark on a 1024 canvas, centred in Android's adaptive-icon safe zone (inner 66 %). */
+function mark({ bars = '#FFFFFF', check = MINT, shadow = true } = {}) {
+  const white = bars === '#FFFFFF' && check !== '#FFFFFF';
+  return `
+  <g${shadow ? ' filter="url(#soft)"' : ''}>
+    <rect x="262" y="404" width="112" height="372" rx="34" fill="${bars}"/>
+    <rect x="410" y="516" width="112" height="260" rx="34" fill="${bars}" fill-opacity="${white ? 0.92 : 1}"/>
+    <rect x="558" y="628" width="112" height="148" rx="34" fill="${bars}" fill-opacity="${white ? 0.84 : 1}"/>
+    <path d="M582 470 L654 542 L790 326" fill="none" stroke="${check}" stroke-width="78" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>`;
 }
 
-const BLUE = [0x2f, 0x6b, 0xff, 255];
-const WHITE = [255, 255, 255, 255];
-const LIGHT = [0xe7, 0xee, 0xff, 255];
-const CLEAR = [0, 0, 0, 0];
+const defs = `
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${BLUE_LIGHT}"/>
+      <stop offset="1" stop-color="${BLUE_DARK}"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.22" cy="0.12" r="0.75">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0B1E66" flood-opacity="0.35"/>
+    </filter>
+  </defs>`;
 
-function inRoundRect(x, y, x0, y0, x1, y1, r) {
-  if (x < x0 || x > x1 || y < y0 || y > y1) return false;
-  const cx = Math.min(Math.max(x, x0 + r), x1 - r);
-  const cy = Math.min(Math.max(y, y0 + r), y1 - r);
-  return (x - cx) ** 2 + (y - cy) ** 2 <= r * r;
+const svg = (w, h, body) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${defs}${body}</svg>`;
+
+/** Full icon: gradient field (square = full bleed for stores / legacy; rounded for splash / favicon). */
+const fullIcon = (rx = 0) =>
+  svg(1024, 1024, `
+  <rect width="1024" height="1024" rx="${rx}" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="${rx}" fill="url(#glow)"/>
+  ${mark()}`);
+
+const adaptiveBackground = svg(1024, 1024, `
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>`);
+// Adaptive layers are masked (a circle on many launchers: only the inner ~66 %, radius ≈ 341 px,
+// shows). The mark's far points (check tip, bar corner) reach ~373 px from the centre → 84 %.
+const SAFE = (inner) => `<g transform="translate(${512 * 0.16} ${512 * 0.16}) scale(0.84)">${inner}</g>`;
+const adaptiveForeground = svg(1024, 1024, SAFE(mark()));
+// Themed (monochrome) icon: Android tints it, so one flat colour and no shadow.
+const monochrome = svg(1024, 1024, SAFE(mark({ bars: '#FFFFFF', check: '#FFFFFF', shadow: false })));
+
+const featureGraphic = svg(1024, 500, `
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <rect width="1024" height="500" fill="url(#glow)"/>
+  <g transform="translate(36 -6) scale(0.5)">${mark()}</g>
+  <text x="560" y="236" font-family="Segoe UI, Roboto, Arial, sans-serif" font-weight="800" font-size="104" fill="#FFFFFF" letter-spacing="-2">Repayly</text>
+  <text x="564" y="304" font-family="Segoe UI, Roboto, Arial, sans-serif" font-weight="600" font-size="38" fill="#DDE7FF">EMI &amp; loan calculator</text>
+  <rect x="564" y="336" width="88" height="10" rx="5" fill="${MINT}"/>`);
+
+function png(svgText, width) {
+  return new Resvg(svgText, { fitTo: { mode: 'width', value: width }, font: { loadSystemFonts: true } }).render().asPng();
 }
 
-/** glyph in unit coordinates (0..1), centred, scale = fraction of canvas */
-function glyph(u, v) {
-  // body
-  if (!inRoundRect(u, v, 0.3, 0.22, 0.7, 0.78, 0.06)) return null;
-  // screen
-  if (inRoundRect(u, v, 0.36, 0.29, 0.64, 0.4, 0.025)) return 'screen';
-  // keypad 3x3
-  for (let r = 0; r < 3; r++)
-    for (let c = 0; c < 3; c++) {
-      const x0 = 0.36 + c * 0.1, y0 = 0.46 + r * 0.1;
-      if (inRoundRect(u, v, x0, y0, x0 + 0.075, y0 + 0.075, 0.018)) return r === 2 && c === 2 ? 'accent' : 'key';
-    }
-  return 'body';
-}
+const img = (f) => new URL(`../assets/images/${f}`, import.meta.url);
+const brand = (f) => new URL(`../assets/brand/${f}`, import.meta.url);
+mkdirSync(new URL('../assets/brand/', import.meta.url), { recursive: true });
 
-function render(size, { bg, body, screen, key, accent, scale = 1, rounded = 0 }) {
-  const px = Buffer.alloc(size * size * 4);
-  for (let y = 0; y < size; y++)
-    for (let x = 0; x < size; x++) {
-      // supersample 2x2 for smooth edges
-      let acc = [0, 0, 0, 0];
-      for (let sy = 0; sy < 2; sy++)
-        for (let sx = 0; sx < 2; sx++) {
-          const fx = (x + (sx + 0.5) / 2) / size, fy = (y + (sy + 0.5) / 2) / size;
-          let col = bg;
-          if (rounded && !inRoundRect(fx, fy, 0, 0, 1, 1, rounded)) col = CLEAR;
-          const u = 0.5 + (fx - 0.5) / scale, v = 0.5 + (fy - 0.5) / scale;
-          const g = glyph(u, v);
-          if (g) col = { body, screen, key, accent }[g];
-          for (let i = 0; i < 4; i++) acc[i] += col[i] / 4;
-        }
-      px.set(acc.map(Math.round), (y * size + x) * 4);
-    }
-  return png(size, size, px);
+const files = [
+  [img('icon.png'), fullIcon(0), 1024],
+  [img('android-icon-background.png'), adaptiveBackground, 1024],
+  [img('android-icon-foreground.png'), adaptiveForeground, 1024],
+  [img('android-icon-monochrome.png'), monochrome, 1024],
+  [img('splash-icon.png'), fullIcon(228), 512],
+  [img('favicon.png'), fullIcon(228), 48],
+  [brand('play-store-icon-512.png'), fullIcon(0), 512],
+  [brand('feature-graphic-1024x500.png'), featureGraphic, 1024],
+];
+for (const [url, text, w] of files) {
+  writeFileSync(url, png(text, w));
+  console.log('wrote', decodeURIComponent(url.pathname).replace(/^\/[A-Z]:\/load_app\//i, ''), `${w}px`);
 }
-
-const out = (f, b) => writeFileSync(new URL(`../assets/images/${f}`, import.meta.url), b);
-out('icon.png', render(1024, { bg: BLUE, body: WHITE, screen: BLUE, key: LIGHT, accent: BLUE, scale: 1.25 }));
-out('android-icon-background.png', render(432, { bg: BLUE, body: BLUE, screen: BLUE, key: BLUE, accent: BLUE, scale: 0.0001 }));
-out('android-icon-foreground.png', render(432, { bg: CLEAR, body: WHITE, screen: BLUE, key: LIGHT, accent: BLUE, scale: 0.85 }));
-out('android-icon-monochrome.png', render(432, { bg: CLEAR, body: WHITE, screen: CLEAR, key: CLEAR, accent: CLEAR, scale: 0.85 }));
-out('splash-icon.png', render(512, { bg: CLEAR, body: BLUE, screen: WHITE, key: LIGHT, accent: WHITE, scale: 1.6 }));
-out('favicon.png', render(48, { bg: BLUE, body: WHITE, screen: BLUE, key: LIGHT, accent: BLUE, scale: 1.25, rounded: 0.2 }));
-console.log('icons written');
+writeFileSync(brand('repayly-icon.svg'), fullIcon(228));
+writeFileSync(brand('repayly-mark.svg'), adaptiveForeground);
+writeFileSync(brand('feature-graphic.svg'), featureGraphic);

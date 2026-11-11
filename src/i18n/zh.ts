@@ -1,7 +1,7 @@
 import type { Strings } from './en.ts';
 
 export const zh: Strings = {
-  app_name: 'Loan Calc',
+  app_name: 'Repayly',
   cancel: '取消',
   confirm: '确认',
   ok: '确定',
@@ -21,7 +21,7 @@ export const zh: Strings = {
   tab_tools: '工具',
   tab_settings: '设置',
 
-  home_title: 'EMI 贷款计算器',
+  home_title: 'Repayly',
   home_subtitle: '计算 · 规划 · 还款',
   loan_personal: '个人贷款',
   loan_business: '商业贷款',
@@ -221,4 +221,11 @@ export const zh: Strings = {
   mock_ad_label: '本地模拟广告',
   mock_ad_body: '来自本地模拟适配器的测试素材。不是真实广告，不产生真实收入。',
   mock_ad_close: '关闭模拟广告',
+  language_system: '跟随系统语言',
+  auto: '自动',
+  r_breakdown: '还款构成',
+  principal: '本金',
+  interest: '利息',
+  share: '分享结果',
+  share_footer: '由 {app} 计算',
 };

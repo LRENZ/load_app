@@ -38,6 +38,7 @@ export const KEYS = {
   ratings: 'rating.local_submissions',
   adCounters: 'ads.frequency_counters',
   attribution: 'attribution.sticky',
+  attributionTries: 'attribution.referrer_tries',
   debugAdMode: 'debug.ad_mode',
   debugCohort: 'debug.cohort_fixture',
   debugRisk: 'debug.risk_fixture',

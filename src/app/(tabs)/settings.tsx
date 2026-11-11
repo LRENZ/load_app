@@ -24,7 +24,7 @@ function recordRating(stars: number) {
 }
 
 export default function Settings() {
-  const { t, language, notifEnabled } = useApp();
+  const { t, language, languagePref, notifEnabled } = useApp();
   const insets = useSafeAreaInsets();
   const [perm, setPerm] = useState<PermissionState>('undetermined');
   const [rating, setRating] = useState(false);
@@ -62,7 +62,7 @@ export default function Settings() {
     }
   };
 
-  const langLabel = LANGUAGES.find((l) => l.code === language)?.label ?? 'English';
+  const langLabel = (LANGUAGES.find((l) => l.code === language)?.label ?? 'English') + (languagePref === 'system' ? ` · ${t('auto')}` : '');
 
   return (
     <ScrollView style={{ backgroundColor: C.bg }} contentContainerStyle={{ paddingTop: insets.top + 16, paddingHorizontal: 16, paddingBottom: 32 }}>
@@ -107,7 +107,7 @@ export default function Settings() {
       )}
       {/* Long-press the version for Firebase diagnostics (FCM token, test crash report) in any build. */}
       <Pressable testID="settings-version" onLongPress={() => router.push('/diagnostics' as never)} delayLongPress={800} style={{ alignItems: 'center', paddingVertical: 12 }}>
-        <Text style={{ color: C.sub, fontSize: 13 }}>Loan Calc {Constants.expoConfig?.version ?? ''}</Text>
+        <Text style={{ color: C.sub, fontSize: 13 }}>Repayly {Constants.expoConfig?.version ?? ''}</Text>
       </Pressable>
       <RatingDialog
         visible={rating}

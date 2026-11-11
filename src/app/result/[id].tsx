@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { repaymentSplit } from '../../core/breakdown.ts';
 import { formatMoney } from '../../core/currency.ts';
 import { D } from '../../core/decimal.ts';
 import { monthlyCost } from '../../core/mortgage.ts';
@@ -8,7 +9,8 @@ import { termLabel } from '../../i18n/index.ts';
 import { history } from '../../storage/history.ts';
 import { useApp } from '../../state/app.ts';
 import { formBus } from '../../state/formBus.ts';
-import { Card, CardTitle, Header, InfoRow, PrimaryButton, Screen, SoftButton } from '../../ui/components.tsx';
+import { analytics } from '../../state/services.ts';
+import { Card, CardTitle, Header, Icon, InfoRow, PrimaryButton, Screen, SoftButton } from '../../ui/components.tsx';
 import { NativeAdSlot } from '../../ui/ads.tsx';
 import { calculatorPath, LOAN_META } from '../../ui/loanMeta.ts';
 import { C } from '../../ui/theme.ts';
@@ -28,6 +30,26 @@ export default function Result() {
   }
   const m = (v: string | null) => formatMoney(rec.currency, v ?? '0.00');
   const isMortgage = rec.type === 'mortgage';
+  const term = termLabel(t, rec.termValue, isMortgage ? 'years' : rec.termUnit);
+  // Principal vs interest over the whole loan (mortgage: of the loan part, without ownership costs).
+  const repaid = new D(rec.principal).plus(new D(rec.totalInterest)).toFixed(2);
+  const split = repaymentSplit(rec.principal, repaid);
+
+  const share = () => {
+    const lines = [
+      t(LOAN_META[rec.type].key),
+      `${t(isMortgage ? 'r_mortgage_principal' : 'loan_amount')}: ${m(rec.principal)}`,
+      `${t('r_annual_rate')}: ${rec.annualRate}%`,
+      `${t('r_loan_term')}: ${term}`,
+      `${t(isMortgage ? 'r_monthly_total' : 'r_monthly_payment')}: ${m(rec.monthlyPayment)}`,
+      `${t('r_total_interest')}: ${m(rec.totalInterest)}`,
+      ...(isMortgage ? [] : [`${t('r_total_repayment')}: ${m(rec.totalPayment)}`, `${t('r_payoff')}: ${rec.payoffDate}`]),
+      '',
+      t('share_footer', { app: t('app_name') }),
+    ];
+    analytics.track('result_share', { type: rec.type });
+    void Share.share({ message: lines.join('\n') }).catch(() => undefined);
+  };
 
   const edit = () => {
     if (fromForm) router.back(); // inputs are still in the form
@@ -44,6 +66,38 @@ export default function Result() {
 
   return (
     <Screen header={<Header title={t(LOAN_META[rec.type].key)} />}>
+      <View style={st.hero} testID="r-hero">
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+          <View style={{ flex: 1 }}>
+            <Text style={st.heroLabel}>{t(isMortgage ? 'r_monthly_total' : 'r_monthly_payment')}</Text>
+            <Text style={st.heroValue} testID="r-hero-monthly" adjustsFontSizeToFit numberOfLines={1}>
+              {m(rec.monthlyPayment)}
+            </Text>
+            <Text style={st.heroSub}>
+              {term} · {rec.annualRate}%
+            </Text>
+          </View>
+          <Pressable
+            testID="r-share"
+            accessibilityRole="button"
+            accessibilityLabel={t('share')}
+            onPress={share}
+            hitSlop={8}
+            android_ripple={{ color: 'rgba(255,255,255,0.25)', borderless: true }}
+            style={({ pressed }) => [st.shareBtn, pressed && { opacity: 0.7 }]}
+          >
+            <Icon name="share-variant" size={20} color="#fff" />
+          </Pressable>
+        </View>
+        <View style={st.bar} accessibilityLabel={`${t('principal')} ${split.principalPct}%, ${t('interest')} ${split.interestPct}%`}>
+          <View style={[st.barPrincipal, { flex: Math.max(split.principalFraction, 0.001) }]} />
+          <View style={[st.barInterest, { flex: Math.max(1 - split.principalFraction, 0.001) }]} />
+        </View>
+        <View style={st.legend}>
+          <Legend color="#FFFFFF" label={t('principal')} pct={split.principalPct} value={m(rec.principal)} testID="r-split-principal" />
+          <Legend color={C.interest} label={t('interest')} pct={split.interestPct} value={m(rec.totalInterest)} testID="r-split-interest" />
+        </View>
+      </View>
       {isMortgage ? (
         <>
           <Card>
@@ -92,6 +146,34 @@ export default function Result() {
     </Screen>
   );
 }
+
+function Legend({ color, label, pct, value, testID }: { color: string; label: string; pct: string; value: string; testID: string }) {
+  return (
+    <View style={{ flex: 1 }} testID={testID}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: color }} />
+        <Text style={st.legendLabel}>
+          {label} · {pct}%
+        </Text>
+      </View>
+      <Text style={st.legendValue}>{value}</Text>
+    </View>
+  );
+}
+
+const st = StyleSheet.create({
+  hero: { backgroundColor: C.primary, borderRadius: 20, padding: 18, marginBottom: 14 },
+  heroLabel: { color: 'rgba(255,255,255,0.82)', fontSize: 14, fontWeight: '600' },
+  heroValue: { color: '#fff', fontSize: 34, fontWeight: '800', marginTop: 4, letterSpacing: -0.5 },
+  heroSub: { color: 'rgba(255,255,255,0.82)', fontSize: 14, marginTop: 2 },
+  shareBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' },
+  bar: { flexDirection: 'row', height: 10, borderRadius: 5, overflow: 'hidden', marginTop: 16, backgroundColor: 'rgba(255,255,255,0.2)' },
+  barPrincipal: { backgroundColor: '#FFFFFF' },
+  barInterest: { backgroundColor: C.interest },
+  legend: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  legendLabel: { color: 'rgba(255,255,255,0.88)', fontSize: 13, fontWeight: '600' },
+  legendValue: { color: '#fff', fontSize: 15, fontWeight: '700', marginTop: 2, marginLeft: 16 },
+});
 
 /** The mortgage record keeps annual costs; the result shows the per-cost rounded monthly value. */
 function monthly(annual: string | null): string {

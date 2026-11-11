@@ -1,7 +1,7 @@
 import type { Strings } from './en.ts';
 
 export const ja: Strings = {
-  app_name: 'Loan Calc',
+  app_name: 'Repayly',
   cancel: 'キャンセル',
   confirm: '確定',
   ok: 'OK',
@@ -21,7 +21,7 @@ export const ja: Strings = {
   tab_tools: 'ツール',
   tab_settings: '設定',
 
-  home_title: 'EMI ローン計算機',
+  home_title: 'Repayly',
   home_subtitle: '計算・計画・返済',
   loan_personal: '個人ローン',
   loan_business: 'ビジネスローン',
@@ -221,4 +221,11 @@ export const ja: Strings = {
   mock_ad_label: 'ローカルのモック広告',
   mock_ad_body: 'ローカルのモックアダプターによるテスト素材です。実際の広告ではなく、実際の収益も発生しません。',
   mock_ad_close: 'モック広告を閉じる',
+  language_system: '端末の言語を使用',
+  auto: '自動',
+  r_breakdown: '返済の内訳',
+  principal: '元金',
+  interest: '利息',
+  share: '結果を共有',
+  share_footer: '{app} で計算',
 };

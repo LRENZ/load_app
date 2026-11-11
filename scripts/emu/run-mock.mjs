@@ -8,6 +8,14 @@ const out = process.argv[2] || 'evidence/mock';
 setOutDir(out);
 const t0 = Date.now();
 
+// 1.1.0 focuses the errored field (keyboard open), so one Back may only close the keyboard.
+async function toTabs() {
+  hideKeyboard();
+  for (let i = 0; i < 5 && !find({ id: 'tab-index' }); i++) {
+    back();
+    await sleep(1200);
+  }
+}
 async function openDebug() {
   await tap({ id: 'tab-settings' });
   await scrollUntil({ id: 'settings-debug' });
@@ -82,7 +90,7 @@ await scenario('MOCK03', 'invalid calculate never triggers an ad', async () => {
   await tap({ id: 'calculate' });
   await sleep(1200);
   expect(!find({ id: 'mock-interstitial' }), 'ad shown on invalid input');
-  back();
+  await toTabs();
 });
 
 // ---- deterministic fixture scripts via deep link (see runScript in src/app/debug.tsx) ----
@@ -110,7 +118,7 @@ await scenario('MOCK04', 'natural cap: right after a shown interstitial, the nex
   const second = await script({ preload: 1, trigger: 'one' });
   expect(second.startsWith('outcome: skipped') && second.includes('interval'), 'second: ' + second);
   writeFileSync(join(out, 'MOCK04-outcomes.txt'), `first: ${first}\nsecond: ${second}\n`);
-  back();
+  await toTabs();
   await tap({ id: 'tab-index' }, 20_000);
   await tap({ id: 'tile-business' });
   await setField('input-amount', '5000');
@@ -155,7 +163,7 @@ await scenario('MOCK08', 'offline: opportunity skipped with reason offline', asy
 await scenario('MOCK09', 'NoOp adapter: deferred / not_configured, no native slot rendered', async () => {
   const r = await script({ adMode: 'noop', trigger: 'one' });
   expect(r === 'outcome: deferred not_configured', r);
-  back();
+  await toTabs();
   await tap({ id: 'tab-index' });
   await sleep(1500);
   expect(!find({ id: 'mock-native-NA_HOME' }), 'native shown in NoOp');

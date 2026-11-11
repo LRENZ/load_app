@@ -63,7 +63,7 @@ export function firebaseParams(params: EventParams = {}): Record<string, string 
 }
 
 /** Product events sent to Firebase. Params carry the loan type / outcome only, never loan inputs. */
-export const PRODUCT_EVENTS = new Set(['app_start', 'intro_complete', 'calc_success', 'calc_invalid', 'calc_failure', 'fx_load', 'rating_submit']);
+export const PRODUCT_EVENTS = new Set(['app_start', 'intro_complete', 'calc_success', 'calc_invalid', 'calc_failure', 'fx_load', 'rating_submit', 'result_share', 'install_attribution']);
 
 /**
  * Which local trace events go to Firebase. Ad-policy events (ad_opportunity,

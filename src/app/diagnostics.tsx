@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { Text, View } from 'react-native';
 import { firebaseStatus, onFirebaseStatus, sendTestNonFatal } from '../state/firebase.ts';
-import { adMode, APP_MODE, currentAdConfig, messaging } from '../state/services.ts';
+import { adMode, APP_MODE, attribution, currentAdConfig, messaging } from '../state/services.ts';
 import { Card, CardTitle, Header, PrimaryButton, Screen, snackbar } from '../ui/components.tsx';
 import { C } from '../ui/theme.ts';
 
@@ -41,6 +41,12 @@ export default function Diagnostics() {
         <Line id="diag-rc-keys" k="Ad-policy keys (chars)" v={JSON.stringify(s.remoteConfig.keys)} />
         <Line id="diag-ad-config" k="Ad policy in use" v={`${cfg.version} (${cfg.provenance})`} />
         <Line id="diag-ad-mode" k="Ad adapter" v={adMode() === 'mock' ? 'local mock (debug)' : 'NoOp placeholder: no ad SDK, no unit IDs'} />
+      </Card>
+      <Card>
+        <CardTitle>Traffic source (ad cohort)</CardTitle>
+        <Line id="diag-cohort" k="Cohort" v={attribution().cohort + (attribution().fixture ? ' (debug fixture)' : '')} />
+        <Line id="diag-network" k="Network" v={attribution().network ?? '—'} />
+        <Line id="diag-attr-source" k="Source" v={s.attribution ? `${s.attribution.source}${s.attribution.fresh ? ' (read this launch)' : ' (stored)'}` : 'not read yet (Play install referrer, after start-up)'} />
       </Card>
       <Card>
         <CardTitle>Cloud Messaging</CardTitle>

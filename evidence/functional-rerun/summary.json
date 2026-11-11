@@ -1,31 +1,91 @@
 {
-  "note": "Targeted re-run (ONLY=) after harness fixes; same APK as evidence/functional. RATE01 first failed here only because it started on the loan form (no tab bar); goHome() added and re-run.",
-  "startedAt": "2026-11-11T06:27:26.210Z",
-  "ms": 299485,
+  "note": "Targeted re-runs (ONLY=) on the same APK as evidence/functional, after test-script fixes: LANG checks used the pre-rename title; Back now closes the keyboard first (errored field is focused in 1.1.0); launch waits 60 s on the loaded emulator; RES01 presses Back until the share sheet closes; FX01 taps the app's Retry once (live network). Rerun A = first targeted run, rerun B = FX01/KEY01/RES01 again.",
+  "startedAt": "2026-11-11T12:18:39.208Z",
+  "ms": 895144,
   "results": [
     {
-      "id": "C03",
-      "title": "monthly payment too small (1 @ 0% 360 months)",
+      "id": "FX01",
+      "title": "exchange rate: live USD→EUR, amount, swap, cache",
       "status": "pass",
-      "ms": 87177
+      "ms": 82003,
+      "run": "rerun B"
     },
     {
-      "id": "C04",
-      "title": "rounded total below principal (0.17 @ 0.0001% 12 months)",
+      "id": "CLOCK01",
+      "title": "world clock shows four zones",
       "status": "pass",
-      "ms": 62916
+      "ms": 37850,
+      "run": "rerun A"
     },
     {
-      "id": "RATE01",
-      "title": "rating dialog: star selection, Submit, Close",
+      "id": "NOT02",
+      "title": "notification permission: deny keeps switch off",
       "status": "pass",
-      "ms": 46407
+      "ms": 42289,
+      "run": "rerun A"
     },
     {
-      "id": "FB05",
-      "title": "Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports",
+      "id": "LANG-es",
+      "title": "language es applies app-wide and survives restart",
       "status": "pass",
-      "ms": 85910
+      "ms": 54588,
+      "run": "rerun A"
+    },
+    {
+      "id": "LANG-zh-Hans",
+      "title": "language zh-Hans applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 62620,
+      "run": "rerun A"
+    },
+    {
+      "id": "LANG-ja",
+      "title": "language ja applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 62578,
+      "run": "rerun A"
+    },
+    {
+      "id": "LANG-ko",
+      "title": "language ko applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 58958,
+      "run": "rerun A"
+    },
+    {
+      "id": "LANG-pt-BR",
+      "title": "language pt-BR applies app-wide and survives restart",
+      "status": "pass",
+      "ms": 108100,
+      "run": "rerun A"
+    },
+    {
+      "id": "LANG-en",
+      "title": "back to English",
+      "status": "pass",
+      "ms": 20517,
+      "run": "rerun A"
+    },
+    {
+      "id": "KEY01",
+      "title": "keyboard Next moves amount → rate → term, Done calculates",
+      "status": "pass",
+      "ms": 56418,
+      "run": "rerun B"
+    },
+    {
+      "id": "RES01",
+      "title": "result summary: monthly, principal / interest split, Share opens the Android share sheet",
+      "status": "pass",
+      "ms": 72726,
+      "run": "rerun B"
+    },
+    {
+      "id": "ATTR01",
+      "title": "traffic source read from the Play install referrer after start-up and stored (sideload = natural)",
+      "status": "pass",
+      "ms": 71788,
+      "run": "rerun A"
     }
   ]
 }

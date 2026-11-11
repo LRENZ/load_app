@@ -1,4 +1,5 @@
 import { Stack, router, usePathname } from 'expo-router';
+import { useLocales } from 'expo-localization';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
@@ -6,8 +7,8 @@ import { Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { kv, KEYS } from '../storage/kv.ts';
 import { appStore, useApp } from '../state/app.ts';
-import { ads, analytics, localCrash } from '../state/services.ts';
-import { trackScreen } from '../state/firebase.ts';
+import { ads, analytics, ensureAttribution, localCrash } from '../state/services.ts';
+import { afterFirstScreen, trackScreen } from '../state/firebase.ts';
 import { permissionState, requestPermission } from '../state/notifications.ts';
 import { Dialog, PrimaryButton, SnackbarHost, TextButton } from '../ui/components.tsx';
 import { MockInterstitialHost } from '../ui/ads.tsx';
@@ -41,7 +42,15 @@ export default function RootLayout() {
       void SplashScreen.hideAsync().catch(() => undefined);
       if (!appStore.get().introDone) router.replace('/intro');
     });
+    // Traffic source (Play install referrer) → ad cohort; off the start-up path.
+    void afterFirstScreen().then(() => ensureAttribution());
   }, []);
+
+  // Device / per-app language changed while the app is open → follow it (when set to Use device language).
+  const locales = useLocales();
+  useEffect(() => {
+    appStore.refreshFromDevice();
+  }, [locales]);
 
   // Firebase Analytics screen views (ids collapsed: /result/42 → result/[id]).
   useEffect(() => {

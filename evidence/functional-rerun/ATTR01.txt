@@ -1,0 +1,3 @@
+cohort: natural
+network: organic
+source: install_referrer (stored)

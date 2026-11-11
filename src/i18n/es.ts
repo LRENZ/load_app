@@ -1,7 +1,7 @@
 import type { Strings } from './en.ts';
 
 export const es: Strings = {
-  app_name: 'Loan Calc',
+  app_name: 'Repayly',
   cancel: 'Cancelar',
   confirm: 'Confirmar',
   ok: 'Aceptar',
@@ -21,7 +21,7 @@ export const es: Strings = {
   tab_tools: 'Herramientas',
   tab_settings: 'Ajustes',
 
-  home_title: 'Calculadora de préstamos EMI',
+  home_title: 'Repayly',
   home_subtitle: 'Calcula. Planifica. Paga.',
   loan_personal: 'Préstamo personal',
   loan_business: 'Préstamo empresarial',
@@ -221,4 +221,11 @@ export const es: Strings = {
   mock_ad_label: 'Anuncio simulado local',
   mock_ad_body: 'Creatividad de prueba del adaptador simulado local. No es un anuncio real ni genera ingresos reales.',
   mock_ad_close: 'Cerrar anuncio simulado',
+  language_system: 'Usar idioma del dispositivo',
+  auto: 'Automático',
+  r_breakdown: 'Desglose del pago',
+  principal: 'Capital',
+  interest: 'Intereses',
+  share: 'Compartir resultado',
+  share_footer: 'Calculado con {app}',
 };

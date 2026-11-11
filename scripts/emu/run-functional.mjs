@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  back, dump, expect, find, forceStop, hideKeyboard, launch, longPress, PKG, scenario, screenshot,
+  back, dump, expect, find, forceStop, hideKeyboard, launch, longPress, PKG, scenario, screenshot, typeText,
   scrollUntil, setBeforeEach, setField, setOutDir, shell, sleep, summary, tap, texts, waitFor,
 } from './driver.mjs';
 
@@ -17,7 +17,7 @@ setBeforeEach(async (id) => {
   hideKeyboard();
   if (!shell('dumpsys activity activities | grep topResumedActivity').includes(PKG)) {
     launch();
-    await waitFor({ id: 'tab-index' }, 30_000);
+    await waitFor({ id: 'tab-index' }, 60_000);
   }
 });
 const today = new Date();
@@ -35,7 +35,7 @@ async function goHome() {
   hideKeyboard();
   if (!shell('dumpsys activity activities | grep topResumedActivity').includes(PKG)) {
     launch();
-    await waitFor({ id: 'tab-index' }, 30_000);
+    await waitFor({ id: 'tab-index' }, 60_000);
   }
   for (let i = 0; i < 6 && !find({ id: 'tab-index' }); i++) {
     back();
@@ -369,7 +369,15 @@ for (const [tool, input, expected, reverse] of [
 }
 
 await scenario('FX01', 'exchange rate: live USD→EUR, amount, swap, cache', async () => {
+  await goHome();
+  await tap({ id: 'tab-tools' });
   await tap({ id: 'tool-fx' });
+  // live network call: one Retry if the rate service is slow (the app shows its own Retry)
+  try {
+    await waitFor({ id: 'fx-rate-line' }, 25_000);
+  } catch {
+    await tap({ text: 'Retry' });
+  }
   await waitFor({ id: 'fx-rate-line' }, 25_000);
   const line = find({ id: 'fx-rate-line' }).text;
   expect(/^1 USD = [\d.]+ EUR$/.test(line), `rate line ${line}`);
@@ -386,6 +394,8 @@ await scenario('FX01', 'exchange rate: live USD→EUR, amount, swap, cache', asy
 });
 
 await scenario('CLOCK01', 'world clock shows four zones', async () => {
+  await goHome();
+  await tap({ id: 'tab-tools' });
   await tap({ id: 'tool-clock' });
   for (const c of ['taipei', 'london', 'new_york', 'tokyo']) {
     const n = await waitFor({ id: `clock-${c}` });
@@ -472,11 +482,11 @@ await scenario('NOT03', 'notification permission: grant shows a local preview', 
 });
 
 const LANGS = [
-  ['es', 'Calculadora de préstamos EMI', 'Ajustes'],
-  ['zh-Hans', 'EMI 贷款计算器', '设置'],
-  ['ja', 'EMI ローン計算機', '設定'],
-  ['ko', 'EMI 대출 계산기', '설정'],
-  ['pt-BR', 'Calculadora de empréstimo EMI', 'Configurações'],
+  ['es', 'Calcula. Planifica. Paga.', 'Ajustes'],
+  ['zh-Hans', '计算 · 规划 · 还款', '设置'],
+  ['ja', '計算・計画・返済', '設定'],
+  ['ko', '계산하고, 계획하고, 상환하세요.', '설정'],
+  ['pt-BR', 'Calcule. Planeje. Pague.', 'Configurações'],
 ];
 await scenario('LANG00', 'language: Back without Confirm does not change language', async () => {
   await tap({ id: 'tab-settings' });
@@ -486,6 +496,7 @@ await scenario('LANG00', 'language: Back without Confirm does not change languag
   await waitFor({ id: 'settings-language' });
   expect(has('Settings'), 'language changed without confirm');
 });
+// Home check uses the localized tagline (the title is the brand "Repayly" in every language).
 for (const [code, homeTitle, settingsTitle] of LANGS) {
   await scenario(`LANG-${code}`, `language ${code} applies app-wide and survives restart`, async () => {
     await tap({ id: 'tab-settings' });
@@ -496,12 +507,13 @@ for (const [code, homeTitle, settingsTitle] of LANGS) {
     screenshot(`lang-${code}-settings`);
     forceStop();
     launch();
-    await waitFor({ text: homeTitle }, 30_000);
+    await waitFor({ text: homeTitle }, 60_000);
     screenshot(`lang-${code}-home`);
     await tap({ id: 'tile-personal' });
     await calculate();
     await sleep(600);
     screenshot(`lang-${code}-validation`);
+    hideKeyboard(); // the errored field is focused (1.1.0), so the keyboard is open
     back();
     await tap({ id: 'tab-tools' });
     screenshot(`lang-${code}-tools`);
@@ -513,6 +525,113 @@ await scenario('LANG-en', 'back to English', async () => {
   await tap({ id: 'lang-en' });
   await tap({ id: 'lang-confirm' });
   await waitFor({ text: 'Settings' });
+});
+
+await scenario('LANG-SYS', 'Use device language: follows a live device-language change, a restart, and the Android per-app language', async () => {
+  const pidOf = () => shell(`pidof ${PKG}`).trim();
+  try {
+    await goHome();
+    await tap({ id: 'tab-settings' });
+    await tap({ id: 'settings-language' });
+    await tap({ id: 'lang-system' });
+    screenshot('lang-system-option');
+    await tap({ id: 'lang-confirm' });
+    await waitFor({ contains: 'English · Auto' }, 10_000);
+    // 1) device language changes while the app is open → app follows without a restart
+    const pid = pidOf();
+    shell('cmd locale set-device-locale es-ES');
+    await waitFor({ text: 'Ajustes' }, 20_000);
+    expect(pidOf() === pid, 'app restarted on device-language change');
+    screenshot('lang-device-es-live');
+    // 2) still Spanish after a cold start
+    launch();
+    await waitFor({ text: 'Inicio' }, 30_000);
+    // 3) Android 13+ per-app language (Settings → Apps → Repayly → Language) wins over the device
+    shell(`cmd locale set-app-locales ${PKG} --locales ja`);
+    await waitFor({ text: 'ホーム' }, 20_000);
+    screenshot('lang-per-app-ja');
+    shell(`cmd locale set-app-locales ${PKG} --locales ""`);
+    await waitFor({ text: 'Inicio' }, 20_000);
+  } finally {
+    shell(`cmd locale set-app-locales ${PKG} --locales ""`);
+    shell('cmd locale set-device-locale en-US');
+  }
+  await waitFor({ text: 'Home' }, 20_000);
+});
+
+await scenario('KEY01', 'keyboard Next moves amount → rate → term, Done calculates', async () => {
+  await openTile('personal');
+  await tap({ id: 'reset-fields' });
+  await setField('input-amount', '10000');
+  shell('input keyevent KEYCODE_ENTER'); // Next → rate (no tap)
+  await sleep(600);
+  typeText('6');
+  shell('input keyevent KEYCODE_ENTER'); // Next → term
+  await sleep(600);
+  typeText('12');
+  shell('input keyevent KEYCODE_ENTER'); // Done → calculate
+  await waitFor({ id: 'r-monthly' }, 15_000);
+  expect(find({ id: 'r-monthly' }).text === '£860.66', 'monthly ' + find({ id: 'r-monthly' }).text);
+});
+
+await scenario('RES01', 'result summary: monthly, principal / interest split, Share opens the Android share sheet', async () => {
+  await waitFor({ id: 'r-hero' });
+  expect(find({ id: 'r-hero-monthly' }).text === '£860.66', 'hero monthly');
+  expect(has('96.8%') && has('3.2%'), 'split percentages missing');
+  screenshot('result-summary');
+  await tap({ id: 'r-share' });
+  const t0 = Date.now();
+  let top = '';
+  while (Date.now() - t0 < 15_000) {
+    try {
+      top = shell('dumpsys activity activities | grep -E "topResumedActivity|mCurrentFocus"; dumpsys window | grep mCurrentFocus');
+    } catch {
+      top = ''; // grep finds nothing while the chooser is starting
+    }
+    if (/intentresolver|ChooserActivity|ResolverActivity/i.test(top)) break;
+    await sleep(800);
+  }
+  expect(/intentresolver|ChooserActivity|ResolverActivity/i.test(top), 'share sheet not shown: ' + top.trim());
+  screenshot('result-share-sheet');
+  // the chooser can take a while to close on a busy device: Back until the result screen is back
+  for (let i = 0; i < 4 && !find({ id: 'r-hero' }); i++) {
+    back();
+    await sleep(3000);
+  }
+  await waitFor({ id: 'r-hero' }, 20_000);
+  back();
+});
+
+await scenario('VAL02', 'validation message stays under the field and clears when the field is edited', async () => {
+  await openTile('personal');
+  await tap({ id: 'reset-fields' });
+  hideKeyboard();
+  await tap({ id: 'calculate' });
+  await waitFor({ id: 'input-amount-error' }, 8000);
+  expect(find({ id: 'input-amount-error' }).text === 'Enter a loan amount.', 'inline text');
+  await sleep(4500); // longer than the old 3.5 s snackbar
+  expect(!!find({ id: 'input-amount-error' }), 'inline error disappeared on its own');
+  screenshot('validation-inline');
+  await setField('input-amount', '5');
+  expect(!find({ id: 'input-amount-error' }), 'error not cleared after editing');
+  hideKeyboard();
+  back();
+});
+
+await scenario('ATTR01', 'traffic source read from the Play install referrer after start-up and stored (sideload = natural)', async () => {
+  launch();
+  await waitFor({ id: 'tab-index' }, 60_000);
+  await sleep(6000); // read runs ~1.5 s after the first screen
+  await tap({ id: 'tab-settings' });
+  await scrollUntil({ id: 'settings-version' }, 8);
+  await longPress({ id: 'settings-version' });
+  await scrollUntil({ id: 'diag-attr-source' }, 6);
+  const src = find({ id: 'diag-attr-source' }).text;
+  writeFileSync(join(out, 'ATTR01.txt'), `cohort: ${find({ id: 'diag-cohort' }).text}\nnetwork: ${find({ id: 'diag-network' }).text}\nsource: ${src}\n`);
+  expect(find({ id: 'diag-cohort' }).text === 'natural', 'cohort');
+  expect(/^install_referrer/.test(src) || /^not read yet/.test(src), 'source ' + src);
+  screenshot('attribution');
+  back();
 });
 
 await scenario('LAYOUT360', '360 dp width: home, form and result remain usable', async () => {
@@ -639,7 +758,7 @@ await scenario('FB05', 'Crashlytics: labelled test non-fatal recorded, sent on n
   await waitFor({ text: 'Test report recorded' });
   shell('logcat -c');
   launch(); // force-stop + start: Crashlytics sends stored reports on the next start
-  await waitFor({ id: 'tab-index' }, 30_000);
+  await waitFor({ id: 'tab-index' }, 60_000);
   const sent = (l) => /Crashlytics report successfully enqueued to DataTransport/.test(l);
   const uploaded = (l) => /crashlyticsreports-pa\.googleapis\.com[\s\S]*Status Code: 200/.test(l);
   let cl = '';

@@ -1,0 +1,206 @@
+{
+  "app_open": {
+    "bidding_platforms": {
+      "admob": true,
+      "pangle": false,
+      "topon": false,
+      "gam": false,
+      "max": false
+    },
+    "total_frequency_limits": {
+      "max_daily_show": 5,
+      "max_daily_click": 10
+    },
+    "bidding_frequency_limits": {
+      "admob": {
+        "max_daily_show": 2,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "pangle": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "topon": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "gam": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "max": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      }
+    }
+  },
+  "interstitial": {
+    "bidding_platforms": {
+      "admob": true,
+      "pangle": false,
+      "topon": false,
+      "gam": false,
+      "max": false
+    },
+    "total_frequency_limits": {
+      "max_daily_show": 5,
+      "max_daily_click": 10
+    },
+    "bidding_frequency_limits": {
+      "admob": {
+        "max_daily_show": 2,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "pangle": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "topon": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "gam": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "max": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      }
+    }
+  },
+  "native": {
+    "bidding_platforms": {
+      "admob": true,
+      "pangle": false,
+      "topon": false,
+      "gam": false,
+      "max": false
+    },
+    "total_frequency_limits": {
+      "max_daily_show": 5,
+      "max_daily_click": 10
+    },
+    "bidding_frequency_limits": {
+      "admob": {
+        "max_daily_show": 2,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "pangle": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "topon": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "gam": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "max": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      }
+    }
+  },
+  "rewarded": {
+    "bidding_platforms": {
+      "admob": false,
+      "pangle": false,
+      "topon": false,
+      "gam": false,
+      "max": false
+    },
+    "total_frequency_limits": {
+      "max_daily_show": 0,
+      "max_daily_click": 10
+    },
+    "bidding_frequency_limits": {
+      "admob": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "pangle": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "topon": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "gam": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "max": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      }
+    }
+  },
+  "banner": {
+    "bidding_platforms": {
+      "admob": false,
+      "pangle": false,
+      "topon": false,
+      "gam": false,
+      "max": false
+    },
+    "total_frequency_limits": {
+      "max_daily_show": 0,
+      "max_daily_click": 10
+    },
+    "bidding_frequency_limits": {
+      "admob": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "pangle": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "topon": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 0
+      },
+      "gam": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      },
+      "max": {
+        "max_daily_show": 0,
+        "max_daily_click": 10,
+        "min_interval": 120
+      }
+    }
+  },
+  "ad_strategies": {
+    "fullscreen_native_after_interstitial": 0,
+    "app_open_after_interstitial": 0
+  }
+}

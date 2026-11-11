@@ -1,5 +1,5 @@
 import { router, useFocusEffect } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { today } from '../core/localDate.ts';
 import {
@@ -16,7 +16,7 @@ import { history } from '../storage/history.ts';
 import { useApp } from '../state/app.ts';
 import { formBus, newOperationId } from '../state/formBus.ts';
 import { analytics, crash } from '../state/services.ts';
-import { Card, CardTitle, Field, Header, PrimaryButton, Screen, snackbar, TextButton } from '../ui/components.tsx';
+import { Card, CardTitle, Field, FormMessage, Header, PrimaryButton, Screen, snackbar, TextButton } from '../ui/components.tsx';
 import { CurrencyPrefix, useReturnToHomeOpportunity } from '../ui/formParts.tsx';
 import { NativeAdSlot, withFullScreenAd } from '../ui/ads.tsx';
 import { C, R } from '../ui/theme.ts';
@@ -40,6 +40,20 @@ export default function MortgageForm() {
   const [f, setF] = useState<MortgageFormInput>(EMPTY);
   const [lastDp, setLastDp] = useState<'amount' | 'percent'>('amount');
   const [errField, setErrField] = useState<keyof MortgageFormInput | null>(null);
+  const [errMsg, setErrMsg] = useState<string | null>(null);
+  const [formErr, setFormErr] = useState<string | null>(null);
+  // Keyboard "Next" walks the fields in screen order; "Done" on the last one calculates.
+  const inputs = useRef<Partial<Record<keyof MortgageFormInput, React.ComponentRef<typeof TextInput> | null>>>({});
+  const bind = (key: keyof MortgageFormInput) => (r: React.ComponentRef<typeof TextInput> | null) => {
+    inputs.current[key] = r;
+  };
+  const keyNav = (key: keyof MortgageFormInput) => {
+    const i = FIELD_ORDER.indexOf(key);
+    const next = FIELD_ORDER[i + 1];
+    return next
+      ? { returnKeyType: 'next' as const, submitBehavior: 'submit' as const, onSubmitEditing: () => inputs.current[next]?.focus() }
+      : { returnKeyType: 'done' as const, onSubmitEditing: () => calculate() };
+  };
   const [busy, setBusy] = useState(false);
   useReturnToHomeOpportunity('mortgage_form');
 
@@ -49,6 +63,7 @@ export default function MortgageForm() {
       if (p?.action === 'reset') {
         setF(EMPTY);
         setErrField(null);
+        setErrMsg(null);
       } else if (p?.action === 'load') {
         const r = p.record;
         setF({
@@ -75,6 +90,8 @@ export default function MortgageForm() {
   /** Amount ⇄ percentage coupling; recomputes only the other field, so no update loop. */
   const edit = (key: keyof MortgageFormInput, raw: string) => {
     setErrField(null);
+    setErrMsg(null);
+    setFormErr(null);
     setF((prev) => {
       const next = { ...prev, [key]: raw };
       const home = homeValue(key === 'homePrice' ? raw : prev.homePrice);
@@ -106,13 +123,14 @@ export default function MortgageForm() {
     const v = validateMortgageForm(f);
     if (!v.ok) {
       setErrField(v.field);
-      snackbar.show(t(`m_err_${v.error}` as StringKey));
+      setErrMsg(t(`m_err_${v.error}` as StringKey));
+      inputs.current[v.field]?.focus();
       analytics.track('calc_invalid', { type: 'mortgage', error: v.error });
       return;
     }
     const r = calculateMortgage(v.value);
     if (!r.ok) {
-      snackbar.show(t(`m_fail_${r.failure}` as StringKey));
+      setFormErr(t(`m_fail_${r.failure}` as StringKey));
       analytics.track('calc_failure', { type: 'mortgage', failure: r.failure });
       return;
     }
@@ -138,8 +156,10 @@ export default function MortgageForm() {
       label={t(label)}
       icon={icon}
       error={errField === key}
+      errorText={errMsg}
+      inputRef={bind(key)}
       testID={`input-${key}`}
-      inputProps={{ value: f[key], onChangeText: (s) => edit(key, sanitizeDecimalTyping(s, 2)), placeholder: t(placeholder), keyboardType: 'decimal-pad', maxLength: 16 }}
+      inputProps={{ value: f[key], onChangeText: (s) => edit(key, sanitizeDecimalTyping(s, 2)), placeholder: t(placeholder), keyboardType: 'decimal-pad', maxLength: 16, ...keyNav(key) }}
     />
   );
 
@@ -150,14 +170,19 @@ export default function MortgageForm() {
           label={t('m_home_price')}
           icon="home-outline"
           error={errField === 'homePrice'}
+          errorText={errMsg}
+          inputRef={bind('homePrice')}
           testID="input-homePrice"
           prefix={<CurrencyPrefix currency={currency} t={t} />}
-          inputProps={{ value: f.homePrice, onChangeText: (s) => edit('homePrice', sanitizeDecimalTyping(s, 2)), placeholder: t('m_home_price_placeholder'), keyboardType: 'decimal-pad', maxLength: 16 }}
+          inputProps={{ value: f.homePrice, onChangeText: (s) => edit('homePrice', sanitizeDecimalTyping(s, 2)), placeholder: t('m_home_price_placeholder'), keyboardType: 'decimal-pad', maxLength: 16, ...keyNav('homePrice') }}
         />
         <Field label={t('m_down_payment')} icon="cash-plus" />
         <View style={s.dpRow}>
           <View style={[s.dpBox, errField === 'downPayment' && s.err, { flex: 1.4 }]}>
             <TextInput
+              ref={bind('downPayment')}
+              {...keyNav('downPayment')}
+              accessibilityLabel={t('m_down_payment')}
               testID="input-downPayment"
               value={f.downPayment}
               onChangeText={(x) => edit('downPayment', sanitizeDecimalTyping(x, 2))}
@@ -170,6 +195,9 @@ export default function MortgageForm() {
           </View>
           <View style={[s.dpBox, errField === 'downPaymentPercent' && s.err, { flex: 1 }]}>
             <TextInput
+              ref={bind('downPaymentPercent')}
+              {...keyNav('downPaymentPercent')}
+              accessibilityLabel={`${t('m_down_payment')} %`}
               testID="input-downPaymentPercent"
               value={f.downPaymentPercent}
               onChangeText={(x) => edit('downPaymentPercent', sanitizeDecimalTyping(x, 2))}
@@ -182,20 +210,29 @@ export default function MortgageForm() {
             <Text style={s.pct}>%</Text>
           </View>
         </View>
+        {(errField === 'downPayment' || errField === 'downPaymentPercent') && errMsg ? (
+          <Text testID="input-downPayment-error" style={s.errText} accessibilityLiveRegion="polite">
+            {errMsg}
+          </Text>
+        ) : null}
         <Field
           label={t('m_loan_term')}
           icon="calendar-range"
           error={errField === 'term'}
+          errorText={errMsg}
+          inputRef={bind('term')}
           testID="input-term"
-          inputProps={{ value: f.term, onChangeText: (x) => edit('term', x.replace(/[^0-9]/g, '')), placeholder: t('term_placeholder'), keyboardType: 'number-pad', maxLength: 3 }}
+          inputProps={{ value: f.term, onChangeText: (x) => edit('term', x.replace(/[^0-9]/g, '')), placeholder: t('term_placeholder'), keyboardType: 'number-pad', maxLength: 3, ...keyNav('term') }}
           suffix={<Text style={s.unit}>{t('years')}</Text>}
         />
         <Field
           label={t('m_annual_rate')}
           icon="percent-outline"
           error={errField === 'rate'}
+          errorText={errMsg}
+          inputRef={bind('rate')}
           testID="input-rate"
-          inputProps={{ value: f.rate, onChangeText: (x) => edit('rate', sanitizeDecimalTyping(x, 4)), placeholder: t('rate_placeholder'), keyboardType: 'decimal-pad', maxLength: 9 }}
+          inputProps={{ value: f.rate, onChangeText: (x) => edit('rate', sanitizeDecimalTyping(x, 4)), placeholder: t('rate_placeholder'), keyboardType: 'decimal-pad', maxLength: 9, ...keyNav('rate') }}
           suffix={<Text style={s.unit}>%</Text>}
         />
       </Card>
@@ -205,6 +242,7 @@ export default function MortgageForm() {
         {money('pmi', 'm_pmi', 'shield-check-outline')}
         {money('hoa', 'm_hoa', 'office-building-outline')}
         {money('insurance', 'm_insurance', 'umbrella-outline')}
+        <FormMessage text={formErr} />
         <PrimaryButton testID="calculate" title={t('calculate')} onPress={calculate} busy={busy} />
         <TextButton
           testID="reset-fields"
@@ -212,6 +250,8 @@ export default function MortgageForm() {
           onPress={() => {
             setF(EMPTY);
             setErrField(null);
+            setErrMsg(null);
+            setFormErr(null);
           }}
         />
       </Card>
@@ -220,7 +260,10 @@ export default function MortgageForm() {
   );
 }
 
+const FIELD_ORDER: (keyof MortgageFormInput)[] = ['homePrice', 'downPayment', 'downPaymentPercent', 'term', 'rate', 'propertyTax', 'pmi', 'hoa', 'insurance'];
+
 const s = StyleSheet.create({
+  errText: { color: C.danger, fontSize: 13.5, lineHeight: 18, marginTop: -10, marginBottom: 14, paddingHorizontal: 4 },
   dpRow: { flexDirection: 'row', gap: 10, marginTop: -8, marginBottom: 16 },
   dpBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: C.inputBg, borderRadius: R.input, minHeight: 50, paddingHorizontal: 12, borderWidth: 1.5, borderColor: 'transparent' },
   err: { borderColor: C.danger, backgroundColor: C.dangerSoft },

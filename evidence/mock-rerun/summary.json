@@ -1,0 +1,24 @@
+{
+  "startedAt": "2026-11-11T13:00:21.628Z",
+  "ms": 144250,
+  "results": [
+    {
+      "id": "MOCK03",
+      "title": "invalid calculate never triggers an ad",
+      "status": "pass",
+      "ms": 29852
+    },
+    {
+      "id": "MOCK04",
+      "title": "natural cap: right after a shown interstitial, the next opportunity and a real Calculate show no ad (120 s AdMob interval)",
+      "status": "pass",
+      "ms": 82838
+    },
+    {
+      "id": "MOCK09",
+      "title": "NoOp adapter: deferred / not_configured, no native slot rendered",
+      "status": "pass",
+      "ms": 31555
+    }
+  ]
+}

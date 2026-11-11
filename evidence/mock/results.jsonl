@@ -1,11 +1,11 @@
-{"id":"MOCK00","title":"fresh mock build: intro Skip saves completion; onboarding opportunity continues","status":"pass","ms":26632}
-{"id":"MOCK01","title":"native slot fills with a labelled Local mock ad after preload","status":"pass","ms":14331}
-{"id":"MOCK02","title":"calculation interstitial: shown after valid calculate, result after close, synthetic revenue","status":"pass","ms":174218}
-{"id":"MOCK03","title":"invalid calculate never triggers an ad","status":"pass","ms":16980}
-{"id":"MOCK04","title":"natural cap: right after a shown interstitial, the next opportunity and a real Calculate show no ad (120 s AdMob interval)","status":"pass","ms":72720}
-{"id":"MOCK05","title":"no fill, show failure and duplicate callbacks continue exactly once","status":"pass","ms":30410}
-{"id":"MOCK06","title":"two triggers at once: second reports presentation_busy, first still completes","status":"pass","ms":12577}
-{"id":"MOCK07","title":"risk fixture (simulator) excludes AdMob → no platform for natural","status":"pass","ms":15226}
-{"id":"MOCK08","title":"offline: opportunity skipped with reason offline","status":"pass","ms":14089}
-{"id":"MOCK09","title":"NoOp adapter: deferred / not_configured, no native slot rendered","status":"pass","ms":24596}
-{"id":"MOCK10","title":"mock build: Firebase initialised but collection off (no test analytics, crashes or synthetic revenue sent)","status":"pass","ms":51824}
+{"id":"MOCK00","title":"fresh mock build: intro Skip saves completion; onboarding opportunity continues","status":"pass","ms":41731}
+{"id":"MOCK01","title":"native slot fills with a labelled Local mock ad after preload","status":"pass","ms":13914}
+{"id":"MOCK02","title":"calculation interstitial: shown after valid calculate, result after close, synthetic revenue","status":"pass","ms":185533}
+{"id":"MOCK03","title":"invalid calculate never triggers an ad","status":"pass","ms":17830}
+{"id":"MOCK04","title":"natural cap: right after a shown interstitial, the next opportunity and a real Calculate show no ad (120 s AdMob interval)","status":"fail","ms":44777,"error":"timeout waiting for {\"id\":\"tab-index\"}","shot":"evidence\\mock\\screens\\FAIL-MOCK04.png"}
+{"id":"MOCK05","title":"no fill, show failure and duplicate callbacks continue exactly once","status":"pass","ms":29483}
+{"id":"MOCK06","title":"two triggers at once: second reports presentation_busy, first still completes","status":"pass","ms":12742}
+{"id":"MOCK07","title":"risk fixture (simulator) excludes AdMob → no platform for natural","status":"pass","ms":14755}
+{"id":"MOCK08","title":"offline: opportunity skipped with reason offline","status":"pass","ms":13525}
+{"id":"MOCK09","title":"NoOp adapter: deferred / not_configured, no native slot rendered","status":"fail","ms":24660,"error":"timeout waiting for {\"id\":\"tab-index\"}","shot":"evidence\\mock\\screens\\FAIL-MOCK09.png"}
+{"id":"MOCK10","title":"mock build: Firebase initialised but collection off (no test analytics, crashes or synthetic revenue sent)","status":"pass","ms":49429}

@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React, { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore, type ReactNode, type Ref } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -24,6 +24,19 @@ export type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name
 
 export function Icon({ name, size = 22, color = C.text }: { name: IconName; size?: number; color?: string }) {
   return <MaterialCommunityIcons name={name} size={size} color={color} />;
+}
+
+/** A calculation problem that is not tied to one field; stays until the form is edited. */
+export function FormMessage({ text, testID = 'form-error' }: { text: string | null; testID?: string }) {
+  if (!text) return null;
+  return (
+    <View style={styles.formMsg} accessibilityLiveRegion="polite">
+      <Icon name="alert-circle-outline" size={18} color={C.danger} />
+      <Text testID={testID} style={styles.formMsgText}>
+        {text}
+      </Text>
+    </View>
+  );
 }
 
 /** Secondary-page header with back control. */
@@ -138,6 +151,8 @@ export function Field({
   suffix,
   inputProps,
   testID,
+  errorText,
+  inputRef,
 }: {
   label: string;
   icon: IconName;
@@ -146,6 +161,10 @@ export function Field({
   suffix?: ReactNode;
   inputProps?: TextInputProps;
   testID?: string;
+  /** Shown under the input while `error` is set (stays until the field is edited). */
+  errorText?: string | null;
+  /** For keyboard "Next" chaining between fields. */
+  inputRef?: Ref<React.ComponentRef<typeof TextInput>>;
 }) {
   return (
     <View style={styles.field}>
@@ -159,14 +178,24 @@ export function Field({
         {prefix}
         {inputProps && (
           <TextInput
+            ref={inputRef}
             testID={testID}
             placeholderTextColor={C.faint}
             style={styles.input}
+            accessibilityLabel={label}
             {...inputProps}
           />
         )}
         {suffix}
       </View>
+      {error && errorText ? (
+        <View style={styles.errorRow} accessibilityLiveRegion="polite">
+          <Icon name="alert-circle-outline" size={16} color={C.danger} />
+          <Text testID={testID ? `${testID}-error` : undefined} style={styles.errorText}>
+            {errorText}
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -281,6 +310,10 @@ export const styles = StyleSheet.create({
   fieldLabel: { fontSize: 15, fontWeight: '600', color: C.text, flexShrink: 1 },
   inputWrap: { flexDirection: 'row', alignItems: 'center', backgroundColor: C.inputBg, borderRadius: R.input, minHeight: 50, paddingHorizontal: 12, borderWidth: 1.5, borderColor: 'transparent' },
   inputError: { borderColor: C.danger, backgroundColor: C.dangerSoft },
+  errorRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, paddingHorizontal: 4 },
+  formMsg: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, backgroundColor: C.dangerSoft, borderRadius: 12, padding: 12, marginBottom: 12 },
+  formMsgText: { color: C.danger, fontSize: 14, lineHeight: 20, flex: 1, fontWeight: '600' },
+  errorText: { color: C.danger, fontSize: 13.5, lineHeight: 18, flex: 1 },
   input: { flex: 1, fontSize: 17, color: C.text, paddingVertical: 10, minWidth: 40 },
   backdrop: { flex: 1, backgroundColor: C.overlay, alignItems: 'center', justifyContent: 'center', padding: 24 },
   dialog: { backgroundColor: C.card, borderRadius: 22, padding: 20, width: '100%', maxWidth: 420 },

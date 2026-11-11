@@ -1,7 +1,7 @@
 import type { Strings } from './en.ts';
 
 export const ko: Strings = {
-  app_name: 'Loan Calc',
+  app_name: 'Repayly',
   cancel: '취소',
   confirm: '확인',
   ok: '확인',
@@ -21,7 +21,7 @@ export const ko: Strings = {
   tab_tools: '도구',
   tab_settings: '설정',
 
-  home_title: 'EMI 대출 계산기',
+  home_title: 'Repayly',
   home_subtitle: '계산하고, 계획하고, 상환하세요.',
   loan_personal: '개인 대출',
   loan_business: '사업자 대출',
@@ -221,4 +221,11 @@ export const ko: Strings = {
   mock_ad_label: '로컬 모의 광고',
   mock_ad_body: '로컬 모의 어댑터의 테스트 소재입니다. 실제 광고가 아니며 실제 수익도 없습니다.',
   mock_ad_close: '모의 광고 닫기',
+  language_system: '기기 언어 사용',
+  auto: '자동',
+  r_breakdown: '상환 구성',
+  principal: '원금',
+  interest: '이자',
+  share: '결과 공유',
+  share_footer: '{app}로 계산함',
 };

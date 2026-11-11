@@ -1,6 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { parseIso, today, type LocalDate } from '../../core/localDate.ts';
 import {
   calculateLoan,
@@ -15,7 +15,7 @@ import { history } from '../../storage/history.ts';
 import { useApp } from '../../state/app.ts';
 import { formBus, newOperationId } from '../../state/formBus.ts';
 import { analytics, crash } from '../../state/services.ts';
-import { Card, Field, Header, Icon, PrimaryButton, Screen, snackbar, TextButton } from '../../ui/components.tsx';
+import { Card, Field, FormMessage, Header, Icon, PrimaryButton, Screen, snackbar, TextButton } from '../../ui/components.tsx';
 import { CurrencyPrefix, DateField, useReturnToHomeOpportunity } from '../../ui/formParts.tsx';
 import { TermUnitMenu } from '../../ui/pickers.tsx';
 import { NativeAdSlot, withFullScreenAd } from '../../ui/ads.tsx';
@@ -40,6 +40,11 @@ export default function LoanForm() {
   const { t, currency, language } = useApp();
   const [f, setF] = useState<FormState>(empty);
   const [errField, setErrField] = useState<keyof LoanFormInput | null>(null);
+  const [errMsg, setErrMsg] = useState<string | null>(null);
+  const [formErr, setFormErr] = useState<string | null>(null);
+  const amountRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const rateRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const termRef = useRef<React.ComponentRef<typeof TextInput>>(null);
   const [menu, setMenu] = useState<{ x: number; y: number; width: number } | null>(null);
   const [busy, setBusy] = useState(false);
   const unitRef = useRef<React.ComponentRef<typeof View>>(null);
@@ -51,6 +56,7 @@ export default function LoanForm() {
       if (p?.action === 'reset') {
         setF(empty());
         setErrField(null);
+        setErrMsg(null);
       } else if (p?.action === 'load') {
         const r = p.record;
         setF({
@@ -68,20 +74,29 @@ export default function LoanForm() {
   const set = (patch: Partial<FormState>) => {
     setF((prev) => ({ ...prev, ...patch }));
     setErrField(null);
+    setErrMsg(null);
+    setFormErr(null);
   };
 
   const calculate = () => {
     if (busy) return;
     const v = validateLoanForm(f);
     if (!v.ok) {
+      const msg = t(`err_${v.error}` as never);
       setErrField(v.field);
-      snackbar.show(t(`err_${v.error}` as never));
+      // Field errors stay under the field until it is edited; the start date has no text field, so it keeps the snackbar.
+      if (v.field === 'startDate') snackbar.show(msg);
+      else {
+        setErrMsg(msg);
+        const refs: Partial<Record<keyof LoanFormInput, React.RefObject<React.ComponentRef<typeof TextInput> | null>>> = { amount: amountRef, rate: rateRef, term: termRef };
+        refs[v.field]?.current?.focus();
+      }
       analytics.track('calc_invalid', { type, error: v.error });
       return;
     }
     const r = calculateLoan(v.value.principal, v.value.rate, v.value.termMonths, v.value.startDate);
     if (!r.ok) {
-      snackbar.show(t(r.failure === 'payment_too_small' ? 'fail_payment_too_small' : 'fail_total_below_principal'));
+      setFormErr(t(r.failure === 'payment_too_small' ? 'fail_payment_too_small' : 'fail_total_below_principal'));
       analytics.track('calc_failure', { type, failure: r.failure });
       return;
     }
@@ -109,9 +124,14 @@ export default function LoanForm() {
           label={t('loan_amount')}
           icon="cash-multiple"
           error={errField === 'amount'}
+          errorText={errMsg}
+          inputRef={amountRef}
           testID="input-amount"
           prefix={<CurrencyPrefix currency={currency} t={t} />}
           inputProps={{
+            returnKeyType: 'next',
+            submitBehavior: 'submit',
+            onSubmitEditing: () => rateRef.current?.focus(),
             value: f.amount,
             onChangeText: (s) => set({ amount: sanitizeDecimalTyping(s, 2) }),
             placeholder: t('amount_placeholder'),
@@ -123,8 +143,13 @@ export default function LoanForm() {
           label={t('interest_rate')}
           icon="percent-outline"
           error={errField === 'rate'}
+          errorText={errMsg}
+          inputRef={rateRef}
           testID="input-rate"
           inputProps={{
+            returnKeyType: 'next',
+            submitBehavior: 'submit',
+            onSubmitEditing: () => termRef.current?.focus(),
             value: f.rate,
             onChangeText: (s) => set({ rate: sanitizeDecimalTyping(s, 4) }),
             placeholder: t('rate_placeholder'),
@@ -137,8 +162,12 @@ export default function LoanForm() {
           label={t('term')}
           icon="calendar-range"
           error={errField === 'term'}
+          errorText={errMsg}
+          inputRef={termRef}
           testID="input-term"
           inputProps={{
+            returnKeyType: 'done',
+            onSubmitEditing: () => calculate(),
             value: f.term,
             onChangeText: (s) => set({ term: s.replace(/[^0-9]/g, '') }),
             placeholder: t('term_placeholder'),
@@ -162,6 +191,7 @@ export default function LoanForm() {
           }
         />
         <DateField value={f.startDate} onChange={(d) => set({ startDate: d })} error={errField === 'startDate'} t={t} lang={language} />
+        <FormMessage text={formErr} />
         <PrimaryButton testID="calculate" title={t('calculate')} onPress={calculate} busy={busy} />
         <TextButton
           testID="reset-fields"
@@ -169,6 +199,8 @@ export default function LoanForm() {
           onPress={() => {
             setF(empty());
             setErrField(null);
+            setErrMsg(null);
+            setFormErr(null);
           }}
         />
       </Card>

@@ -1,5 +1,5 @@
 export const en = {
-  app_name: 'Loan Calc',
+  app_name: 'Repayly',
   cancel: 'Cancel',
   confirm: 'Confirm',
   ok: 'OK',
@@ -19,7 +19,7 @@ export const en = {
   tab_tools: 'Tools',
   tab_settings: 'Settings',
 
-  home_title: 'EMI Loan Calculator',
+  home_title: 'Repayly',
   home_subtitle: 'Calculate. Plan. Repay.',
   loan_personal: 'Personal Loan',
   loan_business: 'Business Loan',
@@ -219,6 +219,13 @@ export const en = {
   mock_ad_label: 'Local mock ad',
   mock_ad_body: 'Test creative from the local mock adapter. Not a real ad, no real revenue.',
   mock_ad_close: 'Close mock ad',
+  language_system: 'Use device language',
+  auto: 'Auto',
+  r_breakdown: 'Payment breakdown',
+  principal: 'Principal',
+  interest: 'Interest',
+  share: 'Share result',
+  share_footer: 'Calculated with {app}',
 };
 
 export type StringKey = keyof typeof en;

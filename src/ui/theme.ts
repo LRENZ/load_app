@@ -17,6 +17,10 @@ export const C = {
   overlay: 'rgba(16, 24, 40, 0.45)',
   snackbar: '#1F2937',
   star: '#F5B400',
+  /** Brand accent (logo check mark). */
+  accent: '#1FC79A',
+  /** Interest share in breakdown bars. */
+  interest: '#FFA92E',
   tiles: {
     personal: { bg: '#FDECF1', fg: '#D9467A' },
     business: { bg: '#E3F6EE', fg: '#1E9E6A' },
