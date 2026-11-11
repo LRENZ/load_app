@@ -1,15 +1,3 @@
-{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"fail","ms":85807,"error":"timeout waiting for {\"text\":\"Retry\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-FX01.png"}
-{"id":"CLOCK01","title":"world clock shows four zones","status":"pass","ms":37850}
-{"id":"NOT02","title":"notification permission: deny keeps switch off","status":"pass","ms":42289}
-{"id":"LANG-es","title":"language es applies app-wide and survives restart","status":"pass","ms":54588}
-{"id":"LANG-zh-Hans","title":"language zh-Hans applies app-wide and survives restart","status":"pass","ms":62620}
-{"id":"LANG-ja","title":"language ja applies app-wide and survives restart","status":"pass","ms":62578}
-{"id":"LANG-ko","title":"language ko applies app-wide and survives restart","status":"pass","ms":58958}
-{"id":"LANG-pt-BR","title":"language pt-BR applies app-wide and survives restart","status":"pass","ms":108100}
-{"id":"LANG-en","title":"back to English","status":"pass","ms":20517}
-{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":40892}
-{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"fail","ms":37985,"error":"timeout waiting for {\"id\":\"r-hero\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-RES01.png"}
-{"id":"ATTR01","title":"traffic source read from the Play install referrer after start-up and stored (sideload = natural)","status":"pass","ms":71788}
-{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"pass","ms":82003}
-{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":56418}
-{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"pass","ms":72726}
+{"id":"LEGAL01","title":"privacy policy and terms: real documents (no development placeholder), Back","status":"fail","ms":18242,"error":"timeout waiting for {\"id\":\"settings-privacy\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-LEGAL01.png"}
+{"id":"NOT02","title":"notification permission: deny keeps switch off","status":"pass","ms":51233}
+{"id":"LEGAL01","title":"privacy policy and terms: real documents (no development placeholder), Back","status":"pass","ms":38129}

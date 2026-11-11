@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { LEGAL } from '../../legal/texts.ts';
 import { useApp } from '../../state/app.ts';
 import { Card, Header, Screen } from '../../ui/components.tsx';
 import { C } from '../../ui/theme.ts';
@@ -16,7 +17,7 @@ const URLS: Record<string, string | undefined> = {
   terms: process.env.EXPO_PUBLIC_TERMS_URL || undefined,
 };
 
-type State = { kind: 'loading' } | { kind: 'loaded'; text: string; placeholder: boolean } | { kind: 'error' };
+type State = { kind: 'loading' } | { kind: 'loaded'; text: string } | { kind: 'error' };
 
 function htmlToText(html: string): string {
   return html
@@ -34,26 +35,27 @@ function htmlToText(html: string): string {
 export default function LegalDoc() {
   const { doc } = useLocalSearchParams<{ doc: string }>();
   const kind = doc === 'terms' ? 'terms' : 'privacy';
-  const { t } = useApp();
+  const { t, language } = useApp();
   const [state, setState] = useState<State>({ kind: 'loading' });
+  const bundled = LEGAL[language][kind];
 
   const load = useCallback(async () => {
     setState({ kind: 'loading' });
     const url = URLS[kind];
     if (!url) {
-      // small delay keeps the loading state observable and consistent with a fetched document
-      await new Promise((r) => setTimeout(r, 250));
-      setState({ kind: 'loaded', text: t(kind === 'terms' ? 'terms_body' : 'privacy_body'), placeholder: true });
+      // The bundled document (src/legal/texts.ts) is the app's real policy / terms, available offline.
+      setState({ kind: 'loaded', text: bundled });
       return;
     }
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error(String(res.status));
-      setState({ kind: 'loaded', text: htmlToText(await res.text()), placeholder: false });
+      setState({ kind: 'loaded', text: htmlToText(await res.text()) });
     } catch {
-      setState({ kind: 'error' });
+      // Offline or the hosted page is down: show the bundled copy instead of an error.
+      setState({ kind: 'loaded', text: bundled });
     }
-  }, [kind, t]);
+  }, [kind, bundled]);
 
   useEffect(() => {
     void load();
@@ -77,11 +79,6 @@ export default function LegalDoc() {
       )}
       {state.kind === 'loaded' && (
         <>
-          {state.placeholder && (
-            <View testID="legal-placeholder" style={{ backgroundColor: C.warnSoft, borderRadius: 12, padding: 12, marginBottom: 12 }}>
-              <Text style={{ color: C.warn, fontWeight: '700' }}>{t('legal_dev_banner')}</Text>
-            </View>
-          )}
           <Card>
             <Text testID="legal-body" style={{ color: C.text, fontSize: 15, lineHeight: 23 }}>
               {state.text}

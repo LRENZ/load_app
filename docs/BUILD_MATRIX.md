@@ -1,6 +1,6 @@
 # Build matrix
 
-Verified on the owner's Windows machine, 2026-11-10; updated for **Repayly 1.1.0** on 2026-11-11.
+Verified on the owner's Windows machine, 2026-11-10; updated for **Repayly 1.2.0 (production)** on 2026-11-11.
 
 ## Toolchain
 
@@ -24,13 +24,15 @@ Verified on the owner's Windows machine, 2026-11-10; updated for **Repayly 1.1.0
 | @resvg/resvg-js (dev) | 2.6.2 | renders the brand SVGs (`scripts/make-icons.mjs`) |
 | Metro | Expo defaults + `inlineRequires: true` (`metro.config.js`) | lazy module evaluation |
 
-compileSdk 37, targetSdk 36, minSdk 24. Application ID `com.tools.loadapp` (renamed from `com.lrenz.loadapp` on 2026-11-10 to match the Firebase app registration), versionName **1.1.0 (versionCode 2)**, app name **Repayly**. 1.0.0 was versionCode 1. Release builds run R8; the Crashlytics plugin uploads the mapping file during the build (`uploadCrashlyticsMappingFileRelease`), so release stack traces stay readable.
+compileSdk 37, targetSdk 36, minSdk 24. Application ID `com.tools.loadapp` (renamed from `com.lrenz.loadapp` on 2026-11-10 to match the Firebase app registration), versionName **1.2.0 (versionCode 3)**, app name **Repayly** (1.1.0 = code 2, 1.0.0 = code 1). Release builds are signed with the **upload key** `credentials/repayly-upload.p12` (RSA 4096, valid to 2054, SHA-1 `A4:8E:BE:7A:07:43:2C:F3:AC:EF:10:BA:20:EF:9B:23:D7:7F:F1:F9`) through `plugins/withReleaseSigning.js`; `credentials/` is git-ignored and must be backed up. AD_ID / AdServices permissions are removed (`android.blockedPermissions`). Release builds run R8; the Crashlytics plugin uploads the mapping file during the build (`uploadCrashlyticsMappingFileRelease`), so release stack traces stay readable.
 
 ## Artifacts
 
 | Artifact | Path | ABIs | Size | SHA-256 |
 |---|---|---|---|---|
-| Standalone APK 1.1.0 (functional, Firebase on, NoOp ads) | `dist/repayly-1.1.0.apk` (also attached to the GitHub release) | x86_64, arm64-v8a | 61.2 MB | `8d283db1acf4fe6f055a54173e978084f254fc6add0cec3dfdbc74e29caede2d` |
+| **Play App Bundle 1.2.0** (upload-key signed) | `dist/repayly-1.2.0.aab` | armeabi-v7a, arm64-v8a, x86_64 | 53.5 MB | `26b37bffb336daee72609d159bd6169146fa95b32d8751d81a87007b1f6e85c1` |
+| **Standalone APK 1.2.0** (upload-key signed; GitHub release) | `dist/repayly-1.2.0.apk` | armeabi-v7a, arm64-v8a, x86_64 | 74.7 MB | `3558da44b8edc54f1a5fd8e17520955f3158d61f3a03db6b00d1d308ff99f492` |
+| Standalone APK 1.1.0 (functional, Firebase on, NoOp ads, debug-signed) | `dist/repayly-1.1.0.apk` (also attached to the GitHub release) | x86_64, arm64-v8a | 61.2 MB | `8d283db1acf4fe6f055a54173e978084f254fc6add0cec3dfdbc74e29caede2d` |
 | Mock-ads test APK 1.1.0 (debug fixtures, Firebase collection off) | `dist/repayly-1.1.0-mock-x86_64.apk` | x86_64 | 36.2 MB | `4cef05b09059953354af6951095abaf533765b003a8bcf3d08be8f13dcb8ca6c` |
 | Previous standalone 1.0.0 | `dist/loan-calc-1.0.0-standalone.apk` | x86_64, arm64-v8a | 61.3 MB | `d5894779ceae7f45d3d1f18494b1ece6a67e636c8e919a9e6bd4c18efdc9d30d` |
 
@@ -40,6 +42,7 @@ APKs are build outputs and are git-ignored. Rebuild them with the commands below
 
 | Artifact | Command | JS bundle | Ads adapter | Signing | Use |
 |---|---|---|---|---|---|
+| **Play App Bundle** | `.\scripts\android-build.ps1 -Bundle -UseMirror -Abis "armeabi-v7a,arm64-v8a,x86_64"` | embedded | NoOp | upload key | Google Play upload |
 | Standalone (functional) | `.\scripts\android-build.ps1 -UseMirror` | embedded (`assets/index.android.bundle`, Hermes) | NoOp | debug keystore | Delivered test APK; runs with Metro stopped |
 | Mock-ads test | `.\scripts\android-build.ps1 -Mode mock -UseMirror -Abis x86_64` | embedded | MockAdAdapter + Developer screen | debug keystore | Ad-policy testing only; never distribute |
 | Development | `.\scripts\android-build.ps1 -Variant debug -UseMirror` + `npx expo start` | from Metro | NoOp (switchable in Developer screen) | debug keystore | Day-to-day development |

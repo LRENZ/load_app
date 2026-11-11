@@ -194,15 +194,11 @@ export const en = {
   rate_msg_highlight: '5 stars',
   rate_msg_after: ' to help us keep improving!',
   rate_star_cd: 'Rate {n} out of 5 stars',
-  rate_saved_dev: 'Thanks for your {n}-star rating! Store reviews are not available in this development build, so your rating was saved on this device.',
+  rate_thanks_store: 'Thanks for your {n}-star rating! Opening Google Play so you can share it.',
+  rate_thanks_local: 'Thanks for your feedback! We will use it to make Repayly better.',
 
   legal_loading: 'Loading…',
   legal_error: 'Could not load this page.',
-  legal_dev_banner: 'Development placeholder: the owner has not supplied this document yet.',
-  privacy_body:
-    'This placeholder will be replaced by the app owner\'s privacy policy before release.\n\nWhat this build does with your data:\n• Loan inputs, results and history are stored only on this device.\n• Your language, currency and notification preferences are stored only on this device.\n• The exchange-rate tool requests public rates from api.frankfurter.dev; it sends only the two currency codes.\n• No analytics, advertising or crash data leaves the device in this build.',
-  terms_body:
-    'This placeholder will be replaced by the app owner\'s terms of service before release.\n\n• Results are estimates for planning only and are not financial advice or an offer of credit.\n• Actual lender payments may differ because of fees, rounding and payment schedules.\n• Exchange rates come from a public reference service and may be delayed.',
 
   intro_1_title: 'Plan every repayment',
   intro_1_desc: 'See your monthly payment, total interest and payoff date in seconds.',

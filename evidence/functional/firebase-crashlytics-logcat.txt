@@ -1,40 +1,42 @@
 --------- beginning of main
-I/FirebaseCrashlytics(24770): Initializing Firebase Crashlytics 21.0.0 for com.tools.loadapp
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-D/FirebaseCrashlytics(24770): Crashlytics native component now available.
-D/FirebaseCrashlytics(24770): AnalyticsConnector now available.
-D/FirebaseCrashlytics(24770): Registered Firebase Analytics listener.
-D/FirebaseCrashlytics(24770): Could not find resources: 0 0 0
-D/FirebaseCrashlytics(24770): Mapping file ID is: e6173238ae05455fada2e69e7196ec6c
-D/FirebaseCrashlytics(24770): Checking for cached settings...
-D/FirebaseCrashlytics(24770): Loaded cached settings: {"settings_version":3,"cache_duration":162372,"features":{"collect_logged_exceptions":true,"collect_reports":true,"collect_analytics":false,"prompt_enabled":false,"push_enabled":false,"firebase_crashlytics_enabled":false,"collect_anrs":true,"collect_metric_kit":false,"collect_build_ids":true},"app":{"status":"activated","update_required":false,"report_upload_variant":2,"native_report_upload_variant":2},"fabric":{"org_id":"6af3e8bb72dd310b593548a8","bundle_id":"com.tools.loadapp"},"on_demand_upload_rate_per_minute":10,"on_demand_backoff_base":1.2,"on_demand_backoff_step_duration_seconds":60,"app_quality":{"sessions_enabled":true,"sampling_rate":1,"session_timeout_seconds":1800},"on_demand_thread_recording_suspension_enabled":true,"expires_at":1794555871721}
-D/FirebaseCrashlytics(24770): Registering RemoteConfig Rollouts subscriber
-D/FirebaseCrashlytics(24770): Opening a new session with ID 6AF452FC02BF000160C2364CBDA8ACD6
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-I/FirebaseCrashlytics(24770): Registering with ProfilingManager; heap dump collection is disabled
-D/FirebaseCrashlytics(24770): Successfully configured exception handler.
-D/FirebaseCrashlytics(24770): Initializing Crashlytics blocked main for 925 ms
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-D/FirebaseCrashlytics(24770): Updated Crashlytics Rollout State
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-D/FirebaseCrashlytics(24770): Initializing native session: 6AF452FC02BF000160C2364CBDA8ACD6
-D/FirebaseCrashlytics(24770): No dynamic features found at /data/user/0/com.tools.loadapp/files/splitcompat/2/verified-splits
-D/FirebaseCrashlytics(24770): App Quality Sessions session changed: SessionDetails(sessionId=90f5fdcb379e43b6bed84c6ef287f949)
-D/FirebaseCrashlytics(24770): Registered Firebase Analytics event receiver for breadcrumbs
-D/FirebaseCrashlytics(24770): Read version control info from string resource
-I/FirebaseCrashlytics(24770): Saved version control info
-D/FirebaseCrashlytics(24770): No userId set for session 6AF4509E03C70001561F7E570DB8AA82
-D/FirebaseCrashlytics(24770): Collecting ProfilingManager info...
-D/FirebaseCrashlytics(24770): No userId set for session 6AF4509E03C70001561F7E570DB8AA82
-D/FirebaseCrashlytics(24770): appQualitySessionId: 90f5fdcb379e43b6bed84c6ef287f949
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-D/FirebaseCrashlytics(24770): Automatic data collection is enabled. Allowing upload.
-D/FirebaseCrashlytics(24770): Sending cached crash reports...
-D/FirebaseCrashlytics(24770): Sending report through Google DataTransport: 6AF4509E03C70001561F7E570DB8AA82
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-D/FirebaseCrashlytics(24770): App Quality Sessions session changed: SessionDetails(sessionId=1452e74615844d2e97e453c9bf05b26b)
-D/FirebaseCrashlytics(24770): Crashlytics report successfully enqueued to DataTransport: 6AF4509E03C70001561F7E570DB8AA82
-D/FirebaseCrashlytics(24770): Deleted report file: /data/user/0/com.tools.loadapp/files/.crashlytics.v3/com.tools.loadapp/reports/6AF4509E03C70001561F7E570DB8AA82
-D/FirebaseCrashlytics(24770): Crashlytics automatic data collection ENABLED by API.
-I/TRuntime.CctTransportBackend(24770): Making request to: https://crashlyticsreports-pa.googleapis.com/v1/firelog/legacy/batchlog
-I/TRuntime.CctTransportBackend(24770): Status Code: 200
+I/FirebaseCrashlytics(23867): Initializing Firebase Crashlytics 21.0.0 for com.tools.loadapp
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): Crashlytics native component now available.
+D/FirebaseCrashlytics(23867): AnalyticsConnector now available.
+D/FirebaseCrashlytics(23867): Registered Firebase Analytics listener.
+D/FirebaseCrashlytics(23867): Could not find resources: 0 0 0
+D/FirebaseCrashlytics(23867): Mapping file ID is: 0f2b24e2d76e4080a2d64d83eced3d70
+D/FirebaseCrashlytics(23867): Checking for cached settings...
+D/FirebaseCrashlytics(23867): Loaded cached settings: {"settings_version":3,"cache_duration":177334,"features":{"collect_logged_exceptions":true,"collect_reports":true,"collect_analytics":false,"prompt_enabled":false,"push_enabled":false,"firebase_crashlytics_enabled":false,"collect_anrs":true,"collect_metric_kit":false,"collect_build_ids":true},"app":{"status":"activated","update_required":false,"report_upload_variant":2,"native_report_upload_variant":2},"fabric":{"org_id":"6af3e8bb72dd310b593548a8","bundle_id":"com.tools.loadapp"},"on_demand_upload_rate_per_minute":10,"on_demand_backoff_base":1.2,"on_demand_backoff_step_duration_seconds":60,"app_quality":{"sessions_enabled":true,"sampling_rate":1,"session_timeout_seconds":1800},"on_demand_thread_recording_suspension_enabled":true,"expires_at":1794584360643}
+D/FirebaseCrashlytics(23867): Registering RemoteConfig Rollouts subscriber
+D/FirebaseCrashlytics(23867): Updated Crashlytics Rollout State
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+I/FirebaseCrashlytics(23867): Registering with ProfilingManager; heap dump collection is disabled
+D/FirebaseCrashlytics(23867): App Quality Sessions session changed: SessionDetails(sessionId=79d66e779a8e4f1797a28795de47ea14)
+D/FirebaseCrashlytics(23867): Opening a new session with ID 6AF4843E029200015D3BD84A3626D11C
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): Successfully configured exception handler.
+D/FirebaseCrashlytics(23867): Initializing Crashlytics blocked main for 125 ms
+D/FirebaseCrashlytics(23867): Initializing native session: 6AF4843E029200015D3BD84A3626D11C
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): No dynamic features found at /data/user/0/com.tools.loadapp/files/splitcompat/3/verified-splits
+D/FirebaseCrashlytics(23867): Registered Firebase Analytics event receiver for breadcrumbs
+D/FirebaseCrashlytics(23867): Read version control info from string resource
+I/FirebaseCrashlytics(23867): Saved version control info
+D/FirebaseCrashlytics(23867): No userId set for session 6AF4828E0313000153076E59F7FFBC41
+D/FirebaseCrashlytics(23867): Collecting ProfilingManager info...
+D/FirebaseCrashlytics(23867): No userId set for session 6AF4828E0313000153076E59F7FFBC41
+D/FirebaseCrashlytics(23867): appQualitySessionId: 79d66e779a8e4f1797a28795de47ea14
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): Automatic data collection is enabled. Allowing upload.
+D/FirebaseCrashlytics(23867): Sending cached crash reports...
+D/FirebaseCrashlytics(23867): Sending report through Google DataTransport: 6AF4828E0313000153076E59F7FFBC41
+I/TRuntime.CctTransportBackend(23867): Making request to: https://crashlyticsreports-pa.googleapis.com/v1/firelog/legacy/batchlog
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): Crashlytics automatic data collection ENABLED by API.
+D/FirebaseCrashlytics(23867): App Quality Sessions session changed: SessionDetails(sessionId=3564e5f22a5e419b8e882ba118834cc8)
+D/FirebaseCrashlytics(23867): Crashlytics report successfully enqueued to DataTransport: 6AF4828E0313000153076E59F7FFBC41
+D/FirebaseCrashlytics(23867): Deleted report file: /data/user/0/com.tools.loadapp/files/.crashlytics.v3/com.tools.loadapp/reports/6AF4828E0313000153076E59F7FFBC41
+I/TRuntime.CctTransportBackend(23867): Making request to: https://crashlyticsreports-pa.googleapis.com/v1/firelog/legacy/batchlog
+I/TRuntime.CctTransportBackend(23867): Status Code: 200
+I/TRuntime.CctTransportBackend(23867): Status Code: 200

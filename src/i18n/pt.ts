@@ -196,15 +196,11 @@ export const pt: Strings = {
   rate_msg_highlight: '5 estrelas',
   rate_msg_after: ' para continuarmos melhorando!',
   rate_star_cd: 'Avaliar com {n} de 5 estrelas',
-  rate_saved_dev: 'Obrigado pelas {n} estrelas! Avaliações na loja não estão disponíveis nesta versão de desenvolvimento, então sua nota foi salva neste dispositivo.',
+  rate_thanks_store: 'Obrigado pelas {n} estrelas! Abrindo o Google Play para você deixar sua avaliação.',
+  rate_thanks_local: 'Obrigado pelo feedback! Vamos usá-lo para melhorar o Repayly.',
 
   legal_loading: 'Carregando…',
   legal_error: 'Não foi possível carregar esta página.',
-  legal_dev_banner: 'Texto provisório de desenvolvimento: o proprietário ainda não forneceu este documento.',
-  privacy_body:
-    'Este texto provisório será substituído pela política de privacidade do proprietário antes do lançamento.\n\nO que esta versão faz com seus dados:\n• Dados, resultados e histórico de empréstimos ficam apenas neste dispositivo.\n• Suas preferências de idioma, moeda e notificações ficam apenas neste dispositivo.\n• A ferramenta de câmbio consulta cotações públicas em api.frankfurter.dev e envia apenas os dois códigos de moeda.\n• Nesta versão, nenhum dado de análise, publicidade ou erro sai do dispositivo.',
-  terms_body:
-    'Este texto provisório será substituído pelos termos de serviço do proprietário antes do lançamento.\n\n• Os resultados são estimativas para planejamento e não são aconselhamento financeiro nem oferta de crédito.\n• As parcelas reais podem variar por tarifas, arredondamentos e cronogramas de pagamento.\n• As cotações vêm de um serviço público de referência e podem ter atraso.',
 
   intro_1_title: 'Planeje cada pagamento',
   intro_1_desc: 'Veja sua parcela mensal, os juros totais e a data de quitação em segundos.',

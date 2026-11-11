@@ -1,48 +1,48 @@
-{"id":"INST01","title":"fresh install: intro pages, Next/Start, persistent completion","status":"pass","ms":47601}
-{"id":"NOT01","title":"first-run notification prompt → Not now","status":"pass","ms":12235}
-{"id":"ONB02","title":"intro does not return after restart","status":"pass","ms":24925}
-{"id":"UI03","title":"home with sample history","status":"pass","ms":6756}
-{"id":"C01","title":"personal 10000 @ 6% 12 months → 860.66 / 10327.92 / 327.92","status":"pass","ms":106695}
-{"id":"NAV01","title":"Back from result keeps form input; Back again → home with saved entry","status":"pass","ms":36583}
-{"id":"VAL01","title":"validation messages (empty, zero, term range)","status":"pass","ms":218774}
-{"id":"C02","title":"zero rate + month-end via text date 01/31/2026","status":"pass","ms":103338}
-{"id":"C05","title":"1000 @ 12% 1 month from 2026-01-31 → 1010.00, 2026-02-28","status":"pass","ms":90544}
-{"id":"C03","title":"monthly payment too small (1 @ 0% 360 months)","status":"pass","ms":54290}
-{"id":"C04","title":"rounded total below principal (0.17 @ 0.0001% 12 months)","status":"pass","ms":65051}
-{"id":"DATE01","title":"date picker: calendar, month arrows, year list, invalid text, Cancel keeps date","status":"pass","ms":150422}
-{"id":"CUR01","title":"currency picker: Cancel does not commit, Confirm commits","status":"pass","ms":96705}
-{"id":"C07","title":"business 12347.89 @ 7.125% 17 months → 765.77","status":"pass","ms":67983}
-{"id":"EDIT01","title":"Start new calculation clears the form","status":"pass","ms":13225}
-{"id":"C06","title":"auto 25000 @ 5% 5 years → 471.78","status":"pass","ms":81427}
-{"id":"C08","title":"mortgage 500000 / 100000 (20%) 6% 30y + costs → 3298.20","status":"pass","ms":205238}
-{"id":"HIST01","title":"history after process restart: all records, newest first, opening a record","status":"pass","ms":70373}
-{"id":"TOOL-temperature","title":"temperature: 25 → 77.00, swap, invalid input","status":"pass","ms":101529}
-{"id":"TOOL-mass","title":"mass: 10 → 22.0462, swap, invalid input","status":"pass","ms":95728}
-{"id":"TOOL-speed","title":"speed: 100 → 62.1371, swap, invalid input","status":"pass","ms":71096}
-{"id":"TOOL-length","title":"length: 1 → 3.2808, swap, invalid input","status":"pass","ms":90531}
-{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"fail","ms":32187,"error":"timeout waiting for {\"id\":\"fx-rate-line\"}","shot":"evidence\\functional\\screens\\FAIL-FX01.png"}
-{"id":"CLOCK01","title":"world clock shows four zones","status":"fail","ms":17245,"error":"timeout waiting for {\"id\":\"tool-clock\"}","shot":"evidence\\functional\\screens\\FAIL-CLOCK01.png"}
-{"id":"RATE01","title":"rating dialog: star selection, Submit, Close","status":"pass","ms":57068}
-{"id":"LEGAL01","title":"privacy and terms: placeholder content, scroll, Back","status":"pass","ms":19642}
-{"id":"NOT02","title":"notification permission: deny keeps switch off","status":"fail","ms":63150,"error":"timeout waiting for {\"contains\":\"t allow\"}","shot":"evidence\\functional\\screens\\FAIL-NOT02.png"}
-{"id":"NOT03","title":"notification permission: grant shows a local preview","status":"pass","ms":68031}
-{"id":"LANG00","title":"language: Back without Confirm does not change language","status":"pass","ms":18212}
-{"id":"LANG-es","title":"language es applies app-wide and survives restart","status":"fail","ms":59195,"error":"timeout waiting for {\"text\":\"Calculadora de préstamos EMI\"}","shot":"evidence\\functional\\screens\\FAIL-LANG-es.png"}
-{"id":"LANG-zh-Hans","title":"language zh-Hans applies app-wide and survives restart","status":"fail","ms":70270,"error":"timeout waiting for {\"text\":\"EMI 贷款计算器\"}","shot":"evidence\\functional\\screens\\FAIL-LANG-zh-Hans.png"}
-{"id":"LANG-ja","title":"language ja applies app-wide and survives restart","status":"fail","ms":69746,"error":"timeout waiting for {\"text\":\"EMI ローン計算機\"}","shot":"evidence\\functional\\screens\\FAIL-LANG-ja.png"}
-{"id":"LANG-ko","title":"language ko applies app-wide and survives restart","status":"fail","ms":60074,"error":"timeout waiting for {\"text\":\"EMI 대출 계산기\"}","shot":"evidence\\functional\\screens\\FAIL-LANG-ko.png"}
-{"id":"LANG-pt-BR","title":"language pt-BR applies app-wide and survives restart","status":"fail","ms":53734,"error":"timeout waiting for {\"text\":\"Calculadora de empréstimo EMI\"}","shot":"evidence\\functional\\screens\\FAIL-LANG-pt-BR.png"}
-{"id":"LANG-en","title":"back to English","status":"pass","ms":25290}
-{"id":"LANG-SYS","title":"Use device language: follows a live device-language change, a restart, and the Android per-app language","status":"pass","ms":151512}
-{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":86747}
-{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"fail","ms":19552,"error":"Command failed: C:\\Users\\HP\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe -s emulator-5554 shell dumpsys activity activities | grep topResumedActivity","shot":"evidence\\functional\\screens\\FAIL-RES01.png"}
-{"id":"VAL02","title":"validation message stays under the field and clears when the field is edited","status":"pass","ms":83035}
-{"id":"ATTR01","title":"traffic source read from the Play install referrer after start-up and stored (sideload = natural)","status":"fail","ms":56785,"error":"timeout waiting for {\"id\":\"tab-index\"}","shot":"evidence\\functional\\screens\\FAIL-ATTR01.png"}
-{"id":"LAYOUT360","title":"360 dp width: home, form and result remain usable","status":"pass","ms":122720}
-{"id":"CFG01","title":"display size and font size changed while open: no restart, navigation still works","status":"pass","ms":62032}
-{"id":"FB01","title":"Firebase initialised from google-services.json: app id, project, collection on, instance id","status":"pass","ms":102714}
-{"id":"FB02","title":"Remote Config fetch succeeds; ad policy stays on the NoOp placeholder","status":"pass","ms":21849}
-{"id":"FB03","title":"FCM registration token obtained","status":"pass","ms":80737}
-{"id":"FB04","title":"Analytics: product events and screen views reach the Firebase SDK; NoOp ad events do not","status":"pass","ms":141231}
-{"id":"FB05","title":"Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports","status":"pass","ms":117692}
-{"id":"BACK01","title":"Android Back on Home leaves the app (no exit ad in NoOp)","status":"pass","ms":24443}
+{"id":"INST01","title":"fresh install: intro pages, Next/Start, persistent completion","status":"pass","ms":25755}
+{"id":"NOT01","title":"first-run notification prompt → Not now","status":"pass","ms":8450}
+{"id":"ONB02","title":"intro does not return after restart","status":"pass","ms":9799}
+{"id":"UI03","title":"home with sample history","status":"pass","ms":4888}
+{"id":"C01","title":"personal 10000 @ 6% 12 months → 860.66 / 10327.92 / 327.92","status":"pass","ms":49739}
+{"id":"NAV01","title":"Back from result keeps form input; Back again → home with saved entry","status":"pass","ms":11847}
+{"id":"VAL01","title":"validation messages (empty, zero, term range)","status":"pass","ms":108417}
+{"id":"C02","title":"zero rate + month-end via text date 01/31/2026","status":"pass","ms":57883}
+{"id":"C05","title":"1000 @ 12% 1 month from 2026-01-31 → 1010.00, 2026-02-28","status":"pass","ms":53628}
+{"id":"C03","title":"monthly payment too small (1 @ 0% 360 months)","status":"pass","ms":31149}
+{"id":"C04","title":"rounded total below principal (0.17 @ 0.0001% 12 months)","status":"pass","ms":28651}
+{"id":"DATE01","title":"date picker: calendar, month arrows, year list, invalid text, Cancel keeps date","status":"pass","ms":54488}
+{"id":"CUR01","title":"currency picker: Cancel does not commit, Confirm commits","status":"pass","ms":65887}
+{"id":"C07","title":"business 12347.89 @ 7.125% 17 months → 765.77","status":"pass","ms":50201}
+{"id":"EDIT01","title":"Start new calculation clears the form","status":"pass","ms":9382}
+{"id":"C06","title":"auto 25000 @ 5% 5 years → 471.78","status":"pass","ms":57185}
+{"id":"C08","title":"mortgage 500000 / 100000 (20%) 6% 30y + costs → 3298.20","status":"pass","ms":125050}
+{"id":"HIST01","title":"history after process restart: all records, newest first, opening a record","status":"pass","ms":24242}
+{"id":"TOOL-temperature","title":"temperature: 25 → 77.00, swap, invalid input","status":"pass","ms":54488}
+{"id":"TOOL-mass","title":"mass: 10 → 22.0462, swap, invalid input","status":"pass","ms":48125}
+{"id":"TOOL-speed","title":"speed: 100 → 62.1371, swap, invalid input","status":"pass","ms":73452}
+{"id":"TOOL-length","title":"length: 1 → 3.2808, swap, invalid input","status":"pass","ms":87292}
+{"id":"FX01","title":"exchange rate: live USD→EUR, amount, swap, cache","status":"pass","ms":85682}
+{"id":"CLOCK01","title":"world clock shows four zones","status":"pass","ms":32282}
+{"id":"RATE01","title":"rating: 1–3 stars = local thanks; 4–5 stars open the Google Play listing; Close","status":"pass","ms":99425}
+{"id":"LEGAL01","title":"privacy policy and terms: real documents (no development placeholder), Back","status":"fail","ms":13657,"error":"Cannot read properties of undefined (reading 'startsWith')","shot":"evidence\\functional\\screens\\FAIL-LEGAL01.png"}
+{"id":"NOT02","title":"notification permission: deny keeps switch off","status":"fail","ms":35047,"error":"timeout waiting for {\"contains\":\"t allow\"}","shot":"evidence\\functional\\screens\\FAIL-NOT02.png"}
+{"id":"NOT03","title":"notification permission: grant shows a local preview","status":"pass","ms":65681}
+{"id":"LANG00","title":"language: Back without Confirm does not change language","status":"pass","ms":20539}
+{"id":"LANG-es","title":"language es applies app-wide and survives restart","status":"pass","ms":70332}
+{"id":"LANG-zh-Hans","title":"language zh-Hans applies app-wide and survives restart","status":"pass","ms":107334}
+{"id":"LANG-ja","title":"language ja applies app-wide and survives restart","status":"pass","ms":57930}
+{"id":"LANG-ko","title":"language ko applies app-wide and survives restart","status":"pass","ms":67903}
+{"id":"LANG-pt-BR","title":"language pt-BR applies app-wide and survives restart","status":"pass","ms":65861}
+{"id":"LANG-en","title":"back to English","status":"pass","ms":19773}
+{"id":"LANG-SYS","title":"Use device language: follows a live device-language change, a restart, and the Android per-app language","status":"pass","ms":76128}
+{"id":"KEY01","title":"keyboard Next moves amount → rate → term, Done calculates","status":"pass","ms":55939}
+{"id":"RES01","title":"result summary: monthly, principal / interest split, Share opens the Android share sheet","status":"pass","ms":40094}
+{"id":"VAL02","title":"validation message stays under the field and clears when the field is edited","status":"pass","ms":70591}
+{"id":"ATTR01","title":"traffic source read from the Play install referrer after start-up and stored (sideload = natural)","status":"pass","ms":50859}
+{"id":"LAYOUT360","title":"360 dp width: home, form and result remain usable","status":"pass","ms":134365}
+{"id":"CFG01","title":"display size and font size changed while open: no restart, navigation still works","status":"pass","ms":64661}
+{"id":"FB01","title":"Firebase initialised from google-services.json: app id, project, collection on, instance id","status":"pass","ms":59317}
+{"id":"FB02","title":"Remote Config fetch succeeds; ad policy stays on the NoOp placeholder","status":"pass","ms":20283}
+{"id":"FB03","title":"FCM registration token obtained","status":"pass","ms":23311}
+{"id":"FB04","title":"Analytics: product events and screen views reach the Firebase SDK; NoOp ad events do not","status":"pass","ms":79798}
+{"id":"FB05","title":"Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports","status":"pass","ms":70183}
+{"id":"BACK01","title":"Android Back on Home leaves the app (no exit ad in NoOp)","status":"pass","ms":15691}

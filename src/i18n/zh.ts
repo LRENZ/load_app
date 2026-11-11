@@ -196,15 +196,11 @@ export const zh: Strings = {
   rate_msg_highlight: '5 星',
   rate_msg_after: '，我们会继续改进！',
   rate_star_cd: '评 {n} 星（满分 5 星）',
-  rate_saved_dev: '感谢你的 {n} 星评价！当前开发版本无法提交应用商店评价，你的评分已保存在本设备。',
+  rate_thanks_store: '感谢你的 {n} 星评价！正在打开 Google Play，方便你发表评价。',
+  rate_thanks_local: '感谢你的反馈！我们会用它来改进 Repayly。',
 
   legal_loading: '加载中…',
   legal_error: '无法加载此页面。',
-  legal_dev_banner: '开发占位内容：应用所有者尚未提供此文档。',
-  privacy_body:
-    '发布前，此占位内容将替换为应用所有者的隐私政策。\n\n本版本如何处理你的数据：\n• 贷款输入、结果和历史记录仅保存在本设备上。\n• 你的语言、货币和通知偏好仅保存在本设备上。\n• 汇率工具从 api.frankfurter.dev 获取公开汇率，只发送两个货币代码。\n• 本版本不会将任何分析、广告或崩溃数据发送出设备。',
-  terms_body:
-    '发布前，此占位内容将替换为应用所有者的服务条款。\n\n• 计算结果仅供规划参考，不构成财务建议或贷款要约。\n• 实际还款可能因费用、四舍五入和还款计划而不同。\n• 汇率来自公开的参考服务，可能存在延迟。',
 
   intro_1_title: '规划每一笔还款',
   intro_1_desc: '几秒钟内查看月供、总利息和还清日期。',

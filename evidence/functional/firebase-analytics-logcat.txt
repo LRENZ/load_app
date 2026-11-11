@@ -1,690 +1,691 @@
 --------- beginning of main
-V/FA      (22047): Logging screen view with name, class: settings, settings
-V/FA      (22047): Connecting to remote service
-V/FA      (22047): Recording user engagement, ms: 145671
-V/FA      (22047): Connection attempt already in progress
-D/FA      (22047): Connected to remote service
-V/FA      (22047): Processing queued up service tasks: 2
-V/FA      (22047): Logging telemetry for logEvent from database
-V/FA-SVC  ( 3151): EES not loaded for: com.tools.loadapp
-V/FA-SVC  ( 3151): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=145671, ga_previous_class(_pc)=diagnostics, ga_previous_id(_pi)=-7437902771904107355, ga_previous_screen(_pn)=diagnostics, ga_screen_class(_sc)=settings, ga_screen_id(_si)=-7437902771904107354, ga_screen(_sn)=settings}]
-V/FA-SVC  ( 3151): dsid successfully retrieved, isEmpty: com.tools.loadapp, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 500
-V/FA-SVC  ( 3151): Scheduling upload, millis: 500
-V/FA-SVC  ( 3151): Background event processing time, ms: 1774
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Starting upload from DelayedRunnable
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: lifetime, 2891371
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: session-scoped, 2891370
-V/FA-SVC  ( 3151): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
-V/FA-SVC  ( 3151): Saving bundle, size: 581
-D/FA-SVC  ( 3151): Uploading events. Elapsed time since last upload attempt (ms): 796
-V/FA-SVC  ( 3151): Uploading data. app, uncompressed size, data: com.tools.loadapp, 709, 
-V/FA-SVC  ( 3151): batch {
-V/FA-SVC  ( 3151):   bundle {
-V/FA-SVC  ( 3151):     protocol_version: 1
-V/FA-SVC  ( 3151):     platform: android
-V/FA-SVC  ( 3151):     gmp_version: 194006
-V/FA-SVC  ( 3151):     uploading_gmp_version: 264330
-V/FA-SVC  ( 3151):     dynamite_version: 218
-V/FA-SVC  ( 3151):     config_version: 1794365021882005
-V/FA-SVC  ( 3151):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
-V/FA-SVC  ( 3151):     app_id: com.tools.loadapp
-V/FA-SVC  ( 3151):     app_version: 1.1.0
-V/FA-SVC  ( 3151):     app_version_major: 2
-V/FA-SVC  ( 3151):     firebase_instance_id: femhQgPrTuCXuRg7ZpU74C
-V/FA-SVC  ( 3151):     dev_cert_hash: 6674964906916451472
-V/FA-SVC  ( 3151):     app_store: manual_install
-V/FA-SVC  ( 3151):     upload_timestamp_millis: 1794396705159
-V/FA-SVC  ( 3151):     start_timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):     end_timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):     previous_bundle_start_timestamp_millis: 1794396555430
-V/FA-SVC  ( 3151):     previous_bundle_end_timestamp_millis: 1794396555430
-V/FA-SVC  ( 3151):     app_instance_id: 15a4cdc0c5d5991aa0a1dd916f544223
-V/FA-SVC  ( 3151):     resettable_device_id: 
-V/FA-SVC  ( 3151):     ds_id: 
-V/FA-SVC  ( 3151):     os_version: 17
-V/FA-SVC  ( 3151):     device_model: sdk_gphone64_x86_64
-V/FA-SVC  ( 3151):     user_default_language: en-us
-V/FA-SVC  ( 3151):     time_zone_offset_minutes: -480
-V/FA-SVC  ( 3151):     bundle_sequential_index: 168
-V/FA-SVC  ( 3151):     delivery_index: 145
-V/FA-SVC  ( 3151):     service_upload: true
-V/FA-SVC  ( 3151):     health_monitor: 
-V/FA-SVC  ( 3151):     consent_signals: G111
-V/FA-SVC  ( 3151):     is_dma_region: false
-V/FA-SVC  ( 3151):     consent_diagnostics: 13333
-V/FA-SVC  ( 3151):     target_os_version: 36
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: non_personalized_ads(_npa)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 0
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_time(_fot)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794394800000
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_after_install(_fi)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_number(_sno)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_id(_sid)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794393499
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396331902
-V/FA-SVC  ( 3151):       name: traffic_cohort
-V/FA-SVC  ( 3151):       string_value: natural
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396705176
-V/FA-SVC  ( 3151):       name: lifetime_user_engagement(_lte)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2891371
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396705186
-V/FA-SVC  ( 3151):       name: session_user_engagement(_se)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2891370
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     event {
-V/FA-SVC  ( 3151):       name: screen_view(_vs)
-V/FA-SVC  ( 3151):       timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):       corrected_timestamp_millis: 1794396700043
-V/FA-SVC  ( 3151):       previous_timestamp_millis: 1794396555430
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_event_origin(_o)
-V/FA-SVC  ( 3151):         string_value: app
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _r
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: engagement_time_msec(_et)
-V/FA-SVC  ( 3151):         int_value: 145671
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_class(_pc)
-V/FA-SVC  ( 3151):         string_value: diagnostics
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_id(_pi)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107355
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_screen(_pn)
-V/FA-SVC  ( 3151):         string_value: diagnostics
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_class(_sc)
-V/FA-SVC  ( 3151):         string_value: settings
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_id(_si)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107354
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen(_sn)
-V/FA-SVC  ( 3151):         string_value: settings
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _dbg
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):   }
-V/FA-SVC  ( 3151): } // End-of-batch
-V/FA-SVC  ( 3151): Uploading bundle with GmsCore network library. app: com.tools.loadapp
-V/FA-SVC  ( 3151): Not stopping services. fetch, network, upload: false, true, false
-V/FA-SVC  ( 3151): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
-V/FA-SVC  ( 3151): Network upload successful with code, uploadAttempted: 204, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 3599661
-V/FA-SVC  ( 3151): Scheduling upload, millis: 3599661
-V/FA-SVC  ( 3151): Successful upload. Got network response. code, size: 204, 0
-V/FA      (22047): Inactivity, disconnecting from the service
-V/FA-SVC  ( 3151): Nothing to upload or uploading impossible
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Stopping uploading service(s)
-V/FA      (22047): Logging screen view with name, class: home, home
-V/FA      (22047): Connecting to remote service
-V/FA      (22047): Recording user engagement, ms: 12898
-V/FA      (22047): Connection attempt already in progress
-D/FA      (22047): Connected to remote service
-V/FA      (22047): Processing queued up service tasks: 2
-V/FA-SVC  ( 3151): EES not loaded for: com.tools.loadapp
-V/FA      (22047): Logging telemetry for logEvent from database
-V/FA-SVC  ( 3151): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=12898, ga_previous_class(_pc)=settings, ga_previous_id(_pi)=-7437902771904107354, ga_previous_screen(_pn)=settings, ga_screen_class(_sc)=home, ga_screen_id(_si)=-7437902771904107353, ga_screen(_sn)=home}]
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 500
-V/FA-SVC  ( 3151): Scheduling upload, millis: 500
-V/FA-SVC  ( 3151): Background event processing time, ms: 145
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Starting upload from DelayedRunnable
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: lifetime, 2904269
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: session-scoped, 2904268
-V/FA-SVC  ( 3151): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
-V/FA-SVC  ( 3151): Saving bundle, size: 575
-D/FA-SVC  ( 3151): Uploading events. Elapsed time since last upload attempt (ms): 578
-V/FA-SVC  ( 3151): Uploading data. app, uncompressed size, data: com.tools.loadapp, 694, 
-V/FA-SVC  ( 3151): batch {
-V/FA-SVC  ( 3151):   bundle {
-V/FA-SVC  ( 3151):     protocol_version: 1
-V/FA-SVC  ( 3151):     platform: android
-V/FA-SVC  ( 3151):     gmp_version: 194006
-V/FA-SVC  ( 3151):     uploading_gmp_version: 264330
-V/FA-SVC  ( 3151):     dynamite_version: 218
-V/FA-SVC  ( 3151):     config_version: 1794365021882005
-V/FA-SVC  ( 3151):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
-V/FA-SVC  ( 3151):     app_id: com.tools.loadapp
-V/FA-SVC  ( 3151):     app_version: 1.1.0
-V/FA-SVC  ( 3151):     app_version_major: 2
-V/FA-SVC  ( 3151):     firebase_instance_id: femhQgPrTuCXuRg7ZpU74C
-V/FA-SVC  ( 3151):     dev_cert_hash: 6674964906916451472
-V/FA-SVC  ( 3151):     app_store: manual_install
-V/FA-SVC  ( 3151):     upload_timestamp_millis: 1794396715413
-V/FA-SVC  ( 3151):     start_timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):     end_timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):     previous_bundle_start_timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):     previous_bundle_end_timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):     app_instance_id: 15a4cdc0c5d5991aa0a1dd916f544223
-V/FA-SVC  ( 3151):     resettable_device_id: 
-V/FA-SVC  ( 3151):     ds_id: 
-V/FA-SVC  ( 3151):     os_version: 17
-V/FA-SVC  ( 3151):     device_model: sdk_gphone64_x86_64
-V/FA-SVC  ( 3151):     user_default_language: en-us
-V/FA-SVC  ( 3151):     time_zone_offset_minutes: -480
-V/FA-SVC  ( 3151):     bundle_sequential_index: 169
-V/FA-SVC  ( 3151):     delivery_index: 146
-V/FA-SVC  ( 3151):     service_upload: true
-V/FA-SVC  ( 3151):     health_monitor: 
-V/FA-SVC  ( 3151):     consent_signals: G111
-V/FA-SVC  ( 3151):     is_dma_region: false
-V/FA-SVC  ( 3151):     consent_diagnostics: 13333
-V/FA-SVC  ( 3151):     target_os_version: 36
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: non_personalized_ads(_npa)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 0
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_time(_fot)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794394800000
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_after_install(_fi)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_number(_sno)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_id(_sid)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794393499
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396331902
-V/FA-SVC  ( 3151):       name: traffic_cohort
-V/FA-SVC  ( 3151):       string_value: natural
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396715436
-V/FA-SVC  ( 3151):       name: lifetime_user_engagement(_lte)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2904269
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396715437
-V/FA-SVC  ( 3151):       name: session_user_engagement(_se)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2904268
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     event {
-V/FA-SVC  ( 3151):       name: screen_view(_vs)
-V/FA-SVC  ( 3151):       timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):       corrected_timestamp_millis: 1794396712943
-V/FA-SVC  ( 3151):       previous_timestamp_millis: 1794396701108
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_event_origin(_o)
-V/FA-SVC  ( 3151):         string_value: app
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _r
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: engagement_time_msec(_et)
-V/FA-SVC  ( 3151):         int_value: 12898
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_class(_pc)
-V/FA-SVC  ( 3151):         string_value: settings
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_id(_pi)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107354
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_screen(_pn)
-V/FA-SVC  ( 3151):         string_value: settings
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_class(_sc)
-V/FA-SVC  ( 3151):         string_value: home
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_id(_si)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107353
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen(_sn)
-V/FA-SVC  ( 3151):         string_value: home
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _dbg
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):   }
-V/FA-SVC  ( 3151): } // End-of-batch
-V/FA-SVC  ( 3151): Uploading bundle with GmsCore network library. app: com.tools.loadapp
-V/FA-SVC  ( 3151): Not stopping services. fetch, network, upload: false, true, false
-V/FA-SVC  ( 3151): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
-V/FA-SVC  ( 3151): Network upload successful with code, uploadAttempted: 204, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 3599970
-V/FA-SVC  ( 3151): Scheduling upload, millis: 3599970
-V/FA-SVC  ( 3151): Successful upload. Got network response. code, size: 204, 0
-V/FA-SVC  ( 3151): Nothing to upload or uploading impossible
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Stopping uploading service(s)
-V/FA      (22047): Inactivity, disconnecting from the service
-V/FA      (22047): Logging screen view with name, class: loan/personal, loan/personal
-V/FA      (22047): Connecting to remote service
-V/FA      (22047): Recording user engagement, ms: 20872
-V/FA      (22047): Connection attempt already in progress
-D/FA      (22047): Connected to remote service
-V/FA      (22047): Processing queued up service tasks: 2
-V/FA      (22047): Logging telemetry for logEvent from database
-V/FA-SVC  ( 3151): EES not loaded for: com.tools.loadapp
-V/FA-SVC  ( 3151): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=20872, ga_previous_class(_pc)=home, ga_previous_id(_pi)=-7437902771904107353, ga_previous_screen(_pn)=home, ga_screen_class(_sc)=loan/personal, ga_screen_id(_si)=-7437902771904107352, ga_screen(_sn)=loan/personal}]
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 500
-V/FA-SVC  ( 3151): Scheduling upload, millis: 500
-V/FA-SVC  ( 3151): Background event processing time, ms: 221
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Starting upload from DelayedRunnable
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: lifetime, 2925141
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: session-scoped, 2925140
-V/FA-SVC  ( 3151): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
-V/FA-SVC  ( 3151): Saving bundle, size: 581
-D/FA-SVC  ( 3151): Uploading events. Elapsed time since last upload attempt (ms): 854
-V/FA-SVC  ( 3151): Uploading data. app, uncompressed size, data: com.tools.loadapp, 705, 
-V/FA-SVC  ( 3151): batch {
-V/FA-SVC  ( 3151):   bundle {
-V/FA-SVC  ( 3151):     protocol_version: 1
-V/FA-SVC  ( 3151):     platform: android
-V/FA-SVC  ( 3151):     gmp_version: 194006
-V/FA-SVC  ( 3151):     uploading_gmp_version: 264330
-V/FA-SVC  ( 3151):     dynamite_version: 218
-V/FA-SVC  ( 3151):     config_version: 1794365021882005
-V/FA-SVC  ( 3151):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
-V/FA-SVC  ( 3151):     app_id: com.tools.loadapp
-V/FA-SVC  ( 3151):     app_version: 1.1.0
-V/FA-SVC  ( 3151):     app_version_major: 2
-V/FA-SVC  ( 3151):     firebase_instance_id: femhQgPrTuCXuRg7ZpU74C
-V/FA-SVC  ( 3151):     dev_cert_hash: 6674964906916451472
-V/FA-SVC  ( 3151):     app_store: manual_install
-V/FA-SVC  ( 3151):     upload_timestamp_millis: 1794396737434
-V/FA-SVC  ( 3151):     start_timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):     end_timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):     previous_bundle_start_timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):     previous_bundle_end_timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):     app_instance_id: 15a4cdc0c5d5991aa0a1dd916f544223
-V/FA-SVC  ( 3151):     resettable_device_id: 
-V/FA-SVC  ( 3151):     ds_id: 
-V/FA-SVC  ( 3151):     os_version: 17
-V/FA-SVC  ( 3151):     device_model: sdk_gphone64_x86_64
-V/FA-SVC  ( 3151):     user_default_language: en-us
-V/FA-SVC  ( 3151):     time_zone_offset_minutes: -480
-V/FA-SVC  ( 3151):     bundle_sequential_index: 170
-V/FA-SVC  ( 3151):     delivery_index: 147
-V/FA-SVC  ( 3151):     service_upload: true
-V/FA-SVC  ( 3151):     health_monitor: 
-V/FA-SVC  ( 3151):     consent_signals: G111
-V/FA-SVC  ( 3151):     is_dma_region: false
-V/FA-SVC  ( 3151):     consent_diagnostics: 13333
-V/FA-SVC  ( 3151):     target_os_version: 36
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: non_personalized_ads(_npa)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 0
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_time(_fot)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794394800000
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_after_install(_fi)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_number(_sno)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_id(_sid)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794393499
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396331902
-V/FA-SVC  ( 3151):       name: traffic_cohort
-V/FA-SVC  ( 3151):       string_value: natural
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396737437
-V/FA-SVC  ( 3151):       name: lifetime_user_engagement(_lte)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2925141
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396737438
-V/FA-SVC  ( 3151):       name: session_user_engagement(_se)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 2925140
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     event {
-V/FA-SVC  ( 3151):       name: screen_view(_vs)
-V/FA-SVC  ( 3151):       timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):       corrected_timestamp_millis: 1794396733815
-V/FA-SVC  ( 3151):       previous_timestamp_millis: 1794396714008
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_event_origin(_o)
-V/FA-SVC  ( 3151):         string_value: app
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _r
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: engagement_time_msec(_et)
-V/FA-SVC  ( 3151):         int_value: 20872
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_class(_pc)
-V/FA-SVC  ( 3151):         string_value: home
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_id(_pi)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107353
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_screen(_pn)
-V/FA-SVC  ( 3151):         string_value: home
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_class(_sc)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_id(_si)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107352
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen(_sn)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _dbg
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):   }
-V/FA-SVC  ( 3151): } // End-of-batch
-V/FA-SVC  ( 3151): Uploading bundle with GmsCore network library. app: com.tools.loadapp
-V/FA-SVC  ( 3151): Not stopping services. fetch, network, upload: false, true, false
-V/FA-SVC  ( 3151): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
-V/FA-SVC  ( 3151): Network upload successful with code, uploadAttempted: 204, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 3599880
-V/FA-SVC  ( 3151): Scheduling upload, millis: 3599880
-V/FA-SVC  ( 3151): Successful upload. Got network response. code, size: 204, 0
-V/FA-SVC  ( 3151): Nothing to upload or uploading impossible
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Stopping uploading service(s)
-V/FA      (22047): Inactivity, disconnecting from the service
-V/FA      (22047): Connecting to remote service
-D/FA      (22047): Connected to remote service
-V/FA      (22047): Processing queued up service tasks: 1
-V/FA      (22047): Logging screen view with name, class: result/[id], result/[id]
-V/FA      (22047): Logging telemetry for logEvent from database
-V/FA-SVC  ( 3151): EES not loaded for: com.tools.loadapp
-V/FA-SVC  ( 3151): Logging event: origin=app,name=calc_success,params=Bundle[{ga_event_origin(_o)=app, ga_screen_class(_sc)=loan/personal, ga_screen_id(_si)=-7437902771904107352, ga_screen(_sn)=loan/personal, type=personal, currency=GBP}]
-V/FA-SVC  ( 3151): dsid successfully retrieved, isEmpty: com.tools.loadapp, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 500
-V/FA-SVC  ( 3151): Scheduling upload, millis: 500
-V/FA-SVC  ( 3151): Background event processing time, ms: 594
-V/FA-SVC  ( 3151): EES not loaded for: com.tools.loadapp
-V/FA-SVC  ( 3151): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=89030, ga_previous_class(_pc)=loan/personal, ga_previous_id(_pi)=-7437902771904107352, ga_previous_screen(_pn)=loan/personal, ga_screen_class(_sc)=result/[id], ga_screen_id(_si)=-7437902771904107351, ga_screen(_sn)=result/[id]}]
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 671
-V/FA-SVC  ( 3151): Scheduling upload, millis: 671
-V/FA-SVC  ( 3151): Background event processing time, ms: 34
-V/FA      (22047): Logging telemetry for logEvent from database
-V/FA      (22047): Recording user engagement, ms: 89030
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Starting upload from DelayedRunnable
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: lifetime, 3014171
-V/FA-SVC  ( 3151): Updated engagement user property. scope, value: session-scoped, 3014170
-V/FA-SVC  ( 3151): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 2
-V/FA-SVC  ( 3151): Saving bundle, size: 659
-D/FA-SVC  ( 3151): Uploading events. Elapsed time since last upload attempt (ms): 537
-V/FA-SVC  ( 3151): Uploading data. app, uncompressed size, data: com.tools.loadapp, 885, 
-V/FA-SVC  ( 3151): batch {
-V/FA-SVC  ( 3151):   bundle {
-V/FA-SVC  ( 3151):     protocol_version: 1
-V/FA-SVC  ( 3151):     platform: android
-V/FA-SVC  ( 3151):     gmp_version: 194006
-V/FA-SVC  ( 3151):     uploading_gmp_version: 264330
-V/FA-SVC  ( 3151):     dynamite_version: 218
-V/FA-SVC  ( 3151):     config_version: 1794365021882005
-V/FA-SVC  ( 3151):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
-V/FA-SVC  ( 3151):     app_id: com.tools.loadapp
-V/FA-SVC  ( 3151):     app_version: 1.1.0
-V/FA-SVC  ( 3151):     app_version_major: 2
-V/FA-SVC  ( 3151):     firebase_instance_id: femhQgPrTuCXuRg7ZpU74C
-V/FA-SVC  ( 3151):     dev_cert_hash: 6674964906916451472
-V/FA-SVC  ( 3151):     app_store: manual_install
-V/FA-SVC  ( 3151):     upload_timestamp_millis: 1794396825198
-V/FA-SVC  ( 3151):     start_timestamp_millis: 1794396823223
-V/FA-SVC  ( 3151):     end_timestamp_millis: 1794396823904
-V/FA-SVC  ( 3151):     previous_bundle_start_timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):     previous_bundle_end_timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):     app_instance_id: 15a4cdc0c5d5991aa0a1dd916f544223
-V/FA-SVC  ( 3151):     resettable_device_id: 
-V/FA-SVC  ( 3151):     ds_id: 
-V/FA-SVC  ( 3151):     os_version: 17
-V/FA-SVC  ( 3151):     device_model: sdk_gphone64_x86_64
-V/FA-SVC  ( 3151):     user_default_language: en-us
-V/FA-SVC  ( 3151):     time_zone_offset_minutes: -480
-V/FA-SVC  ( 3151):     bundle_sequential_index: 172
-V/FA-SVC  ( 3151):     delivery_index: 148
-V/FA-SVC  ( 3151):     service_upload: true
-V/FA-SVC  ( 3151):     health_monitor: 
-V/FA-SVC  ( 3151):     consent_signals: G111
-V/FA-SVC  ( 3151):     is_dma_region: false
-V/FA-SVC  ( 3151):     consent_diagnostics: 13333
-V/FA-SVC  ( 3151):     target_os_version: 36
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: non_personalized_ads(_npa)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 0
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_time(_fot)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794394800000
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393492200
-V/FA-SVC  ( 3151):       name: first_open_after_install(_fi)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_number(_sno)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794393499655
-V/FA-SVC  ( 3151):       name: ga_session_id(_sid)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 1794393499
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396331902
-V/FA-SVC  ( 3151):       name: traffic_cohort
-V/FA-SVC  ( 3151):       string_value: natural
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396825304
-V/FA-SVC  ( 3151):       name: lifetime_user_engagement(_lte)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 3014171
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     user_property {
-V/FA-SVC  ( 3151):       set_timestamp_millis: 1794396825307
-V/FA-SVC  ( 3151):       name: session_user_engagement(_se)
-V/FA-SVC  ( 3151):       string_value: 
-V/FA-SVC  ( 3151):       int_value: 3014170
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     event {
-V/FA-SVC  ( 3151):       name: calc_success
-V/FA-SVC  ( 3151):       timestamp_millis: 1794396823223
-V/FA-SVC  ( 3151):       corrected_timestamp_millis: 1794396822159
-V/FA-SVC  ( 3151):       previous_timestamp_millis: 1794396416855
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_event_origin(_o)
-V/FA-SVC  ( 3151):         string_value: app
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _r
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_class(_sc)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_id(_si)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107352
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen(_sn)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _dbg
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: type
-V/FA-SVC  ( 3151):         string_value: personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: currency
-V/FA-SVC  ( 3151):         string_value: GBP
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):     event {
-V/FA-SVC  ( 3151):       name: screen_view(_vs)
-V/FA-SVC  ( 3151):       timestamp_millis: 1794396823904
-V/FA-SVC  ( 3151):       corrected_timestamp_millis: 1794396822839
-V/FA-SVC  ( 3151):       previous_timestamp_millis: 1794396734880
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_event_origin(_o)
-V/FA-SVC  ( 3151):         string_value: app
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _r
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: engagement_time_msec(_et)
-V/FA-SVC  ( 3151):         int_value: 89030
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_class(_pc)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_id(_pi)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107352
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_previous_screen(_pn)
-V/FA-SVC  ( 3151):         string_value: loan/personal
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_class(_sc)
-V/FA-SVC  ( 3151):         string_value: result/[id]
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen_id(_si)
-V/FA-SVC  ( 3151):         int_value: -7437902771904107351
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: ga_screen(_sn)
-V/FA-SVC  ( 3151):         string_value: result/[id]
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):       param {
-V/FA-SVC  ( 3151):         name: _dbg
-V/FA-SVC  ( 3151):         int_value: 1
-V/FA-SVC  ( 3151):       }
-V/FA-SVC  ( 3151):     }
-V/FA-SVC  ( 3151):   }
-V/FA-SVC  ( 3151): } // End-of-batch
-V/FA-SVC  ( 3151): Uploading bundle with GmsCore network library. app: com.tools.loadapp
-V/FA-SVC  ( 3151): Not stopping services. fetch, network, upload: false, true, false
-V/FA-SVC  ( 3151): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
-V/FA-SVC  ( 3151): Network upload successful with code, uploadAttempted: 204, true
-V/FA-SVC  ( 3151): Upload scheduled in approximately ms: 3599634
-V/FA-SVC  ( 3151): Scheduling upload, millis: 3599634
-V/FA-SVC  ( 3151): Successful upload. Got network response. code, size: 204, 0
-V/FA-SVC  ( 3151): Nothing to upload or uploading impossible
-V/FA-SVC  ( 3151): Unscheduling upload
-V/FA-SVC  ( 3151): Stopping uploading service(s)
-V/FA      (22047): Inactivity, disconnecting from the service
+V/FA      (21255): Logging screen view with name, class: settings, settings
+V/FA      (21255): Connecting to remote service
+V/FA      (21255): Recording user engagement, ms: 83262
+V/FA      (21255): Connection attempt already in progress
+D/FA      (21255): Connected to remote service
+V/FA      (21255): Processing queued up service tasks: 2
+V/FA-SVC  ( 1289): EES not loaded for: com.tools.loadapp
+V/FA-SVC  ( 1289): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=83262, ga_previous_class(_pc)=diagnostics, ga_previous_id(_pi)=8391940526748011586, ga_previous_screen(_pn)=diagnostics, ga_screen_class(_sc)=settings, ga_screen_id(_si)=8391940526748011587, ga_screen(_sn)=settings}]
+V/FA      (21255): Logging telemetry for logEvent from database
+V/FA-SVC  ( 1289): dsid successfully retrieved, isEmpty: com.tools.loadapp, true
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 500
+V/FA-SVC  ( 1289): Scheduling upload, millis: 500
+V/FA-SVC  ( 1289): Background event processing time, ms: 105
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Starting upload from DelayedRunnable
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: lifetime, 2156970
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: session-scoped, 2156969
+V/FA-SVC  ( 1289): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
+V/FA-SVC  ( 1289): Saving bundle, size: 576
+D/FA-SVC  ( 1289): Uploading events. Elapsed time since last upload attempt (ms): 543
+V/FA-SVC  ( 1289): Uploading data. app, uncompressed size, data: com.tools.loadapp, 707, 
+V/FA-SVC  ( 1289): batch {
+V/FA-SVC  ( 1289):   bundle {
+V/FA-SVC  ( 1289):     protocol_version: 1
+V/FA-SVC  ( 1289):     platform: android
+V/FA-SVC  ( 1289):     gmp_version: 194006
+V/FA-SVC  ( 1289):     uploading_gmp_version: 264330
+V/FA-SVC  ( 1289):     dynamite_version: 218
+V/FA-SVC  ( 1289):     config_version: 1794365021882005
+V/FA-SVC  ( 1289):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
+V/FA-SVC  ( 1289):     app_id: com.tools.loadapp
+V/FA-SVC  ( 1289):     app_version: 1.2.0
+V/FA-SVC  ( 1289):     app_version_major: 3
+V/FA-SVC  ( 1289):     firebase_instance_id: f8MlWHOKTWidfd1olFWpTs
+V/FA-SVC  ( 1289):     dev_cert_hash: 4166952967716750813
+V/FA-SVC  ( 1289):     app_store: manual_install
+V/FA-SVC  ( 1289):     upload_timestamp_millis: 1794409403938
+V/FA-SVC  ( 1289):     start_timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):     end_timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):     previous_bundle_start_timestamp_millis: 1794409318626
+V/FA-SVC  ( 1289):     previous_bundle_end_timestamp_millis: 1794409318626
+V/FA-SVC  ( 1289):     app_instance_id: ab611d9005f7b399c8a021c14b824201
+V/FA-SVC  ( 1289):     resettable_device_id: 
+V/FA-SVC  ( 1289):     ds_id: 
+V/FA-SVC  ( 1289):     os_version: 17
+V/FA-SVC  ( 1289):     device_model: sdk_gphone64_x86_64
+V/FA-SVC  ( 1289):     user_default_language: en-us
+V/FA-SVC  ( 1289):     time_zone_offset_minutes: -480
+V/FA-SVC  ( 1289):     bundle_sequential_index: 202
+V/FA-SVC  ( 1289):     delivery_index: 171
+V/FA-SVC  ( 1289):     service_upload: true
+V/FA-SVC  ( 1289):     health_monitor: 
+V/FA-SVC  ( 1289):     consent_signals: G111
+V/FA-SVC  ( 1289):     is_dma_region: false
+V/FA-SVC  ( 1289):     consent_diagnostics: 13333
+V/FA-SVC  ( 1289):     target_os_version: 36
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: non_personalized_ads(_npa)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 0
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_time(_fot)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794409200000
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_after_install(_fi)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_number(_sno)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_id(_sid)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794407024
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409113459
+V/FA-SVC  ( 1289):       name: traffic_cohort
+V/FA-SVC  ( 1289):       string_value: natural
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409403941
+V/FA-SVC  ( 1289):       name: lifetime_user_engagement(_lte)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2156970
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409403946
+V/FA-SVC  ( 1289):       name: session_user_engagement(_se)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2156969
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     event {
+V/FA-SVC  ( 1289):       name: screen_view(_vs)
+V/FA-SVC  ( 1289):       timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):       corrected_timestamp_millis: 1794409401158
+V/FA-SVC  ( 1289):       previous_timestamp_millis: 1794409318626
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_event_origin(_o)
+V/FA-SVC  ( 1289):         string_value: app
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _r
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: engagement_time_msec(_et)
+V/FA-SVC  ( 1289):         int_value: 83262
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_class(_pc)
+V/FA-SVC  ( 1289):         string_value: diagnostics
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_id(_pi)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011586
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_screen(_pn)
+V/FA-SVC  ( 1289):         string_value: diagnostics
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_class(_sc)
+V/FA-SVC  ( 1289):         string_value: settings
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_id(_si)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011587
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen(_sn)
+V/FA-SVC  ( 1289):         string_value: settings
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _dbg
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):   }
+V/FA-SVC  ( 1289): } // End-of-batch
+V/FA-SVC  ( 1289): Uploading bundle with GmsCore network library. app: com.tools.loadapp
+V/FA-SVC  ( 1289): Not stopping services. fetch, network, upload: false, true, false
+V/FA-SVC  ( 1289): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
+V/FA-SVC  ( 1289): Network upload successful with code, uploadAttempted: 204, true
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 3599993
+V/FA-SVC  ( 1289): Scheduling upload, millis: 3599993
+V/FA-SVC  ( 1289): Successful upload. Got network response. code, size: 204, 0
+V/FA-SVC  ( 1289): Nothing to upload or uploading impossible
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Stopping uploading service(s)
+V/FA      (21255): Inactivity, disconnecting from the service
+V/FA      (21255): Logging screen view with name, class: home, home
+V/FA      (21255): Connecting to remote service
+V/FA      (21255): Recording user engagement, ms: 7291
+V/FA      (21255): Connection attempt already in progress
+D/FA      (21255): Connected to remote service
+V/FA      (21255): Processing queued up service tasks: 2
+V/FA      (21255): Logging telemetry for logEvent from database
+V/FA-SVC  ( 1289): EES not loaded for: com.tools.loadapp
+V/FA-SVC  ( 1289): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=7291, ga_previous_class(_pc)=settings, ga_previous_id(_pi)=8391940526748011587, ga_previous_screen(_pn)=settings, ga_screen_class(_sc)=home, ga_screen_id(_si)=8391940526748011588, ga_screen(_sn)=home}]
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 500
+V/FA-SVC  ( 1289): Scheduling upload, millis: 500
+V/FA-SVC  ( 1289): Background event processing time, ms: 9
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Starting upload from DelayedRunnable
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: lifetime, 2164261
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: session-scoped, 2164260
+V/FA-SVC  ( 1289): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
+V/FA-SVC  ( 1289): Saving bundle, size: 572
+D/FA-SVC  ( 1289): Uploading events. Elapsed time since last upload attempt (ms): 512
+V/FA-SVC  ( 1289): Uploading data. app, uncompressed size, data: com.tools.loadapp, 692, 
+V/FA-SVC  ( 1289): batch {
+V/FA-SVC  ( 1289):   bundle {
+V/FA-SVC  ( 1289):     protocol_version: 1
+V/FA-SVC  ( 1289):     platform: android
+V/FA-SVC  ( 1289):     gmp_version: 194006
+V/FA-SVC  ( 1289):     uploading_gmp_version: 264330
+V/FA-SVC  ( 1289):     dynamite_version: 218
+V/FA-SVC  ( 1289):     config_version: 1794365021882005
+V/FA-SVC  ( 1289):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
+V/FA-SVC  ( 1289):     app_id: com.tools.loadapp
+V/FA-SVC  ( 1289):     app_version: 1.2.0
+V/FA-SVC  ( 1289):     app_version_major: 3
+V/FA-SVC  ( 1289):     firebase_instance_id: f8MlWHOKTWidfd1olFWpTs
+V/FA-SVC  ( 1289):     dev_cert_hash: 4166952967716750813
+V/FA-SVC  ( 1289):     app_store: manual_install
+V/FA-SVC  ( 1289):     upload_timestamp_millis: 1794409410016
+V/FA-SVC  ( 1289):     start_timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):     end_timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):     previous_bundle_start_timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):     previous_bundle_end_timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):     app_instance_id: ab611d9005f7b399c8a021c14b824201
+V/FA-SVC  ( 1289):     resettable_device_id: 
+V/FA-SVC  ( 1289):     ds_id: 
+V/FA-SVC  ( 1289):     os_version: 17
+V/FA-SVC  ( 1289):     device_model: sdk_gphone64_x86_64
+V/FA-SVC  ( 1289):     user_default_language: en-us
+V/FA-SVC  ( 1289):     time_zone_offset_minutes: -480
+V/FA-SVC  ( 1289):     bundle_sequential_index: 203
+V/FA-SVC  ( 1289):     delivery_index: 172
+V/FA-SVC  ( 1289):     service_upload: true
+V/FA-SVC  ( 1289):     health_monitor: 
+V/FA-SVC  ( 1289):     consent_signals: G111
+V/FA-SVC  ( 1289):     is_dma_region: false
+V/FA-SVC  ( 1289):     consent_diagnostics: 13333
+V/FA-SVC  ( 1289):     target_os_version: 36
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: non_personalized_ads(_npa)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 0
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_time(_fot)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794409200000
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_after_install(_fi)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_number(_sno)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_id(_sid)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794407024
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409113459
+V/FA-SVC  ( 1289):       name: traffic_cohort
+V/FA-SVC  ( 1289):       string_value: natural
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409410018
+V/FA-SVC  ( 1289):       name: lifetime_user_engagement(_lte)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2164261
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409410025
+V/FA-SVC  ( 1289):       name: session_user_engagement(_se)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2164260
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     event {
+V/FA-SVC  ( 1289):       name: screen_view(_vs)
+V/FA-SVC  ( 1289):       timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):       corrected_timestamp_millis: 1794409408448
+V/FA-SVC  ( 1289):       previous_timestamp_millis: 1794409401890
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_event_origin(_o)
+V/FA-SVC  ( 1289):         string_value: app
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _r
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: engagement_time_msec(_et)
+V/FA-SVC  ( 1289):         int_value: 7291
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_class(_pc)
+V/FA-SVC  ( 1289):         string_value: settings
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_id(_pi)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011587
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_screen(_pn)
+V/FA-SVC  ( 1289):         string_value: settings
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_class(_sc)
+V/FA-SVC  ( 1289):         string_value: home
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_id(_si)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011588
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen(_sn)
+V/FA-SVC  ( 1289):         string_value: home
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _dbg
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):   }
+V/FA-SVC  ( 1289): } // End-of-batch
+V/FA-SVC  ( 1289): Uploading bundle with GmsCore network library. app: com.tools.loadapp
+V/FA-SVC  ( 1289): Not stopping services. fetch, network, upload: false, true, false
+V/FA-SVC  ( 1289): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
+V/FA-SVC  ( 1289): Network upload successful with code, uploadAttempted: 204, true
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 3599984
+V/FA-SVC  ( 1289): Scheduling upload, millis: 3599984
+V/FA-SVC  ( 1289): Successful upload. Got network response. code, size: 204, 0
+V/FA-SVC  ( 1289): Nothing to upload or uploading impossible
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Stopping uploading service(s)
+V/FA      (21255): Inactivity, disconnecting from the service
+V/FA      (21255): Logging screen view with name, class: loan/personal, loan/personal
+V/FA      (21255): Connecting to remote service
+V/FA      (21255): Recording user engagement, ms: 14705
+V/FA      (21255): Connection attempt already in progress
+D/FA      (21255): Connected to remote service
+V/FA      (21255): Processing queued up service tasks: 2
+V/FA      (21255): Logging telemetry for logEvent from database
+V/FA-SVC  ( 1289): EES not loaded for: com.tools.loadapp
+V/FA-SVC  ( 1289): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=14705, ga_previous_class(_pc)=home, ga_previous_id(_pi)=8391940526748011588, ga_previous_screen(_pn)=home, ga_screen_class(_sc)=loan/personal, ga_screen_id(_si)=8391940526748011589, ga_screen(_sn)=loan/personal}]
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 500
+V/FA-SVC  ( 1289): Scheduling upload, millis: 500
+V/FA-SVC  ( 1289): Background event processing time, ms: 13
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Starting upload from DelayedRunnable
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: lifetime, 2178966
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: session-scoped, 2178965
+V/FA-SVC  ( 1289): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 1
+V/FA-SVC  ( 1289): Saving bundle, size: 582
+D/FA-SVC  ( 1289): Uploading events. Elapsed time since last upload attempt (ms): 632
+V/FA-SVC  ( 1289): Uploading data. app, uncompressed size, data: com.tools.loadapp, 702, 
+V/FA-SVC  ( 1289): batch {
+V/FA-SVC  ( 1289):   bundle {
+V/FA-SVC  ( 1289):     protocol_version: 1
+V/FA-SVC  ( 1289):     platform: android
+V/FA-SVC  ( 1289):     gmp_version: 194006
+V/FA-SVC  ( 1289):     uploading_gmp_version: 264330
+V/FA-SVC  ( 1289):     dynamite_version: 218
+V/FA-SVC  ( 1289):     config_version: 1794365021882005
+V/FA-SVC  ( 1289):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
+V/FA-SVC  ( 1289):     app_id: com.tools.loadapp
+V/FA-SVC  ( 1289):     app_version: 1.2.0
+V/FA-SVC  ( 1289):     app_version_major: 3
+V/FA-SVC  ( 1289):     firebase_instance_id: f8MlWHOKTWidfd1olFWpTs
+V/FA-SVC  ( 1289):     dev_cert_hash: 4166952967716750813
+V/FA-SVC  ( 1289):     app_store: manual_install
+V/FA-SVC  ( 1289):     upload_timestamp_millis: 1794409425355
+V/FA-SVC  ( 1289):     start_timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):     end_timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):     previous_bundle_start_timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):     previous_bundle_end_timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):     app_instance_id: ab611d9005f7b399c8a021c14b824201
+V/FA-SVC  ( 1289):     resettable_device_id: 
+V/FA-SVC  ( 1289):     ds_id: 
+V/FA-SVC  ( 1289):     os_version: 17
+V/FA-SVC  ( 1289):     device_model: sdk_gphone64_x86_64
+V/FA-SVC  ( 1289):     user_default_language: en-us
+V/FA-SVC  ( 1289):     time_zone_offset_minutes: -480
+V/FA-SVC  ( 1289):     bundle_sequential_index: 204
+V/FA-SVC  ( 1289):     delivery_index: 173
+V/FA-SVC  ( 1289):     service_upload: true
+V/FA-SVC  ( 1289):     health_monitor: 
+V/FA-SVC  ( 1289):     consent_signals: G111
+V/FA-SVC  ( 1289):     is_dma_region: false
+V/FA-SVC  ( 1289):     consent_diagnostics: 13333
+V/FA-SVC  ( 1289):     target_os_version: 36
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: non_personalized_ads(_npa)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 0
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_time(_fot)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794409200000
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_after_install(_fi)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_number(_sno)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_id(_sid)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794407024
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409113459
+V/FA-SVC  ( 1289):       name: traffic_cohort
+V/FA-SVC  ( 1289):       string_value: natural
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409425387
+V/FA-SVC  ( 1289):       name: lifetime_user_engagement(_lte)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2178966
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409425411
+V/FA-SVC  ( 1289):       name: session_user_engagement(_se)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2178965
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     event {
+V/FA-SVC  ( 1289):       name: screen_view(_vs)
+V/FA-SVC  ( 1289):       timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):       corrected_timestamp_millis: 1794409423155
+V/FA-SVC  ( 1289):       previous_timestamp_millis: 1794409409180
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_event_origin(_o)
+V/FA-SVC  ( 1289):         string_value: app
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _r
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: engagement_time_msec(_et)
+V/FA-SVC  ( 1289):         int_value: 14705
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_class(_pc)
+V/FA-SVC  ( 1289):         string_value: home
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_id(_pi)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011588
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_screen(_pn)
+V/FA-SVC  ( 1289):         string_value: home
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_class(_sc)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_id(_si)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011589
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen(_sn)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _dbg
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):   }
+V/FA-SVC  ( 1289): } // End-of-batch
+V/FA-SVC  ( 1289): Uploading bundle with GmsCore network library. app: com.tools.loadapp
+V/FA-SVC  ( 1289): Not stopping services. fetch, network, upload: false, true, false
+V/FA-SVC  ( 1289): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
+V/FA-SVC  ( 1289): Network upload successful with code, uploadAttempted: 204, true
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 3599992
+V/FA-SVC  ( 1289): Scheduling upload, millis: 3599992
+V/FA-SVC  ( 1289): Successful upload. Got network response. code, size: 204, 0
+V/FA-SVC  ( 1289): Nothing to upload or uploading impossible
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Stopping uploading service(s)
+V/FA      (21255): Inactivity, disconnecting from the service
+V/FA      (21255): Connecting to remote service
+V/FA      (21255): Logging screen view with name, class: result/[id], result/[id]
+V/FA      (21255): Connection attempt already in progress
+V/FA      (21255): Recording user engagement, ms: 45381
+V/FA      (21255): Connection attempt already in progress
+D/FA      (21255): Connected to remote service
+V/FA      (21255): Processing queued up service tasks: 3
+V/FA-SVC  ( 1289): EES not loaded for: com.tools.loadapp
+V/FA      (21255): Logging telemetry for logEvent from database
+V/FA-SVC  ( 1289): Logging event: origin=app,name=calc_success,params=Bundle[{ga_event_origin(_o)=app, ga_screen_class(_sc)=loan/personal, ga_screen_id(_si)=8391940526748011589, ga_screen(_sn)=loan/personal, type=personal, currency=GBP}]
+V/FA      (21255): Logging telemetry for logEvent from database
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 500
+V/FA-SVC  ( 1289): Scheduling upload, millis: 500
+V/FA-SVC  ( 1289): Background event processing time, ms: 27
+V/FA-SVC  ( 1289): EES not loaded for: com.tools.loadapp
+V/FA-SVC  ( 1289): Logging event: origin=app,name=screen_view(_vs),params=Bundle[{ga_event_origin(_o)=app, engagement_time_msec(_et)=45381, ga_previous_class(_pc)=loan/personal, ga_previous_id(_pi)=8391940526748011589, ga_previous_screen(_pn)=loan/personal, ga_screen_class(_sc)=result/[id], ga_screen_id(_si)=8391940526748011590, ga_screen(_sn)=result/[id]}]
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 941
+V/FA-SVC  ( 1289): Scheduling upload, millis: 941
+V/FA-SVC  ( 1289): Background event processing time, ms: 9
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Starting upload from DelayedRunnable
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: lifetime, 2224347
+V/FA-SVC  ( 1289): Updated engagement user property. scope, value: session-scoped, 2224346
+V/FA-SVC  ( 1289): Bundling raw events. appId, hasRealtimeData, totalEvents: com.tools.loadapp, false, 2
+V/FA-SVC  ( 1289): Saving bundle, size: 653
+D/FA-SVC  ( 1289): Uploading events. Elapsed time since last upload attempt (ms): 539
+V/FA-SVC  ( 1289): Uploading data. app, uncompressed size, data: com.tools.loadapp, 882, 
+V/FA-SVC  ( 1289): batch {
+V/FA-SVC  ( 1289):   bundle {
+V/FA-SVC  ( 1289):     protocol_version: 1
+V/FA-SVC  ( 1289):     platform: android
+V/FA-SVC  ( 1289):     gmp_version: 194006
+V/FA-SVC  ( 1289):     uploading_gmp_version: 264330
+V/FA-SVC  ( 1289):     dynamite_version: 218
+V/FA-SVC  ( 1289):     config_version: 1794365021882005
+V/FA-SVC  ( 1289):     gmp_app_id: 1:436470368042:android:f265c3a01c22892b824053
+V/FA-SVC  ( 1289):     app_id: com.tools.loadapp
+V/FA-SVC  ( 1289):     app_version: 1.2.0
+V/FA-SVC  ( 1289):     app_version_major: 3
+V/FA-SVC  ( 1289):     firebase_instance_id: f8MlWHOKTWidfd1olFWpTs
+V/FA-SVC  ( 1289):     dev_cert_hash: 4166952967716750813
+V/FA-SVC  ( 1289):     app_store: manual_install
+V/FA-SVC  ( 1289):     upload_timestamp_millis: 1794409470166
+V/FA-SVC  ( 1289):     start_timestamp_millis: 1794409468906
+V/FA-SVC  ( 1289):     end_timestamp_millis: 1794409469268
+V/FA-SVC  ( 1289):     previous_bundle_start_timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):     previous_bundle_end_timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):     app_instance_id: ab611d9005f7b399c8a021c14b824201
+V/FA-SVC  ( 1289):     resettable_device_id: 
+V/FA-SVC  ( 1289):     ds_id: 
+V/FA-SVC  ( 1289):     os_version: 17
+V/FA-SVC  ( 1289):     device_model: sdk_gphone64_x86_64
+V/FA-SVC  ( 1289):     user_default_language: en-us
+V/FA-SVC  ( 1289):     time_zone_offset_minutes: -480
+V/FA-SVC  ( 1289):     bundle_sequential_index: 206
+V/FA-SVC  ( 1289):     delivery_index: 174
+V/FA-SVC  ( 1289):     service_upload: true
+V/FA-SVC  ( 1289):     health_monitor: 
+V/FA-SVC  ( 1289):     consent_signals: G111
+V/FA-SVC  ( 1289):     is_dma_region: false
+V/FA-SVC  ( 1289):     consent_diagnostics: 13333
+V/FA-SVC  ( 1289):     target_os_version: 36
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: non_personalized_ads(_npa)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 0
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_time(_fot)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794409200000
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407023082
+V/FA-SVC  ( 1289):       name: first_open_after_install(_fi)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_number(_sno)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794407024755
+V/FA-SVC  ( 1289):       name: ga_session_id(_sid)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 1794407024
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409113459
+V/FA-SVC  ( 1289):       name: traffic_cohort
+V/FA-SVC  ( 1289):       string_value: natural
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409470185
+V/FA-SVC  ( 1289):       name: lifetime_user_engagement(_lte)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2224347
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     user_property {
+V/FA-SVC  ( 1289):       set_timestamp_millis: 1794409470186
+V/FA-SVC  ( 1289):       name: session_user_engagement(_se)
+V/FA-SVC  ( 1289):       string_value: 
+V/FA-SVC  ( 1289):       int_value: 2224346
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     event {
+V/FA-SVC  ( 1289):       name: calc_success
+V/FA-SVC  ( 1289):       timestamp_millis: 1794409468906
+V/FA-SVC  ( 1289):       corrected_timestamp_millis: 1794409468174
+V/FA-SVC  ( 1289):       previous_timestamp_millis: 1794409219945
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_event_origin(_o)
+V/FA-SVC  ( 1289):         string_value: app
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _r
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_class(_sc)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_id(_si)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011589
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen(_sn)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _dbg
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: type
+V/FA-SVC  ( 1289):         string_value: personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: currency
+V/FA-SVC  ( 1289):         string_value: GBP
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):     event {
+V/FA-SVC  ( 1289):       name: screen_view(_vs)
+V/FA-SVC  ( 1289):       timestamp_millis: 1794409469268
+V/FA-SVC  ( 1289):       corrected_timestamp_millis: 1794409468536
+V/FA-SVC  ( 1289):       previous_timestamp_millis: 1794409423888
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_event_origin(_o)
+V/FA-SVC  ( 1289):         string_value: app
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _r
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: engagement_time_msec(_et)
+V/FA-SVC  ( 1289):         int_value: 45381
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_class(_pc)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_id(_pi)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011589
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_previous_screen(_pn)
+V/FA-SVC  ( 1289):         string_value: loan/personal
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_class(_sc)
+V/FA-SVC  ( 1289):         string_value: result/[id]
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen_id(_si)
+V/FA-SVC  ( 1289):         int_value: 8391940526748011590
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: ga_screen(_sn)
+V/FA-SVC  ( 1289):         string_value: result/[id]
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):       param {
+V/FA-SVC  ( 1289):         name: _dbg
+V/FA-SVC  ( 1289):         int_value: 1
+V/FA-SVC  ( 1289):       }
+V/FA-SVC  ( 1289):     }
+V/FA-SVC  ( 1289):   }
+V/FA-SVC  ( 1289): } // End-of-batch
+V/FA-SVC  ( 1289): Uploading bundle with GmsCore network library. app: com.tools.loadapp
+V/FA-SVC  ( 1289): Not stopping services. fetch, network, upload: false, true, false
+V/FA-SVC  ( 1289): Gms url request successful. app: com.tools.loadapp, GOOGLE_ANALYTICS
+V/FA-SVC  ( 1289): Network upload successful with code, uploadAttempted: 204, true
+V/FA-SVC  ( 1289): Upload scheduled in approximately ms: 3599990
+V/FA-SVC  ( 1289): Scheduling upload, millis: 3599990
+V/FA-SVC  ( 1289): Successful upload. Got network response. code, size: 204, 0
+V/FA-SVC  ( 1289): Nothing to upload or uploading impossible
+V/FA-SVC  ( 1289): Unscheduling upload
+V/FA-SVC  ( 1289): Stopping uploading service(s)
+V/FA      (21255): Inactivity, disconnecting from the service

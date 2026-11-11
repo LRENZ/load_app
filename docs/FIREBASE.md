@@ -100,6 +100,6 @@ To add AdMob or GAM later:
   - the Firebase installation / app instance ID;
   - the FCM token.
 - Not collected: the advertising ID or SSAID (both disabled in `firebase.json`). Loan inputs are never sent.
-- The merged manifest still **declares** `com.google.android.gms.permission.AD_ID`, which the Analytics SDK adds; AdMob will need it later anyway. Play Console asks whether the app uses the advertising ID: answer for analytics (collection off) now, and for advertising once ads ship.
+- Since 1.2.0 the `AD_ID` and AdServices permissions that the Analytics SDK adds are **removed** from the manifest (`android.blockedPermissions` in app.json), so the Play Console answer "does not use advertising ID" matches the bundle. AdMob will need `AD_ID` again: remove it from `blockedPermissions` when ads ship.
 - Declare these in the Play **Data safety** form. If you serve users in the EEA / UK, add a consent step (for example Google UMP) before turning on ads and analytics consent mode. `setConsent` is available in the Analytics API.
 - `google-services.json` isn't a secret in the strict sense, but it identifies your project. It is git-ignored here; restrict the API key in Google Cloud console to the Android app (package + SHA-1).

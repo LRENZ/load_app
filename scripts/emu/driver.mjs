@@ -20,7 +20,9 @@ export function parseNodes(xml) {
   let m;
   while ((m = re.exec(xml))) {
     const attrs = {};
-    for (const a of m[1].matchAll(/([\w-]+)="([^"]*)"/g)) attrs[a[1]] = a[2].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#10;/g, '\n');
+    // uiautomator quotes a value with ' when it contains " (e.g. a policy text with "the app")
+    for (const a of m[1].matchAll(/([\w-]+)=(?:"([^"]*)"|'([^']*)')/g))
+      attrs[a[1]] = (a[2] ?? a[3]).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#10;/g, '\n');
     const b = /\[(\d+),(\d+)\]\[(\d+),(\d+)\]/.exec(attrs.bounds || '');
     if (b) attrs.box = { x1: +b[1], y1: +b[2], x2: +b[3], y2: +b[4], cx: (+b[1] + +b[3]) >> 1, cy: (+b[2] + +b[4]) >> 1 };
     nodes.push(attrs);

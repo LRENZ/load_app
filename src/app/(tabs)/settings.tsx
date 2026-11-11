@@ -1,26 +1,36 @@
 import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LANGUAGES } from '../../i18n/index.ts';
 import { kv, KEYS } from '../../storage/kv.ts';
 import { appStore, useApp } from '../../state/app.ts';
 import { openAppSettings, permissionState, requestPermission, showRatePreview, type PermissionState } from '../../state/notifications.ts';
+import * as Application from 'expo-application';
 import Constants from 'expo-constants';
 import { analytics, DEBUG_TOOLS } from '../../state/services.ts';
 import { Icon, type IconName, snackbar } from '../../ui/components.tsx';
 import { RatingDialog } from '../../ui/pickers.tsx';
 import { C } from '../../ui/theme.ts';
 
-/**
- * Store-review destination is not configured until the app has its own store
- * listing; submissions are kept locally (see FUTURE_INTEGRATIONS.md).
- */
-function recordRating(stars: number) {
+/** 4–5 stars → the app's Google Play listing (to write a public review); 1–3 stars stay as local feedback. */
+const STORE_REVIEW_MIN_STARS = 4;
+
+function recordRating(stars: number, destination: 'play_store' | 'local_only') {
   const list = kv.get<{ stars: number; at: number }[]>(KEYS.ratings, []);
   list.push({ stars, at: Date.now() });
   kv.set(KEYS.ratings, list.slice(-50));
-  analytics.track('rating_submit', { stars, destination: 'local_only' });
+  analytics.track('rating_submit', { stars, destination });
+}
+
+async function openPlayListing() {
+  const id = Application.applicationId ?? 'com.tools.loadapp';
+  try {
+    await Linking.openURL(`market://details?id=${id}`);
+  } catch {
+    // no Play Store app (some devices / emulators): the web listing
+    await Linking.openURL(`https://play.google.com/store/apps/details?id=${id}`).catch(() => undefined);
+  }
 }
 
 export default function Settings() {
@@ -115,8 +125,14 @@ export default function Settings() {
         onClose={() => setRating(false)}
         onSubmit={(stars) => {
           setRating(false);
-          recordRating(stars);
-          snackbar.show(t('rate_saved_dev', { n: stars }));
+          if (stars >= STORE_REVIEW_MIN_STARS) {
+            recordRating(stars, 'play_store');
+            snackbar.show(t('rate_thanks_store', { n: stars }));
+            void openPlayListing();
+          } else {
+            recordRating(stars, 'local_only');
+            snackbar.show(t('rate_thanks_local'));
+          }
         }}
       />
     </ScrollView>

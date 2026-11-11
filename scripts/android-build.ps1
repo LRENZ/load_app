@@ -1,19 +1,27 @@
 <#
   Builds the Android APK from the command line (no Android Studio IDE needed).
 
-  .\scripts\android-build.ps1                 # standalone APK, JS bundle embedded (release variant, debug-signed)
+  .\scripts\android-build.ps1                 # standalone APK, JS bundle embedded (release variant)
+  .\scripts\android-build.ps1 -Bundle         # Google Play App Bundle (.aab), release variant
   .\scripts\android-build.ps1 -Variant debug  # development APK (loads JS from Metro)
-  .\scripts\android-build.ps1 -Mode mock      # standalone APK with the debug mock-ads mode
+  .\scripts\android-build.ps1 -Mode mock      # standalone APK with the debug mock-ads mode (never upload)
+
+  Release builds are signed with the upload key in credentials\keystore.properties when it exists
+  (plugins/withReleaseSigning.js), otherwise with the debug key (Gradle prints a warning).
 
   Output: android\app\build\outputs\apk\<variant>\app-<variant>.apk
+          android\app\build\outputs\bundle\release\app-release.aab   (-Bundle)
 #>
 param(
   [ValidateSet('release', 'debug')] [string]$Variant = 'release',
   [ValidateSet('functional', 'mock')] [string]$Mode = 'functional',
   [string]$Abis = 'x86_64,arm64-v8a',
+  # Build an Android App Bundle (bundleRelease) instead of an APK.
+  [switch]$Bundle,
   # Route Maven downloads through scripts/maven-mirror.mjs (curl-backed local cache) when Java TLS via the proxy is unreliable.
   [switch]$UseMirror
 )
+if ($Bundle -and $Mode -ne 'functional') { throw 'App Bundles are for Google Play: functional mode only.' }
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 
@@ -50,7 +58,7 @@ try {
   foreach ($p in 'app\build\generated\assets\react', 'app\build\generated\sourcemaps\react', 'app\build\intermediates\sourcemaps\react', 'app\build\intermediates\assets') {
     if (Test-Path $p) { Remove-Item -Recurse -Force $p }
   }
-  $task = if ($Variant -eq 'release') { 'assembleRelease' } else { 'assembleDebug' }
+  $task = if ($Bundle) { 'bundleRelease' } elseif ($Variant -eq 'release') { 'assembleRelease' } else { 'assembleDebug' }
   # Windows PowerShell 5.1 turns native stderr into errors; Gradle warns on stderr, so don't stop on it.
   $ErrorActionPreference = 'Continue'
   $extra = @()
@@ -71,6 +79,6 @@ try {
 } finally {
   Pop-Location
 }
-$apk = "$root\android\app\build\outputs\apk\$Variant\app-$Variant.apk"
-Get-Item $apk | Select-Object FullName, Length, LastWriteTime
-(Get-FileHash $apk -Algorithm SHA256).Hash
+$out = if ($Bundle) { "$root\android\app\build\outputs\bundle\release\app-release.aab" } else { "$root\android\app\build\outputs\apk\$Variant\app-$Variant.apk" }
+Get-Item $out | Select-Object FullName, Length, LastWriteTime
+(Get-FileHash $out -Algorithm SHA256).Hash

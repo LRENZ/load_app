@@ -196,15 +196,11 @@ export const es: Strings = {
   rate_msg_highlight: '5 estrellas',
   rate_msg_after: ' para seguir mejorando!',
   rate_star_cd: 'Valorar con {n} de 5 estrellas',
-  rate_saved_dev: '¡Gracias por tus {n} estrellas! Las reseñas de la tienda no están disponibles en esta versión de desarrollo, así que tu valoración se guardó en este dispositivo.',
+  rate_thanks_store: '¡Gracias por tus {n} estrellas! Abriendo Google Play para que puedas compartir tu reseña.',
+  rate_thanks_local: '¡Gracias por tu opinión! La usaremos para mejorar Repayly.',
 
   legal_loading: 'Cargando…',
   legal_error: 'No se pudo cargar esta página.',
-  legal_dev_banner: 'Texto provisional de desarrollo: el propietario aún no ha proporcionado este documento.',
-  privacy_body:
-    'Este texto provisional se sustituirá por la política de privacidad del propietario antes del lanzamiento.\n\nQué hace esta versión con tus datos:\n• Los datos, resultados e historial de préstamos se guardan solo en este dispositivo.\n• Tus preferencias de idioma, moneda y notificaciones se guardan solo en este dispositivo.\n• La herramienta de cambio consulta tipos públicos en api.frankfurter.dev y solo envía los dos códigos de moneda.\n• En esta versión no salen del dispositivo datos de analítica, publicidad ni errores.',
-  terms_body:
-    'Este texto provisional se sustituirá por los términos del servicio del propietario antes del lanzamiento.\n\n• Los resultados son estimaciones para planificar y no constituyen asesoramiento financiero ni una oferta de crédito.\n• Los pagos reales pueden variar por comisiones, redondeos y calendarios de pago.\n• Los tipos de cambio proceden de un servicio público de referencia y pueden tener retraso.',
 
   intro_1_title: 'Planifica cada pago',
   intro_1_desc: 'Consulta tu cuota mensual, los intereses totales y la fecha de liquidación en segundos.',

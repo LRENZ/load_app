@@ -2,7 +2,7 @@
   "expo": {
     "name": "Repayly",
     "slug": "load-app",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "loadapp",
@@ -19,14 +19,17 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.tools.loadapp",
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.INTERNET"
       ],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
-        "android.permission.SYSTEM_ALERT_WINDOW"
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "com.google.android.gms.permission.AD_ID",
+        "android.permission.ACCESS_ADSERVICES_AD_ID",
+        "android.permission.ACCESS_ADSERVICES_ATTRIBUTION"
       ],
       "googleServicesFile": "./google-services.json"
     },
@@ -73,7 +76,8 @@
       "./plugins/withShortCmakeObjectPaths",
       "@react-native-firebase/app",
       "@react-native-firebase/crashlytics",
-      "./plugins/withConfigChanges"
+      "./plugins/withConfigChanges",
+      "./plugins/withReleaseSigning"
     ],
     "experiments": {
       "reactCompiler": true

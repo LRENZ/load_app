@@ -49,3 +49,6 @@ example
 /google-services.json
 # Diagnostics screenshot shows the device FCM token: keep it local
 evidence/**/firebase-fcm.png
+
+# Release signing (upload key + passwords). Never commit; back up offline.
+/credentials/

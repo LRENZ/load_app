@@ -408,38 +408,65 @@ await scenario('CLOCK01', 'world clock shows four zones', async () => {
   back();
 });
 
-await scenario('RATE01', 'rating dialog: star selection, Submit, Close', async () => {
+await scenario('RATE01', 'rating: 1–3 stars = local thanks; 4–5 stars open the Google Play listing; Close', async () => {
   await goHome();
   await tap({ id: 'tab-settings' });
   screenshot('settings');
-  // The confirmation is a 3.5 s snackbar: repeat the whole rate → submit flow (up to 3×) until it is caught.
+  // low rating: stays in the app with a thank-you (3.5 s snackbar → repeat until caught)
   let seen = false;
   for (let i = 0; i < 3 && !seen; i++) {
     await tap({ id: 'settings-rate' });
     await waitFor({ id: 'rating-dialog' });
     if (i === 0) screenshot('rating-empty');
-    await tap({ id: 'rating-star-4' });
-    if (i === 0) screenshot('rating-4');
+    await tap({ id: 'rating-star-2' });
     await tap({ id: 'rating-submit' });
     const t = Date.now();
     while (!seen && Date.now() - t < 3000) {
-      seen = has('Thanks for your 4-star rating!');
+      seen = has('Thanks for your feedback! We will use it to make Repayly better.');
       if (!seen) await sleep(150);
     }
   }
-  expect(seen, 'rating confirmation not seen after 3 submits');
+  expect(seen, 'local thank-you not seen');
+  // high rating: Google Play opens on this app's listing
+  await tap({ id: 'settings-rate' });
+  await tap({ id: 'rating-star-5' });
+  screenshot('rating-5');
+  await tap({ id: 'rating-submit' });
+  let top = '';
+  const t0 = Date.now();
+  while (Date.now() - t0 < 20_000) {
+    try {
+      top = shell('dumpsys window | grep mCurrentFocus');
+    } catch {
+      top = '';
+    }
+    if (/com\.android\.vending|chrome|browser/i.test(top)) break;
+    await sleep(800);
+  }
+  expect(/com\.android\.vending|chrome|browser/i.test(top), 'Play listing not opened: ' + top.trim());
+  screenshot('rating-play-listing');
+  launch(); // back to the app
+  await waitFor({ id: 'tab-index' }, 60_000);
+  await tap({ id: 'tab-settings' });
   await tap({ id: 'settings-rate' });
   await tap({ id: 'rating-close' });
   expect(!find({ id: 'rating-dialog' }), 'close failed');
 });
 
-await scenario('LEGAL01', 'privacy and terms: placeholder content, scroll, Back', async () => {
+await scenario('LEGAL01', 'privacy policy and terms: real documents (no development placeholder), Back', async () => {
+  await goHome();
+  await tap({ id: 'tab-settings' });
   await tap({ id: 'settings-privacy' });
-  await waitFor({ id: 'legal-placeholder' });
+  await waitFor({ id: 'legal-body' });
+  const privacy = find({ id: 'legal-body' }).text;
+  expect(privacy.startsWith('Repayly Privacy Policy'), 'privacy heading');
+  expect(/Firebase/.test(privacy) && /install referrer/.test(privacy), 'privacy must describe Firebase and the install referrer');
+  expect(!/placeholder/i.test(privacy) && !find({ id: 'legal-placeholder' }), 'development placeholder still shown');
   screenshot('privacy');
   back();
   await tap({ id: 'settings-terms' });
   await waitFor({ id: 'legal-body' });
+  expect(find({ id: 'legal-body' }).text.startsWith('Repayly Terms of Use'), 'terms heading');
   screenshot('terms');
   back();
   await waitFor({ id: 'settings-terms' });

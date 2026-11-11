@@ -57,6 +57,15 @@ npx expo prebuild --platform android --clean   # generates android/ (git-ignored
 
 Mock-ads fixture scripts can also be driven by deep link, for example `adb shell am start -a android.intent.action.VIEW -d 'loadapp://debug?run=r1&adMode=mock&fill=no_fill&reset=1&preload=1&trigger=one' com.tools.loadapp`. The outcome appears on the `last:` line of the Developer screen.
 
+## Release for Google Play
+
+```powershell
+# App Bundle for the Play Console, signed with the upload key in credentials (git-ignored)
+.\scripts\android-build.ps1 -Bundle -UseMirror -Abis "armeabi-v7a,arm64-v8a,x86_64"
+```
+
+Output: `android\app\build\outputs\bundle\release\app-release.aab`. The upload key (`credentials/repayly-upload.p12` + `credentials/keystore.properties`) exists only on the build PC; **back it up**. Without it, release builds fall back to the debug key and must not be uploaded. Store listing, Data safety answers and the upload steps: [docs/PLAY_STORE.md](docs/PLAY_STORE.md). Store screenshots: `node scripts/make-store-screenshots.mjs <captures>`.
+
 ## Run on the emulator
 
 ```powershell
