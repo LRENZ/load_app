@@ -1,7 +1,7 @@
 # Parity report
 
 **Reference:** `com.easyloan.calculator.payment` 1.0.7 (spec bundle `easyloan-spec/Claude_Functionality_First`).
-**Replica:** `com.lrenz.loadapp` 1.0.0.
+**Replica:** `com.tools.loadapp` 1.0.0.
 
 ## Scope decision (read first)
 

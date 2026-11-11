@@ -6,7 +6,7 @@ import { join } from 'node:path';
 const SDK = process.env.ANDROID_HOME || `${process.env.LOCALAPPDATA}\\Android\\Sdk`;
 export const ADB = join(SDK, 'platform-tools', 'adb.exe');
 export const SERIAL = process.env.ANDROID_SERIAL || 'emulator-5554';
-export const PKG = 'com.lrenz.loadapp';
+export const PKG = 'com.tools.loadapp';
 
 export function adb(args, opts = {}) {
   return execFileSync(ADB, ['-s', SERIAL, ...args], { encoding: opts.binary ? 'buffer' : 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: opts.timeout ?? 60_000 });
@@ -171,6 +171,8 @@ export async function scenario(id, title, fn) {
   // FROM=<id> resumes a run at that scenario (e.g. after an emulator crash).
   if (!reached && id === process.env.FROM) reached = true;
   if (!reached) return;
+  // ONLY=<id>,<id> re-runs just those scenarios (e.g. one that failed on timing while a build loaded the host).
+  if (process.env.ONLY && !process.env.ONLY.split(',').includes(id)) return;
   const t0 = Date.now();
   try {
     if (beforeEachHook) await beforeEachHook(id);

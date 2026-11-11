@@ -1,6 +1,6 @@
 // Emulator scenarios for the standalone (functional, NoOp ads) APK.
 // Usage: node scripts/emu/run-functional.mjs [outDir]   (app must be installed)
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   back, dump, expect, find, forceStop, hideKeyboard, launch, longPress, PKG, scenario, screenshot,
@@ -9,6 +9,8 @@ import {
 
 const out = process.argv[2] || 'evidence/functional';
 setOutDir(out);
+// Firebase: Analytics DebugView for this package + verbose SDK logs (read by FB04 / FB05; set before the app starts).
+for (const c of [`setprop debug.firebase.analytics.app ${PKG}`, 'setprop log.tag.FA VERBOSE', 'setprop log.tag.FA-SVC VERBOSE', 'setprop log.tag.FirebaseCrashlytics DEBUG']) shell(c);
 // Keep one failure from cascading: every scenario starts with the app in the foreground.
 setBeforeEach(async (id) => {
   if (id === 'INST01') return;
@@ -62,6 +64,19 @@ async function calculate() {
   hideKeyboard();
   await scrollUntil({ id: 'calculate' });
   await tap({ id: 'calculate' });
+}
+// Validation messages live in a 3.5 s snackbar while a uiautomator dump waits for an idle screen, so a single
+// check can miss it. Each Calculate on invalid input shows the same message again: retry the tap up to 3 times.
+async function calculateExpectSnack(text) {
+  for (let i = 0; i < 3; i++) {
+    await calculate();
+    const t = Date.now();
+    while (Date.now() - t < 3000) {
+      if (has(text)) return;
+      await sleep(150);
+    }
+  }
+  throw new Error('validation message not seen after 3 taps: ' + text);
 }
 async function resultValue(id) {
   const n = await waitFor({ id });
@@ -137,33 +152,27 @@ await scenario('NAV01', 'Back from result keeps form input; Back again → home 
 
 await scenario('VAL01', 'validation messages (empty, zero, term range)', async () => {
   await openTile('personal');
-  await calculate();
-  await expectText('Enter a loan amount.');
+  await calculateExpectSnack('Enter a loan amount.');
   screenshot('VAL-empty-amount');
   await setField('input-amount', '0');
   hideKeyboard();
-  await calculate();
-  await expectText('Enter an amount from 0.01');
+  await calculateExpectSnack('Enter an amount from 0.01');
   await setField('input-amount', '500');
   hideKeyboard();
-  await calculate();
-  await expectText('Enter an annual interest rate.');
+  await calculateExpectSnack('Enter an annual interest rate.');
   await setField('input-rate', '101');
   hideKeyboard();
-  await calculate();
-  await expectText('Enter a rate from 0% to 100%');
+  await calculateExpectSnack('Enter a rate from 0% to 100%');
   await setField('input-rate', '5');
   await setField('input-term', '361');
   hideKeyboard();
-  await calculate();
-  await expectText('1 to 360 months');
+  await calculateExpectSnack('1 to 360 months');
   await tap({ id: 'term-unit' });
   screenshot('term-menu');
   await tap({ id: 'term-unit-years' });
   await setField('input-term', '31');
   hideKeyboard();
-  await calculate();
-  await expectText('1 to 30 years');
+  await calculateExpectSnack('1 to 30 years');
   await tap({ id: 'reset-fields' });
   expect(find({ id: 'input-amount' }).text !== '500', 'reset did not clear');
 });
@@ -190,16 +199,14 @@ await scenario('C05', '1000 @ 12% 1 month from 2026-01-31 → 1010.00, 2026-02-2
 });
 
 await scenario('C03', 'monthly payment too small (1 @ 0% 360 months)', async () => {
-  await waitFor({ id: 'input-amount' });
+  if (!find({ id: 'input-amount' })) await openTile('personal');
   await fillLoan({ amount: '1', rate: '0', term: '360' });
-  await calculate();
-  await expectText('Monthly payment is too small');
+  await calculateExpectSnack('Monthly payment is too small');
 });
 
 await scenario('C04', 'rounded total below principal (0.17 @ 0.0001% 12 months)', async () => {
   await fillLoan({ amount: '0.17', rate: '0.0001', term: '12' });
-  await calculate();
-  await expectText('Total repayment cannot be below');
+  await calculateExpectSnack('Total repayment cannot be below');
   screenshot('C04-failure');
 });
 
@@ -392,15 +399,25 @@ await scenario('CLOCK01', 'world clock shows four zones', async () => {
 });
 
 await scenario('RATE01', 'rating dialog: star selection, Submit, Close', async () => {
+  await goHome();
   await tap({ id: 'tab-settings' });
   screenshot('settings');
-  await tap({ id: 'settings-rate' });
-  await waitFor({ id: 'rating-dialog' });
-  screenshot('rating-empty');
-  await tap({ id: 'rating-star-4' });
-  screenshot('rating-4');
-  await tap({ id: 'rating-submit' });
-  await expectText('Thanks for your 4-star rating!');
+  // The confirmation is a 3.5 s snackbar: repeat the whole rate → submit flow (up to 3×) until it is caught.
+  let seen = false;
+  for (let i = 0; i < 3 && !seen; i++) {
+    await tap({ id: 'settings-rate' });
+    await waitFor({ id: 'rating-dialog' });
+    if (i === 0) screenshot('rating-empty');
+    await tap({ id: 'rating-star-4' });
+    if (i === 0) screenshot('rating-4');
+    await tap({ id: 'rating-submit' });
+    const t = Date.now();
+    while (!seen && Date.now() - t < 3000) {
+      seen = has('Thanks for your 4-star rating!');
+      if (!seen) await sleep(150);
+    }
+  }
+  expect(seen, 'rating confirmation not seen after 3 submits');
   await tap({ id: 'settings-rate' });
   await tap({ id: 'rating-close' });
   expect(!find({ id: 'rating-dialog' }), 'close failed');
@@ -523,6 +540,118 @@ await scenario('LAYOUT360', '360 dp width: home, form and result remain usable',
     await sleep(2000);
     void density;
   }
+});
+
+await scenario('CFG01', 'display size and font size changed while open: no restart, navigation still works', async () => {
+  await goHome();
+  const pid = shell(`pidof ${PKG}`).trim();
+  shell('wm density 480');
+  shell('settings put system font_scale 1.3');
+  await sleep(3000);
+  shell('wm density reset');
+  shell('settings put system font_scale 1.0');
+  await sleep(3000);
+  await tap({ id: 'tab-settings' }, 20_000);
+  await tap({ id: 'settings-language' });
+  await waitFor({ contains: 'English' }, 10_000);
+  back();
+  await tap({ id: 'tab-index' });
+  await tap({ id: 'tile-personal' });
+  await waitFor({ id: 'input-amount' }, 10_000);
+  back();
+  expect(shell(`pidof ${PKG}`).trim() === pid, 'app process restarted (crash after configuration change)');
+});
+
+// ---- Firebase (functional build: real project from google-services.json) ----
+const gs = JSON.parse(readFileSync(new URL('../../google-services.json', import.meta.url), 'utf8'));
+const gsClient = gs.client.find((c) => c.client_info.android_client_info.package_name === PKG);
+const logcat = (filter) => shell(`logcat -d -v brief ${filter}`, { timeout: 60_000 });
+async function openDiagnostics() {
+  await goHome();
+  await tap({ id: 'tab-settings' });
+  await scrollUntil({ id: 'settings-version' }, 8);
+  await longPress({ id: 'settings-version' });
+  await waitFor({ id: 'diag-app' }, 10_000);
+}
+async function waitText(id, pred, timeout = 45_000) {
+  const t0 = Date.now();
+  let last;
+  while (Date.now() - t0 < timeout) {
+    last = find({ id })?.text;
+    if (last !== undefined && pred(last)) return last;
+    await sleep(1500);
+  }
+  throw new Error(`${id}: ${last}`);
+}
+
+await scenario('FB01', 'Firebase initialised from google-services.json: app id, project, collection on, instance id', async () => {
+  expect(gsClient, 'google-services.json has no client for ' + PKG);
+  await openDiagnostics();
+  expect(find({ id: 'diag-app' }).text === gsClient.client_info.mobilesdk_app_id, 'app id ' + find({ id: 'diag-app' }).text);
+  expect(find({ id: 'diag-project' }).text === gs.project_info.project_id, 'project');
+  expect(find({ id: 'diag-mode' }).text === 'functional', 'mode');
+  expect(find({ id: 'diag-collection' }).text === 'on', 'collection ' + find({ id: 'diag-collection' }).text);
+  await waitText('diag-instance', (v) => /^[0-9a-f]{32}$/.test(v));
+  screenshot('firebase-diagnostics');
+});
+
+await scenario('FB02', 'Remote Config fetch succeeds; ad policy stays on the NoOp placeholder', async () => {
+  await scrollUntil({ id: 'diag-rc-fetch' });
+  const st = await waitText('diag-rc-fetch', (v) => v !== 'not_started' && v !== 'no_fetch_yet');
+  expect(st === 'success', 'fetch status ' + st + ' ' + (find({ id: 'diag-rc-error' })?.text ?? ''));
+  expect(/^(embedded|remote-config)-natural \((embedded|stored)\)$/.test(find({ id: 'diag-ad-config' }).text), 'ad config ' + find({ id: 'diag-ad-config' }).text);
+  expect(find({ id: 'diag-ad-mode' }).text.startsWith('NoOp placeholder'), 'ad adapter');
+  screenshot('firebase-remote-config');
+});
+
+await scenario('FB03', 'FCM registration token obtained', async () => {
+  await scrollUntil({ id: 'diag-fcm-status' });
+  const st = await waitText('diag-fcm-status', (v) => v !== 'pending');
+  expect(st === 'ok', 'fcm ' + st + ' ' + (find({ id: 'diag-fcm-error' })?.text ?? ''));
+  await scrollUntil({ id: 'diag-fcm-token' });
+  const tok = find({ id: 'diag-fcm-token' }).text;
+  expect(/^[\w:-]{100,}$/.test(tok), 'token shape (len ' + tok.length + ')');
+  screenshot('firebase-fcm');
+});
+
+await scenario('FB04', 'Analytics: product events and screen views reach the Firebase SDK; NoOp ad events do not', async () => {
+  shell('logcat -c');
+  await goHome();
+  await openTile('personal');
+  await fillLoan({ amount: '2500', rate: '4', term: '6' });
+  await calculate();
+  await waitFor({ id: 'r-monthly' });
+  await sleep(4000);
+  const fa = logcat('FA:V FA-SVC:V *:S');
+  const logged = fa.split('\n').filter((l) => /Logging event/.test(l));
+  writeFileSync(join(out, 'firebase-analytics-logcat.txt'), fa);
+  expect(logged.some((l) => /calc_success/.test(l)), 'calc_success not logged (' + logged.length + ' events)');
+  expect(logged.some((l) => /screen_view|_vs/.test(l)), 'no screen_view');
+  expect(!logged.some((l) => /ad_opportunity|ad_skip|ad_show/.test(l)), 'NoOp ad-policy event was sent');
+  expect(!logged.some((l) => /2500/.test(l)), 'loan input leaked into analytics');
+  expect(/Successful upload. Got network response. code, size: 2\d\d/.test(fa), 'no successful Analytics upload (HTTP 2xx) in logcat');
+});
+
+await scenario('FB05', 'Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports', async () => {
+  await openDiagnostics();
+  await scrollUntil({ id: 'diag-crash-test' });
+  await tap({ id: 'diag-crash-test' });
+  await waitFor({ text: 'Test report recorded' });
+  shell('logcat -c');
+  launch(); // force-stop + start: Crashlytics sends stored reports on the next start
+  await waitFor({ id: 'tab-index' }, 30_000);
+  const sent = (l) => /Crashlytics report successfully enqueued to DataTransport/.test(l);
+  const uploaded = (l) => /crashlyticsreports-pa\.googleapis\.com[\s\S]*Status Code: 200/.test(l);
+  let cl = '';
+  const t0 = Date.now();
+  while (Date.now() - t0 < 120_000) {
+    await sleep(4000);
+    cl = logcat('FirebaseCrashlytics:V TRuntime.CctTransportBackend:V *:S');
+    if (sent(cl) && uploaded(cl)) break;
+  }
+  writeFileSync(join(out, 'firebase-crashlytics-logcat.txt'), cl);
+  expect(sent(cl), 'report not handed to DataTransport');
+  expect(uploaded(cl), 'no HTTP 200 from crashlyticsreports-pa.googleapis.com');
 });
 
 await scenario('BACK01', 'Android Back on Home leaves the app (no exit ad in NoOp)', async () => {

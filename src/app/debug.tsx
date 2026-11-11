@@ -10,6 +10,7 @@ import {
   ads,
   adMode,
   analytics,
+  analyticsTrace,
   APP_MODE,
   attribution,
   currentAdConfig,
@@ -132,7 +133,7 @@ export default function Debug() {
   const cohortFixture = kv.get<Cohort | null>(KEYS.debugCohort, null);
   const sig = risk.signals();
   const sc = mockAdapter.scenario('admob');
-  const trace = analytics.entries().slice(-30).reverse();
+  const trace = analyticsTrace.entries().slice(-30).reverse();
 
   return (
     <Screen header={<Header title="Developer" />}>

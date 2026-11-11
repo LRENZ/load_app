@@ -1,66 +1,72 @@
 {
-  "startedAt": "2026-11-10T19:35:21.280Z",
-  "ms": 283469,
+  "startedAt": "2026-11-11T06:54:07.425Z",
+  "ms": 453624,
   "results": [
     {
       "id": "MOCK00",
       "title": "fresh mock build: intro Skip saves completion; onboarding opportunity continues",
       "status": "pass",
-      "ms": 17024
+      "ms": 26632
     },
     {
       "id": "MOCK01",
       "title": "native slot fills with a labelled Local mock ad after preload",
       "status": "pass",
-      "ms": 11424
+      "ms": 14331
     },
     {
       "id": "MOCK02",
       "title": "calculation interstitial: shown after valid calculate, result after close, synthetic revenue",
       "status": "pass",
-      "ms": 129185
+      "ms": 174218
     },
     {
       "id": "MOCK03",
       "title": "invalid calculate never triggers an ad",
       "status": "pass",
-      "ms": 13214
+      "ms": 16980
     },
     {
       "id": "MOCK04",
-      "title": "natural cap: 120 s AdMob interval → second calculation shows result without ad",
+      "title": "natural cap: right after a shown interstitial, the next opportunity and a real Calculate show no ad (120 s AdMob interval)",
       "status": "pass",
-      "ms": 35126
+      "ms": 72720
     },
     {
       "id": "MOCK05",
       "title": "no fill, show failure and duplicate callbacks continue exactly once",
       "status": "pass",
-      "ms": 24191
+      "ms": 30410
     },
     {
       "id": "MOCK06",
       "title": "two triggers at once: second reports presentation_busy, first still completes",
       "status": "pass",
-      "ms": 9322
+      "ms": 12577
     },
     {
       "id": "MOCK07",
       "title": "risk fixture (simulator) excludes AdMob → no platform for natural",
       "status": "pass",
-      "ms": 12274
+      "ms": 15226
     },
     {
       "id": "MOCK08",
       "title": "offline: opportunity skipped with reason offline",
       "status": "pass",
-      "ms": 11825
+      "ms": 14089
     },
     {
       "id": "MOCK09",
       "title": "NoOp adapter: deferred / not_configured, no native slot rendered",
       "status": "pass",
-      "ms": 19852
+      "ms": 24596
+    },
+    {
+      "id": "MOCK10",
+      "title": "mock build: Firebase initialised but collection off (no test analytics, crashes or synthetic revenue sent)",
+      "status": "pass",
+      "ms": 51824
     }
   ]
 }

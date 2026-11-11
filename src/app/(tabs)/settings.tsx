@@ -6,6 +6,7 @@ import { LANGUAGES } from '../../i18n/index.ts';
 import { kv, KEYS } from '../../storage/kv.ts';
 import { appStore, useApp } from '../../state/app.ts';
 import { openAppSettings, permissionState, requestPermission, showRatePreview, type PermissionState } from '../../state/notifications.ts';
+import Constants from 'expo-constants';
 import { analytics, DEBUG_TOOLS } from '../../state/services.ts';
 import { Icon, type IconName, snackbar } from '../../ui/components.tsx';
 import { RatingDialog } from '../../ui/pickers.tsx';
@@ -100,9 +101,14 @@ export default function Settings() {
       </View>
       {DEBUG_TOOLS && (
         <View style={s.group}>
+          <Row testID="settings-firebase" icon="fire" label="Developer: Firebase status" onPress={() => router.push('/diagnostics' as never)} />
           <Row testID="settings-debug" icon="bug-outline" label="Developer: ads, fixtures & traces" onPress={() => router.push('/debug' as never)} last />
         </View>
       )}
+      {/* Long-press the version for Firebase diagnostics (FCM token, test crash report) in any build. */}
+      <Pressable testID="settings-version" onLongPress={() => router.push('/diagnostics' as never)} delayLongPress={800} style={{ alignItems: 'center', paddingVertical: 12 }}>
+        <Text style={{ color: C.sub, fontSize: 13 }}>Loan Calc {Constants.expoConfig?.version ?? ''}</Text>
+      </Pressable>
       <RatingDialog
         visible={rating}
         t={t}

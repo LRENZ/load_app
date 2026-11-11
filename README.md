@@ -10,7 +10,9 @@ React Native (Expo SDK 58, RN 0.88, TypeScript) Android app.
 - **Intro**: three pages on first launch.
 - **Ads**: a local advertising-policy engine. Normal builds use a NoOp adapter (no ads shown). A debug mock mode exercises the policy with clearly labelled local mock ads.
 
-Firebase, ad SDKs and attribution are **deferred**. See [docs/FUTURE_INTEGRATIONS.md](docs/FUTURE_INTEGRATIONS.md).
+- **Firebase**: Analytics, Crashlytics, Remote Config (ad-policy JSON) and Cloud Messaging. See [docs/FIREBASE.md](docs/FIREBASE.md). Put your `google-services.json` at the repo root (git-ignored) before `expo prebuild`. Long-press the version line in Settings for the Firebase status screen.
+
+Ad SDKs (AdMob / Google Ad Manager …) and attribution are **placeholders** for now. See [docs/FUTURE_INTEGRATIONS.md](docs/FUTURE_INTEGRATIONS.md).
 
 ## Layout
 
@@ -52,14 +54,14 @@ npx expo prebuild --platform android --clean   # generates android/ (git-ignored
 
 `-UseMirror` routes Maven downloads through `scripts/maven-mirror.mjs`, a local curl-backed cache. It is needed on this machine because the local proxy drops Java TLS handshakes; drop the flag on a normal network. Output: `android\app\build\outputs\apk\<variant>\app-<variant>.apk`. Delivered copies are in `dist\`. See [docs/BUILD_MATRIX.md](docs/BUILD_MATRIX.md) for versions and the build issues that were fixed.
 
-Mock-ads fixture scripts can also be driven by deep link, for example `adb shell am start -a android.intent.action.VIEW -d 'loadapp://debug?run=r1&adMode=mock&fill=no_fill&reset=1&preload=1&trigger=one' com.lrenz.loadapp`. The outcome appears on the `last:` line of the Developer screen.
+Mock-ads fixture scripts can also be driven by deep link, for example `adb shell am start -a android.intent.action.VIEW -d 'loadapp://debug?run=r1&adMode=mock&fill=no_fill&reset=1&preload=1&trigger=one' com.tools.loadapp`. The outcome appears on the `last:` line of the Developer screen.
 
 ## Run on the emulator
 
 ```powershell
 $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 & $adb -s emulator-5554 install -r android\app\build\outputs\apk\release\app-release.apk
-& $adb -s emulator-5554 shell monkey -p com.lrenz.loadapp -c android.intent.category.LAUNCHER 1
+& $adb -s emulator-5554 shell monkey -p com.tools.loadapp -c android.intent.category.LAUNCHER 1
 ```
 
 Development workflow with Metro: `npx expo start`, then install the debug APK (or run `npx expo run:android`).

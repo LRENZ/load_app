@@ -1,0 +1,31 @@
+{
+  "note": "Targeted re-run (ONLY=) after harness fixes; same APK as evidence/functional. RATE01 first failed here only because it started on the loan form (no tab bar); goHome() added and re-run.",
+  "startedAt": "2026-11-11T06:27:26.210Z",
+  "ms": 299485,
+  "results": [
+    {
+      "id": "C03",
+      "title": "monthly payment too small (1 @ 0% 360 months)",
+      "status": "pass",
+      "ms": 87177
+    },
+    {
+      "id": "C04",
+      "title": "rounded total below principal (0.17 @ 0.0001% 12 months)",
+      "status": "pass",
+      "ms": 62916
+    },
+    {
+      "id": "RATE01",
+      "title": "rating dialog: star selection, Submit, Close",
+      "status": "pass",
+      "ms": 46407
+    },
+    {
+      "id": "FB05",
+      "title": "Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports",
+      "status": "pass",
+      "ms": 85910
+    }
+  ]
+}

@@ -14,10 +14,13 @@ import type { FxCacheStore, FxQuote } from '../core/fx.ts';
 import {
   LocalAnalyticsSink,
   LocalCrashReporter,
-  NoOpRemoteMessagingProvider,
+  type AnalyticsSink,
   type AttributionInfo,
+  type CrashReporter,
+  type EventParams,
 } from '../core/services/contracts.ts';
 import { kv, KEYS } from '../storage/kv.ts';
+import { FcmMessagingProvider, FirebaseAnalyticsSink, FirebaseCrashReporter, initFirebase, remoteAdConfigJson } from './firebase.ts';
 
 /**
  * Runtime modes: "functional" (default; NoOp ads, no external services) and
@@ -27,10 +30,29 @@ import { kv, KEYS } from '../storage/kv.ts';
 export const APP_MODE: 'functional' | 'mock' = process.env.EXPO_PUBLIC_APP_MODE === 'mock' ? 'mock' : 'functional';
 export const DEBUG_TOOLS = __DEV__ || APP_MODE === 'mock';
 
-export const analytics = new LocalAnalyticsSink();
-export const crash = new LocalCrashReporter();
-export const messaging = new NoOpRemoteMessagingProvider();
+/** In-memory trace (debug screen) plus Firebase Analytics. */
+export const analyticsTrace = new LocalAnalyticsSink();
+const firebaseAnalytics = new FirebaseAnalyticsSink();
+export const analytics: AnalyticsSink = {
+  track(name: string, params?: EventParams) {
+    analyticsTrace.track(name, params);
+    firebaseAnalytics.track(name, params);
+  },
+};
+/** Local list (debug screen) plus Crashlytics non-fatals. Fatal JS errors reach Crashlytics through RNFB's own handler. */
+export const localCrash = new LocalCrashReporter();
+const firebaseCrash = new FirebaseCrashReporter();
+export const crash: CrashReporter = {
+  record(error: unknown, context?: string) {
+    localCrash.record(error, context);
+    firebaseCrash.record(error, context);
+  },
+};
+export const messaging = new FcmMessagingProvider();
 export const ledger = new RevenueLedger();
+
+// Mock / fixture builds never send analytics, crashes or (synthetic) ad revenue to the Firebase project.
+initFirebase({ collect: APP_MODE === 'functional' && !__DEV__, debugTools: DEBUG_TOOLS, ledger, messaging });
 
 // ---- attribution (sticky; natural unless a debug fixture says otherwise) ----
 export function attribution(): AttributionInfo {
@@ -99,7 +121,13 @@ export function currentAdConfig(): EffectiveAdConfig {
       units,
     });
   }
-  return resolveAdConfig(null, cohort === 'paid' ? EMBEDDED_PAID : EMBEDDED_NATURAL, { version: `embedded-${cohort}`, units });
+  // Remote Config may tune the ad POLICY (caps, intervals, strategies); invalid JSON falls back to the
+  // embedded preset. Unit IDs never come from Remote Config: they stay empty placeholders until an ad SDK ships.
+  const remote = remoteAdConfigJson(cohort === 'paid' ? 'paid' : 'natural');
+  return resolveAdConfig(remote, cohort === 'paid' ? EMBEDDED_PAID : EMBEDDED_NATURAL, {
+    version: remote ? `remote-config-${cohort}` : `embedded-${cohort}`,
+    units,
+  });
 }
 
 let foreground = RNAppState.currentState === 'active';

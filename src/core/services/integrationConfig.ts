@@ -1,8 +1,9 @@
 import type { AdFormat, Provider } from '../ads/types.ts';
 
 /**
- * Owner configuration for LATER real integrations. Every field is empty in
- * this phase; nothing reads these values to initialise an SDK yet. Fill them
+ * Owner configuration for LATER real integrations (ads, attribution, legal,
+ * store). These fields are empty placeholders; nothing reads them to
+ * initialise an SDK yet. Firebase is integrated and reads google-services.json. Fill them
  * through EXPO_PUBLIC_* variables or a secure config when the owner supplies
  * accounts (see FUTURE_INTEGRATIONS.md and .env.example).
  */
@@ -28,7 +29,8 @@ const env = (k: string): string => (process.env[k] ?? '').trim();
 
 export function loadIntegrationConfig(): IntegrationConfig {
   return {
-    firebase: { projectId: env('EXPO_PUBLIC_FIREBASE_PROJECT_ID'), androidAppId: env('EXPO_PUBLIC_FIREBASE_ANDROID_APP_ID'), googleServicesJsonPath: '' },
+    // Firebase is live and configured natively from google-services.json (app.json android.googleServicesFile).
+    firebase: { projectId: '', androidAppId: '', googleServicesJsonPath: './google-services.json' },
     ads: {
       admobAppId: env('EXPO_PUBLIC_ADMOB_APP_ID'),
       gamNetworkCode: env('EXPO_PUBLIC_GAM_NETWORK_CODE'),

@@ -58,7 +58,8 @@ try {
     $up = $false
     try { $up = (Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:8899/central/' -TimeoutSec 3 -ErrorAction Stop) -ne $null } catch { $up = $_.Exception.Response -ne $null }
     if (-not $up) {
-      Start-Process -FilePath node -ArgumentList "`"$root\scripts\maven-mirror.mjs`"" -WindowStyle Hidden
+      # Start from the repo root: a mirror running inside android\ locks the folder and breaks `expo prebuild`.
+      Start-Process -FilePath node -ArgumentList "`"$root\scripts\maven-mirror.mjs`"" -WorkingDirectory $root -WindowStyle Hidden
       Start-Sleep -Seconds 2
     }
     $extra += '--init-script', "$root\scripts\mirror.init.gradle"

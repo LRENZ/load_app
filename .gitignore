@@ -44,3 +44,8 @@ example
 
 # build outputs
 /dist/*.apk
+
+# Firebase client config (kept out of git; put your own copy at the repo root)
+/google-services.json
+# Diagnostics screenshot shows the device FCM token: keep it local
+evidence/**/firebase-fcm.png

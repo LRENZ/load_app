@@ -1,228 +1,270 @@
 {
-  "startedAt": "2026-11-10T19:43:43.356Z",
-  "ms": 1541144,
+  "startedAt": "2026-11-11T05:32:31.029Z",
+  "ms": 3064583,
   "results": [
     {
       "id": "INST01",
       "title": "fresh install: intro pages, Next/Start, persistent completion",
       "status": "pass",
-      "ms": 24475
+      "ms": 43316
     },
     {
       "id": "NOT01",
       "title": "first-run notification prompt → Not now",
       "status": "pass",
-      "ms": 8678
+      "ms": 11511
     },
     {
       "id": "ONB02",
       "title": "intro does not return after restart",
       "status": "pass",
-      "ms": 10660
+      "ms": 19837
     },
     {
       "id": "UI03",
       "title": "home with sample history",
       "status": "pass",
-      "ms": 5469
+      "ms": 6986
     },
     {
       "id": "C01",
       "title": "personal 10000 @ 6% 12 months → 860.66 / 10327.92 / 327.92",
       "status": "pass",
-      "ms": 53464
+      "ms": 76845
     },
     {
       "id": "NAV01",
       "title": "Back from result keeps form input; Back again → home with saved entry",
       "status": "pass",
-      "ms": 13706
+      "ms": 16754
     },
     {
       "id": "VAL01",
       "title": "validation messages (empty, zero, term range)",
       "status": "pass",
-      "ms": 119399
+      "ms": 213036
     },
     {
       "id": "C02",
       "title": "zero rate + month-end via text date 01/31/2026",
       "status": "pass",
-      "ms": 63437
+      "ms": 105875
     },
     {
       "id": "C05",
       "title": "1000 @ 12% 1 month from 2026-01-31 → 1010.00, 2026-02-28",
       "status": "pass",
-      "ms": 57847
+      "ms": 97935
     },
     {
       "id": "C03",
       "title": "monthly payment too small (1 @ 0% 360 months)",
       "status": "pass",
-      "ms": 35589
+      "ms": 57880
     },
     {
       "id": "C04",
       "title": "rounded total below principal (0.17 @ 0.0001% 12 months)",
-      "status": "pass",
-      "ms": 32644
+      "status": "fail",
+      "ms": 67597,
+      "error": "timeout waiting for {\"contains\":\"Total repayment cannot be below\"}",
+      "shot": "evidence\\functional\\screens\\FAIL-C04.png"
     },
     {
       "id": "DATE01",
       "title": "date picker: calendar, month arrows, year list, invalid text, Cancel keeps date",
       "status": "pass",
-      "ms": 61667
+      "ms": 101573
     },
     {
       "id": "CUR01",
       "title": "currency picker: Cancel does not commit, Confirm commits",
       "status": "pass",
-      "ms": 76289
+      "ms": 115700
     },
     {
       "id": "C07",
       "title": "business 12347.89 @ 7.125% 17 months → 765.77",
       "status": "pass",
-      "ms": 57790
+      "ms": 93552
     },
     {
       "id": "EDIT01",
       "title": "Start new calculation clears the form",
       "status": "pass",
-      "ms": 10312
+      "ms": 14505
     },
     {
       "id": "C06",
       "title": "auto 25000 @ 5% 5 years → 471.78",
       "status": "pass",
-      "ms": 65090
+      "ms": 99992
     },
     {
       "id": "C08",
       "title": "mortgage 500000 / 100000 (20%) 6% 30y + costs → 3298.20",
       "status": "pass",
-      "ms": 154061
+      "ms": 277213
     },
     {
       "id": "HIST01",
       "title": "history after process restart: all records, newest first, opening a record",
       "status": "pass",
-      "ms": 28490
+      "ms": 50922
     },
     {
       "id": "TOOL-temperature",
       "title": "temperature: 25 → 77.00, swap, invalid input",
       "status": "pass",
-      "ms": 56425
+      "ms": 108299
     },
     {
       "id": "TOOL-mass",
       "title": "mass: 10 → 22.0462, swap, invalid input",
       "status": "pass",
-      "ms": 56643
+      "ms": 115629
     },
     {
       "id": "TOOL-speed",
       "title": "speed: 100 → 62.1371, swap, invalid input",
       "status": "pass",
-      "ms": 56441
+      "ms": 111501
     },
     {
       "id": "TOOL-length",
       "title": "length: 1 → 3.2808, swap, invalid input",
       "status": "pass",
-      "ms": 55034
+      "ms": 91886
     },
     {
       "id": "FX01",
       "title": "exchange rate: live USD→EUR, amount, swap, cache",
       "status": "pass",
-      "ms": 28598
+      "ms": 51640
     },
     {
       "id": "CLOCK01",
       "title": "world clock shows four zones",
       "status": "pass",
-      "ms": 15980
+      "ms": 25165
     },
     {
       "id": "RATE01",
       "title": "rating dialog: star selection, Submit, Close",
-      "status": "pass",
-      "ms": 27525
+      "status": "fail",
+      "ms": 35030,
+      "error": "timeout waiting for {\"contains\":\"Thanks for your 4-star rating!\"}",
+      "shot": "evidence\\functional\\screens\\FAIL-RATE01.png"
     },
     {
       "id": "LEGAL01",
       "title": "privacy and terms: placeholder content, scroll, Back",
       "status": "pass",
-      "ms": 15310
+      "ms": 27146
     },
     {
       "id": "NOT02",
       "title": "notification permission: deny keeps switch off",
       "status": "pass",
-      "ms": 22980
+      "ms": 51689
     },
     {
       "id": "NOT03",
       "title": "notification permission: grant shows a local preview",
       "status": "pass",
-      "ms": 34046
+      "ms": 63638
     },
     {
       "id": "LANG00",
       "title": "language: Back without Confirm does not change language",
       "status": "pass",
-      "ms": 14787
+      "ms": 20536
     },
     {
       "id": "LANG-es",
       "title": "language es applies app-wide and survives restart",
       "status": "pass",
-      "ms": 35885
+      "ms": 59403
     },
     {
       "id": "LANG-zh-Hans",
       "title": "language zh-Hans applies app-wide and survives restart",
       "status": "pass",
-      "ms": 36682
+      "ms": 80284
     },
     {
       "id": "LANG-ja",
       "title": "language ja applies app-wide and survives restart",
       "status": "pass",
-      "ms": 36452
+      "ms": 57779
     },
     {
       "id": "LANG-ko",
       "title": "language ko applies app-wide and survives restart",
       "status": "pass",
-      "ms": 36125
+      "ms": 66067
     },
     {
       "id": "LANG-pt-BR",
       "title": "language pt-BR applies app-wide and survives restart",
       "status": "pass",
-      "ms": 37342
+      "ms": 71670
     },
     {
       "id": "LANG-en",
       "title": "back to English",
       "status": "pass",
-      "ms": 15526
+      "ms": 24148
     },
     {
       "id": "LAYOUT360",
       "title": "360 dp width: home, form and result remain usable",
       "status": "pass",
-      "ms": 71818
+      "ms": 141586
+    },
+    {
+      "id": "CFG01",
+      "title": "display size and font size changed while open: no restart, navigation still works",
+      "status": "pass",
+      "ms": 63630
+    },
+    {
+      "id": "FB01",
+      "title": "Firebase initialised from google-services.json: app id, project, collection on, instance id",
+      "status": "pass",
+      "ms": 56748
+    },
+    {
+      "id": "FB02",
+      "title": "Remote Config fetch succeeds; ad policy stays on the NoOp placeholder",
+      "status": "pass",
+      "ms": 24033
+    },
+    {
+      "id": "FB03",
+      "title": "FCM registration token obtained",
+      "status": "pass",
+      "ms": 17047
+    },
+    {
+      "id": "FB04",
+      "title": "Analytics: product events and screen views reach the Firebase SDK; NoOp ad events do not",
+      "status": "pass",
+      "ms": 83015
+    },
+    {
+      "id": "FB05",
+      "title": "Crashlytics: labelled test non-fatal recorded and uploaded on next start",
+      "status": "fail",
+      "ms": 130456,
+      "error": "no Crashlytics upload confirmation in logcat",
+      "shot": "evidence\\functional\\screens\\FAIL-FB05.png"
     },
     {
       "id": "BACK01",
       "title": "Android Back on Home leaves the app (no exit ad in NoOp)",
       "status": "pass",
-      "ms": 8461
+      "ms": 15477
     }
   ]
 }

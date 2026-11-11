@@ -1,0 +1,5 @@
+{"id":"C03","title":"monthly payment too small (1 @ 0% 360 months)","status":"pass","ms":87177}
+{"id":"C04","title":"rounded total below principal (0.17 @ 0.0001% 12 months)","status":"pass","ms":62916}
+{"id":"RATE01","title":"rating dialog: star selection, Submit, Close","status":"fail","ms":17057,"error":"timeout waiting for {\"id\":\"tab-settings\"}","shot":"evidence\\functional-rerun\\screens\\FAIL-RATE01.png"}
+{"id":"FB05","title":"Crashlytics: labelled test non-fatal recorded, sent on next start, HTTP 200 from crashlyticsreports","status":"pass","ms":85910}
+{"id":"RATE01","title":"rating dialog: star selection, Submit, Close","status":"pass","ms":46407}

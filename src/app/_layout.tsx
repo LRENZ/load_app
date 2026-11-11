@@ -6,7 +6,8 @@ import { Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { kv, KEYS } from '../storage/kv.ts';
 import { appStore, useApp } from '../state/app.ts';
-import { ads, analytics, crash } from '../state/services.ts';
+import { ads, analytics, localCrash } from '../state/services.ts';
+import { trackScreen } from '../state/firebase.ts';
 import { permissionState, requestPermission } from '../state/notifications.ts';
 import { Dialog, PrimaryButton, SnackbarHost, TextButton } from '../ui/components.tsx';
 import { MockInterstitialHost } from '../ui/ads.tsx';
@@ -19,7 +20,8 @@ const eu = (globalThis as unknown as { ErrorUtils?: ErrorUtilsT }).ErrorUtils;
 if (eu) {
   const prev = eu.getGlobalHandler();
   eu.setGlobalHandler((e, fatal) => {
-    crash.record(e, fatal ? 'fatal' : 'js');
+    // Local list only: Crashlytics gets fatal JS errors from RNFB's own (chained) handler.
+    localCrash.record(e, fatal ? 'fatal' : 'js');
     prev(e, fatal);
   });
 }
@@ -40,6 +42,11 @@ export default function RootLayout() {
       if (!appStore.get().introDone) router.replace('/intro');
     });
   }, []);
+
+  // Firebase Analytics screen views (ids collapsed: /result/42 → result/[id]).
+  useEffect(() => {
+    trackScreen(pathname);
+  }, [pathname]);
 
   // First-run notification prompt (once), after the intro, only while undetermined.
   useEffect(() => {
